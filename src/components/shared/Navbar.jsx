@@ -16,8 +16,11 @@ import {
 } from "@/components/ui/menubar";
 import {useRouter} from "next/navigation"
 import {useUserStore} from "@/store/userStore"
-function Navbar({ userDetails }) {
+import {useLayoutStore} from "@/store/layoutStore"
+function Navbar({ userDetails ,isAdmin}) {
   const router = useRouter();
+  const sidebartoggle = useLayoutStore((state) => state.sidebartoggle);
+  const setSidebarToggle = useLayoutStore((state) => state.setSidebarToggle);
   useEffect(() => {
     useUserStore.setState({user:userDetails,authReady:true})
   }, [])
@@ -39,15 +42,39 @@ function Navbar({ userDetails }) {
   };
 
   return (
-    <div className="header h-16 flex-row py-5 bg-white border-b-[1px] border-gray-300 text-white flex items-center justify-between px-4 z-100">
-      <Image
-        src="/logo.png"
-        alt="Picture of the author"
-        width={100}
-        height={100}
-        className="hover:cursor-pointer"
-        onClick={() => router.push("/")}
-      />
+    <div
+      className={`header h-16 flex-row py-5  text-white flex items-center justify-between px-4 z-100 
+    ${
+      isAdmin
+        ? "bg-[#f7f7f7]"
+        : "bg-white border-b-[1px] border-gray-300 shadow-md"
+    }
+    `}
+    >
+      <div className="flex items-center justify-center">
+        {isAdmin && (
+          <Menu
+            className="hover:cursor-pointer"
+            size={24}
+            onClick={() => setSidebarToggle(!sidebartoggle)}
+            color="black"
+          />
+        )}
+        <Image
+          src="/logo.png"
+          alt="Picture of the author"
+          width={50}
+          height={50}
+          className="hover:cursor-pointer"
+          onClick={() => router.push("/")}
+        />
+      </div>
+      {isAdmin && (
+        <div className="flex items-center">
+          <p className="text-xl text-black">Admin Dashboard</p>
+        </div>
+      )}
+
       <Menubar>
         <MenubarMenu className="border-none hover:cursor-pointer">
           <MenubarTrigger>
@@ -66,6 +93,12 @@ function Navbar({ userDetails }) {
             <MenubarItem>
               <Link href="/settings">Settings</Link>
             </MenubarItem>
+            {userDetails.role == "admin" && (
+              <MenubarItem>
+                <Link href="/admin">Admin</Link>
+              </MenubarItem>
+            )}
+
             <MenubarItem>View Profile</MenubarItem>
             <MenubarSeparator />
             <MenubarItem onClick={handleLogout}>Logout</MenubarItem>

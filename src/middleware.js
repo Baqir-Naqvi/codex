@@ -13,7 +13,7 @@ export async function middleware(request) {
             return NextResponse.redirect(new URL('/', request.url));
         }
         // Redirect logic based on session existence
-        if (request.url === process.env.BASE_URL && !session) {
+        if (request.url === process.env.NEXT_PUBLIC_BASE_URL && !session) {
             return NextResponse.redirect(new URL('/auth/login', request.url));
         } else if (request.url.includes("/dashboard") && !session) {
             return NextResponse.redirect(new URL('/auth/login', request.url));

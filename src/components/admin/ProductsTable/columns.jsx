@@ -1,0 +1,89 @@
+"use client";
+
+import { ColumnDef } from "@tanstack/react-table";
+import { MoreHorizontal } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { useToast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
+import { handleDelete } from "@/components/admin/UsersTable/index";
+import Loader from "@/components/shared/Loader";
+import { useState } from "react";
+
+
+export const columns = [
+  {
+    accessorKey: "name",
+    header: "Product Name",
+  },
+  {
+    accessorKey: "price",
+    header: "Price",
+  },
+  {
+    accessorKey: "VAT",
+    header: "VAT Amount",
+  },
+  {
+    accessorKey: "weight",
+    header: "Weight",
+  },
+  {
+    accessorKey: "buybackPrice",
+    header: "Buyback Price",
+  },
+  {
+    id: "actions",
+    cell: ({ row }) => {
+      const account = row.original;
+      const router = useRouter();
+      const { toast } = useToast();
+      const [loading, setLoading] = useState(false);
+      if (loading) return <Loader />;
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="h-8 w-8 p-0">
+              <span className="sr-only">Open menu</span>
+              <MoreHorizontal className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuItem
+            >
+              <a href={`/admin/products/edit?id=${account._id}`}>Edit product</a>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem className="text-red-500"
+              onClick={async () => {
+                handleDelete(account._id, "product").then((res) => {
+                  if (res) {
+                    toast({
+                      title: "Product Deleted",
+                      description: "The product has been deleted",
+                    });
+                    setLoading(false);
+                  } else {
+                    toast({
+                      title: "Error",
+                      description: "An error occurred",
+                    });
+                    setLoading(false);
+                  }
+                });
+              }}
+            >Delete Product</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
+    },
+  },
+];

@@ -7,7 +7,9 @@ async function page({ searchParams }) {
     if (!token) {
         return <div>Vaildation failed</div>;
     }
-    const res = await fetch(`http://localhost:3000/api/auth/verifyemail?token=${token}`);
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}api/auth/verifyemail?token=${token}`
+    );
     const data = await res.json();
     let email=data.body
   return (

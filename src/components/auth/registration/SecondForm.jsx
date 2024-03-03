@@ -52,7 +52,7 @@ function SecondForm({ form, handleRegister, loading }) {
 
         <div className="flex flex-row items-center justify-center">
           <Button onClick={form.handleSubmit(onSubmit)}
-          className="w-max px-4 bg-violet-900 ml-0 hover:bg-violet-700" disable={loading}>
+          className="w-max px-4 bg-violet-900 ml-0 hover:bg-violet-700" disabled={loading}>
             {loading ? "Please Wait" : "Register"}
           </Button>
         </div>
