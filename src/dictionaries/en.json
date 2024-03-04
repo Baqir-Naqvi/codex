@@ -1,5 +1,34 @@
 {
-    "products": {
-        "cart": "Add to Cart"
+    "auth": {
+        "loginTitle": "Login to Codex",
+        "login": "Login",
+        "successTitle": "Login Successful",
+        "successDescription": "You have been logged in",
+        "errorTitle": "Login Failed",
+        "emailPlaceholder": "Enter your email",
+        "logout": "Logout",
+        "email": "Email",
+        "password": "Password",
+        "passwordPlaceholder": "Enter your password",
+        "emailDescription": "Your email will not be shared with anyone",
+        "noAccount": "Don't have an account?",
+        "register": "Register",
+        "registerNow": "Register here",
+        "forgotPassword": "Forgot your password?"
+    },
+    "language": {
+        "title": "Languages"
+    },
+    "dashboard": {
+        "title": "Dashboard",
+        "welcome": "Welcome to the Dashboard"
+    },
+    "settings": {
+        "title": "Settings",
+        "welcome": "Welcome to the Settings"
+    },
+    "admin": {
+        "title": "Admin",
+        "welcome": "Welcome to the Admin"
     }
 }

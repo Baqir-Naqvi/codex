@@ -59,7 +59,7 @@ export const columns = [
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
             >
-              <a href={`/admin/products/edit?id=${account._id}`}>Edit product</a>
+              <a href={`/en/admin/products/edit?id=${account._id}`}>Edit product</a>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem className="text-red-500"
