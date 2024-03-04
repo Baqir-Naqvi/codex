@@ -30,7 +30,7 @@ export async function POST(req) {
 
         //send the email verification email
         await sendVerificationEmail(user, token);
-        return Response.json({ status: 200, data: user ,token: token});
+        return Response.json({ status: 200, data: user});
     } catch (e) {
         console.error(e);
         return Response.json({ status: 400, message: e.message });
@@ -38,7 +38,7 @@ export async function POST(req) {
 }
 
 async function sendVerificationEmail(clientReq, token) {
-    const verificationLink = `${process.env.API_BASEURL}/auth/verifyemail?token=${token}`;
+    const verificationLink = `${process.env.NEXT_PUBLIC_BASE_URL}cz/auth/verifyemail?token=${token}`;
 
     try {
         const url = 'https://api.postmarkapp.com/email';
@@ -67,14 +67,13 @@ async function sendVerificationEmail(clientReq, token) {
         <body>
             <div class="email-container">
                 <div class="message-header">
-                    <h1>Email Verification</h1>
+                    <h3>Email Verification</h3>
                 </div>
                 <div class="message-body">
-                    <p>Hey ${clientReq.firstName},</p>
+                    <p>Greetings,</p>
                     
                     <p>Thanks for signing up with Codex! We're excited to have you on board.</p>
                     
-                    <p><strong>Name:</strong> ${clientReq.firstName} ${clientReq.lastName}<br>
                     <strong>Email:</strong> <a href="mailto:${clientReq.email}">${clientReq.email}</a><br>
             
                     
@@ -107,6 +106,7 @@ async function sendVerificationEmail(clientReq, token) {
 
 export async function PUT(req) {
     const userData = await req.json();
+    let allFieldsFilled = true;
 
     await dbConnect();
 
@@ -116,6 +116,17 @@ export async function PUT(req) {
             return Response.json({ status: 400, message: "User not found" });
         }
         //update the user record
+
+        //if all fields are filled, then update limitAccess to false
+        for (const field in userData) {
+            if (userData[field] === '' || userData[field] === null || userData[field].length === 0) {
+                allFieldsFilled = false;
+            }
+        }
+        if (allFieldsFilled) {
+            userData.limitAccess = false;
+        }
+        
         await User.findOneAndUpdate (
             { email: userData.email },
             userData,
