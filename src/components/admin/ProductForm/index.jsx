@@ -17,52 +17,53 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import Loader from "@/components/shared/Loader";
-const _ProductFields = [
-  {
-    name: "name",
-    type: "text",
-    required: true,
-    label: "Name *",
-  },
-  {
-    name: "photos",
-    type: "file",
-    required: true,
-    label: "Photos *",
-  },
-  {
-    name: "description",
-    type: "text",
-    required: true,
-    label: "Description *",
-  },
-  {
-    name: "price",
-    type: "number",
-    required: true,
-    label: "Price *",
-  },
-  {
-    name: "VAT",
-    type: "number",
-    required: true,
-    label: "VAT *",
-  },
-  {
-    name: "weight",
-    type: "number",
-    required: true,
-    label: "Weight *",
-  },
-  {
-    name: "buybackPrice",
-    type: "number",
-    required: true,
-    label: "Buyback Price *",
-  },
-];
 
-function ProductForm() {
+function ProductForm({t}) {
+  const _ProductFields = [
+    {
+      name: "name",
+      type: "text",
+      required: true,
+      label: `${t.admin.product.name} *`,
+    },
+    {
+      name: "photos",
+      type: "file",
+      required: true,
+      label: `${t.admin.product.photos} *`,
+    },
+    {
+      name: "description",
+      type: "text",
+      required: true,
+      label: `${t.admin.product.description} *`,
+    },
+    {
+      name: "price",
+      type: "number",
+      required: true,
+      label: `${t.admin.product.price} *`,
+    },
+    {
+      name: "VAT",
+      type: "number",
+      required: true,
+      label: "VAT *",
+    },
+    {
+      name: "weight",
+      type: "number",
+      required: true,
+      label: `${t.admin.product.weight} *`,
+    },
+    {
+      name: "buybackPrice",
+      type: "number",
+      required: true,
+      label: `${t.admin.product.buybackPrice} *`,
+    },
+  ];
+
   function onSubmit(values) {
     console.log(values);
     setLoading(true);
@@ -194,7 +195,6 @@ function ProductForm() {
                               promises.push(uploadFile(file));
                             }
                             await Promise.all(promises);
-
                           }}
                         />
                       ) : (
@@ -204,7 +204,6 @@ function ProductForm() {
                           placeholder={item.placeholder}
                           onChange={field.onChange}
                           value={field.value}
-                         
                         />
                       )}
                     </>
@@ -222,7 +221,7 @@ function ProductForm() {
             className="w-max px-4 bg-black ml-0"
             disabled={loading}
           >
-            {loading ? "Please Wait" : "Add Product"}
+            {loading ? `${t.admin.product.wait}` : `${t.admin.product.add}`}
           </Button>
         </div>
       </form>

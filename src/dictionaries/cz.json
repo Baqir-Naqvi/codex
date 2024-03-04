@@ -11,16 +11,27 @@
         "password": "Heslo",
         "passwordPlaceholder": "Zadejte své heslo",
         "emailDescription": "Váš email nebude sdílen s nikým",
+        "verificationText": "Na tuto adresu vám zašleme ověřovací e-mail",
         "noAccount": "Nemáte účet?",
         "register": "Registrovat",
         "registerNow": "Registrovat se zde",
-        "forgotPassword": "Zapomněli jste heslo?"
+        "forgotPassword": "Zapomněli jste heslo?",
+        "rights": "Všechna práva vyhrazena"
     },
-    
-        "language": {
-            "title": "Jazyky"
-        },
-    
+    "dropdown": {
+        "settings": "Nastavení",
+        "admin": "Správa",
+        "viewProfile": "Zobrazit profil",
+        "logout": "Odhlásit"
+    },
+    "sidebar": {
+        "dashboard": "Přehled",
+        "users": "Uživatelé",
+        "products": "Produkty"
+    },
+    "language": {
+        "title": "Jazyky"
+    },
     "dashboard": {
         "title": "Přehled",
         "welcome": "Vítejte v Přehledu"
@@ -30,7 +41,27 @@
         "welcome": "Vítejte v Nastavení"
     },
     "admin": {
-        "title": "Správa",
-        "welcome": "Vítejte ve Správě"
+        "title": "Správa uživatelů",
+        "welcome": "Vítejte ve Správě",
+        "usersTable": {
+            "status": "Stav",
+            "email": "Email",
+            "name": "Jméno",
+            "date": "Datum",
+            "accountId": "ID účtu"
+        },
+        "product": {
+            "add": "Přidat produkt",
+            "update": "Aktualizovat produkt",
+            "delete": "Smazat produkt",
+            "edit": "Upravit produkt",
+            "wait": "Prosím čekejte",
+            "name": "Název",
+            "description": "Popis",
+            "price": "Cena",
+            "photos": "Fotky",
+            "weight": "Váha",
+            "buybackPrice": "Odkupní cena"
+        }
     }
 }

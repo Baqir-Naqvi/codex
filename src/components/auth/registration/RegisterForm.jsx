@@ -10,7 +10,7 @@ import SettingsForm from "@/components/auth/registration/SettingsForm";
 import { useState } from "react";
 import SecondForm from "@/components/auth/registration/SecondForm";
 
-function RegisterForm() {
+function RegisterForm({ t, lang }) {
   const [loading, setLoading] = useState(false);
 
   const formSchema = z.object({
@@ -70,10 +70,9 @@ function RegisterForm() {
           toast({
             title: "Registration Successful",
             description: "Please check your email to verify your account",
-            variant: "success",
           });
           setLoading(false);
-          router.push("/auth/login");
+          router.push(`/${lang}/auth/login`);
         } else {
           console.log(data);
           toast({
@@ -94,6 +93,8 @@ function RegisterForm() {
         form={form}
         handleRegister={handleRegister}
         loading={loading}
+        t={t}
+
       />
     </div>
   );

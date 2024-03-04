@@ -1,16 +1,28 @@
-import Navbar from '@/components/shared/Navbar'
 import {getUserDetails} from "@/lib"
-import Sidebar from '@/components/shared/Sidebar';
+import { getDictionary } from "@/lang/dictionaries";
+import Loader from "@/components/shared/Loader";
+import dynamic from 'next/dynamic';
 
-export default async function DashboardLayout({
-  children,
-}) {
-    const {data }=await getUserDetails()
+const Navbar = dynamic(() => import("@/components/shared/Navbar"), {
+  ssr: false,
+});
+
+const Sidebar = dynamic(() => import("@/components/shared/Sidebar"));
+
+
+export default async function AdminLayout({ children, params: { lang } }) {
+  const { data } = await getUserDetails();
+  const dictionary = await getDictionary(lang);
   return (
     <section>
 
-      <Navbar userDetails={data[0]} isAdmin={true}/>
-      <Sidebar />
+      <Navbar
+        userDetails={data[0]}
+        isAdmin={true}
+        t={dictionary}
+        lang={lang || "cz"}
+      />
+      <Sidebar t={dictionary} lang={lang || "cz"} />
       {children}
     </section>
   );

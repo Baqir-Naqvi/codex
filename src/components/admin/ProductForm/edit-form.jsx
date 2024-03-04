@@ -18,53 +18,53 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import Loader from "@/components/shared/Loader";
 import { X } from "lucide-react";
-const _ProductFields = [
-  {
-    name: "name",
-    type: "text",
-    required: true,
-    label: "Name *",
-  },
 
-  {
-    name: "description",
-    type: "text",
-    required: true,
-    label: "Description *",
-  },
-  {
-    name: "price",
-    type: "number",
-    required: true,
-    label: "Price *",
-  },
-  {
-    name: "VAT",
-    type: "number",
-    required: true,
-    label: "VAT *",
-  },
-  {
-    name: "weight",
-    type: "number",
-    required: true,
-    label: "Weight *",
-  },
-  {
-    name: "buybackPrice",
-    type: "number",
-    required: true,
-    label: "Buyback Price *",
-  },
-  {
-    name: "photos",
-    type: "file",
-    required: true,
-    label: "Photos *",
-  },
-];
+function EditProductForm({ product,t}) {
+  const _ProductFields = [
+    {
+      name: "name",
+      type: "text",
+      required: true,
+      label: `${t.admin.product.name} *`,
+    },
+    {
+      name: "description",
+      type: "text",
+      required: true,
+      label: `${t.admin.product.description} *`,
+    },
+    {
+      name: "price",
+      type: "number",
+      required: true,
+      label: `${t.admin.product.price} *`,
+    },
+    {
+      name: "VAT",
+      type: "number",
+      required: true,
+      label: "VAT *",
+    },
+    {
+      name: "weight",
+      type: "number",
+      required: true,
+      label: `${t.admin.product.weight} *`,
+    },
+    {
+      name: "buybackPrice",
+      type: "number",
+      required: true,
+      label: `${t.admin.product.buybackPrice} *`,
+    },
+    {
+      name: "photos",
+      type: "file",
+      required: true,
+      label: `${t.admin.product.photos} *`,
+    },
+  ];
 
-function EditProductForm({ product}) {
   function removeImage(index) {
     form.setValue(
       "photos",
@@ -150,7 +150,6 @@ function EditProductForm({ product}) {
     formData.append("file", file);
     formData.append("metadata", JSON.stringify({ key: "value" }));
     formData.append("requireSignedURLs", "false");
-    console.log("Uploading image to Cloudflare...");
 
     fetch("/api/auth/cloudflare", {
       method: "POST",
@@ -195,36 +194,38 @@ function EditProductForm({ product}) {
                       <Label htmlFor={index}>{item.label}</Label>
                       {item.type == "file" ? (
                         <>
-                        <Input
-                          type={item.type}
-                          className="border-black"
-                          placeholder={item.placeholder}
-                          multiple
-                          onChange={async (e) => {
-                            //handle multiple files
-                            const promises = [];
-                            for (const file of e.target.files) {
-                              promises.push(uploadFile(file));
-                            }
-                            await Promise.all(promises);
-                          }}
-                        />
-                        {/* load images */}
-                        <div className="flex flex-row flex-wrap">
-                          {form.getValues("photos").map((image, index) => (
-                            <div key={index} className="m-2">
-                            
-                                <X size={18} color="white" 
-                                className="cursor-pointer bg-black rounded-full p-1 absolute -mt-2 -ml-2 hover:bg-red-500 hover:text-white" 
-                                onClick={() => removeImage(index)} />
-                              <img
-                                src={image}
-                                alt="product"
-                                className="h-20 w-20 object-cover"
-                              />
-                            </div>
-                          ))}
-                        </div>
+                          <Input
+                            type={item.type}
+                            className="border-black"
+                            placeholder={item.placeholder}
+                            multiple
+                            onChange={async (e) => {
+                              //handle multiple files
+                              const promises = [];
+                              for (const file of e.target.files) {
+                                promises.push(uploadFile(file));
+                              }
+                              await Promise.all(promises);
+                            }}
+                          />
+                          {/* load images */}
+                          <div className="flex flex-row flex-wrap">
+                            {form.getValues("photos").map((image, index) => (
+                              <div key={index} className="m-2">
+                                <X
+                                  size={18}
+                                  color="white"
+                                  className="cursor-pointer bg-black rounded-full p-1 absolute -mt-2 -ml-2 hover:bg-red-500 hover:text-white"
+                                  onClick={() => removeImage(index)}
+                                />
+                                <img
+                                  src={image}
+                                  alt="product"
+                                  className="h-20 w-20 object-cover"
+                                />
+                              </div>
+                            ))}
+                          </div>
                         </>
                       ) : (
                         <Input
@@ -250,7 +251,7 @@ function EditProductForm({ product}) {
             className="w-max px-4 bg-black ml-0"
             disabled={loading}
           >
-            {loading ? "Please Wait" : "Update Product"}
+            {loading ? `${t.admin.product.wait}` : `${t.admin.product.update}`}
           </Button>
         </div>
       </form>

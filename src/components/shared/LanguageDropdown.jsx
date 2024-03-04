@@ -1,3 +1,4 @@
+"use client";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -7,38 +8,45 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Globe } from "lucide-react";
-import { getDictionary } from "@/lang/dictionaries";
-import Image  from "next/image";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 
+async function LanguageDropdown() {
+  const router = useRouter();
 
-async function LanguageDropdown({ redirect }) {
-  const t = await getDictionary("en");
+  const handleLanuageChange = (lang) => {
+        const currentURL=window.location.pathname
+        // console.log(currentURL)
+        const newURL=currentURL.replace(/^\/[a-z]{2}/, `/${lang}`)
+        router.push(newURL)
+        
+  };
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
-        <Globe />
+        <Globe color="black"/>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuLabel>{t.language.title}</DropdownMenuLabel>
+        <DropdownMenuLabel>Choose Language</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          <a href={"/en" + redirect}
-           className="my-2 flex flex-row gap-1">
-            <Image src="/images/us.png" width={20} height={20} alt="English" />
-            English (EN)
-          </a>
+        <DropdownMenuItem
+          className="my-2 flex flex-row gap-1"
+          onClick={() => handleLanuageChange("en")}
+        >
+          <Image src="/images/us.png" width={20} height={20} alt="English" />
+          English (EN)
         </DropdownMenuItem>
-        <DropdownMenuItem className="my-2">
-          <a href={"/cz" + redirect}
-          className="my-2 flex flex-row gap-1">
-            <Image src="/images/cz.png" width={20} height={20} alt="Czech" />
-            Czech (CZ)
-          </a>
+        <DropdownMenuItem
+          className="my-2 flex flex-row gap-1"
+          onClick={() => handleLanuageChange("cz")}
+        >
+          <Image src="/images/cz.png" width={20} height={20} alt="Czech" />
+          Czech (CZ)
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
 }
 
-export default LanguageDropdown
+export default LanguageDropdown;
