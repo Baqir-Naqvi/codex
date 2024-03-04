@@ -1,0 +1,36 @@
+{
+    "auth": {
+        "loginTitle": "Přihlášení do Codexu",
+        "login": "Přihlásit",
+        "successTitle": "Přihlášení úspěšné",
+        "successDescription": "Byli jste přihlášeni",
+        "errorTitle": "Přihlášení selhalo",
+        "emailPlaceholder": "Zadejte svůj email",
+        "logout": "Odhlásit",
+        "email": "Email",
+        "password": "Heslo",
+        "passwordPlaceholder": "Zadejte své heslo",
+        "emailDescription": "Váš email nebude sdílen s nikým",
+        "noAccount": "Nemáte účet?",
+        "register": "Registrovat",
+        "registerNow": "Registrovat se zde",
+        "forgotPassword": "Zapomněli jste heslo?"
+    },
+    
+        "language": {
+            "title": "Jazyky"
+        },
+    
+    "dashboard": {
+        "title": "Přehled",
+        "welcome": "Vítejte v Přehledu"
+    },
+    "settings": {
+        "title": "Nastavení",
+        "welcome": "Vítejte v Nastavení"
+    },
+    "admin": {
+        "title": "Správa",
+        "welcome": "Vítejte ve Správě"
+    }
+}

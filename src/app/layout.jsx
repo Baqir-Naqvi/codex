@@ -9,10 +9,13 @@ export const metadata = {
   description: "Marketplace for digital assets",
 };
 
-export default function RootLayout({ children }) {
+
+export default function RootLayout({ children } ) {
+
   return (
     <html lang="en">
       <body className={inter.className}>
+
         {children}
         <Toaster />
       </body>

@@ -61,7 +61,7 @@ function Navbar({ userDetails ,isAdmin}) {
           />
         )}
         <Image
-          src="/logo.png"
+          src="/images/logo.png"
           alt="Picture of the author"
           width={50}
           height={50}
@@ -91,7 +91,7 @@ function Navbar({ userDetails ,isAdmin}) {
             </MenubarItem>
             <MenubarSeparator />
             <MenubarItem>
-              <Link href="/settings">Settings</Link>
+              <Link href="/dashboard/settings">Settings</Link>
             </MenubarItem>
             {userDetails.role == "admin" && (
               <MenubarItem>
