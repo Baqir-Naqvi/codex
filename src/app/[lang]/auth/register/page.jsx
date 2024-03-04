@@ -1,10 +1,12 @@
 import React from "react";
 import RegisterForm from "@/components/auth/registration/RegisterForm";
 import Image from "next/image";
-import LanguageDropdown from "@/components/shared/LanguageDropdown";
+import LanguageDropdown from "@/components/auth/LanguageDropdown";
+import { getDictionary } from "@/lang/dictionaries";
 
+async function page({ params: { lang } }) {
+  const dictionary =await getDictionary(lang);
 
-function page() {
   return (
     <div className="flex md:flex-row flex-col  items-center justify-between h-screen">
       <header className="absolute top-5 right-5">
@@ -21,10 +23,10 @@ function page() {
         </div>
 
         <p className="text-white text-center">
-          All rights reserved. Codex 2024
+         {dictionary.auth.rights}. Codex 2024
         </p>
       </div>
-      <RegisterForm />
+      <RegisterForm t={dictionary} lang={!lang ? "en" : lang} />
     </div>
   );
 }

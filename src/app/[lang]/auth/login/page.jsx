@@ -1,7 +1,7 @@
 import React from 'react'
 import LoginFrom from '@/components/auth/LoginForm'
 import { getDictionary } from "@/lang/dictionaries";
-import LanguageDropdown from "@/components/shared/LanguageDropdown";
+import LanguageDropdown from "@/components/auth/LanguageDropdown";
 
 async function Login({ params: { lang } }) {
   const dictionary =await getDictionary(lang);

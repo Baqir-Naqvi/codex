@@ -1,13 +1,8 @@
 import Image from "next/image";
 import ProductsContainer from "@/components/shared/ProductsContainer";
-import axios from "axios";
 
 export default async function Home() {
-  //  const { data } = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}api/admin/products`, {
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //   },
-  // });
+
     const { data } = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}api/admin/products`,
       { cache: "no-store" },

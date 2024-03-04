@@ -6,7 +6,7 @@ const UsersTable = dynamic(() => import("@/components/admin/UsersTable"), {
   loading: () => <Loader />,
 });
 
-export default async function AdminPage() {
+export default async function AdminPage({params}) {
   const { data } = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}api/admin/users`,
     { cache: "no-store" },

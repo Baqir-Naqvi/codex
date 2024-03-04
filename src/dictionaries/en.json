@@ -11,13 +11,26 @@
         "password": "Password",
         "passwordPlaceholder": "Enter your password",
         "emailDescription": "Your email will not be shared with anyone",
+        "verificationText": "We'll send you a verification email to this address",
         "noAccount": "Don't have an account?",
-        "register": "Register",
+        "register": "Register Account",
         "registerNow": "Register here",
-        "forgotPassword": "Forgot your password?"
+        "forgotPassword": "Forgot your password?",
+        "rights": "All rights reserved"
     },
     "language": {
         "title": "Languages"
+    },
+    "dropdown":{
+        "settings": "Settings",
+        "admin": "Admin",
+        "viewProfile": "View Profile",
+        "logout": "Logout"
+    },
+    "sidebar": {
+        "dashboard": "Dashboard",
+        "users": "Users",
+        "products": "Products"
     },
     "dashboard": {
         "title": "Dashboard",
@@ -28,7 +41,28 @@
         "welcome": "Welcome to the Settings"
     },
     "admin": {
-        "title": "Admin",
-        "welcome": "Welcome to the Admin"
+        "title": "Admin Dashboard",
+        "welcome": "Welcome to the Admin",
+        "usersTable":{
+            "status": "Status",
+            "email": "Email",
+            "name": "Name",
+            "date": "Date",
+            "accountId": "Account ID"
+
+        },
+        "product":{
+            "add": "Add Product",
+            "update": "Update Product",
+            "delete": "Delete Product",
+            "edit": "Edit Product",
+            "wait": "Please wait",
+            "name": "Name",
+            "description": "Description",
+            "price": "Price",
+            "photos": "Photos",
+            "weight": "Weight",
+            "buybackPrice": "Buyback Price"
+        }
     }
 }
