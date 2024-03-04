@@ -1,5 +1,5 @@
 import React from "react";
-import ProductForm from "@/components/admin/ProductForm";
+// import ProductForm from "@/components/admin/ProductForm";
 import dynamic from "next/dynamic";
 import Loader from "@/components/shared/Loader";
 const EditProductForm = dynamic(
@@ -9,6 +9,10 @@ const EditProductForm = dynamic(
     loading: () => <Loader message="Loading Product" />,
   }
 );
+const ProductForm = dynamic(() => import("@/components/admin/ProductForm"), {
+  ssr: false,
+  loading: () => <Loader message="Loading Product" />,
+});
 
 async function page({ params, searchParams }) {
   const { slug } = params;
