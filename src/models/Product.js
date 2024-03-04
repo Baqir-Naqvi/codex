@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 /*
 (Product name, photos and description, price, VAT amount, Weight, buyback price)
 */
+
 const { Schema } = mongoose;
 
 const productSchema = new Schema({
