@@ -2,6 +2,7 @@
     "auth": {
         "loginTitle": "Přihlášení do Codexu",
         "login": "Přihlásit",
+        "registerButton": "Registrovat",
         "successTitle": "Přihlášení úspěšné",
         "successDescription": "Byli jste přihlášeni",
         "errorTitle": "Přihlášení selhalo",
@@ -63,5 +64,16 @@
             "weight": "Váha",
             "buybackPrice": "Odkupní cena"
         }
+    },
+    "productCard": {
+        "addToCart": "Detaily produktu",
+        "price": "Cena",
+        "weight": "Váha"
+    },
+    "hero": {
+        "title": "Vítejte v Codexu",
+        "subtitle": "Nejlepší místo pro nákup a prodej produktů",
+        "description": "Platforma pro obchodníky a investory, kteří se společně učí, sdílejí a rostou ve světě financí",
+        "button": "Začít"
     }
 }

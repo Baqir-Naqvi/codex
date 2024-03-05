@@ -7,9 +7,8 @@ import { getDictionary } from "@/lang/dictionaries";
 const EditProductForm = dynamic(
   () => import("@/components/admin/ProductForm/edit-form"),
   {
-    ssr: false,
-    loading: () => <Loader message="Loading Product" />,
-  }
+    ssr: false
+    }
 );
 const ProductForm = dynamic(() => import("@/components/admin/ProductForm"), {
   ssr: false,

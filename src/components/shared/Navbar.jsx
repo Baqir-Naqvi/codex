@@ -14,12 +14,29 @@ import {
   MenubarShortcut,
   MenubarTrigger,
 } from "@/components/ui/menubar";
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Globe } from "lucide-react";
+
 import {useRouter} from "next/navigation"
 import {useUserStore} from "@/store/userStore"
+import dynamic from "next/dynamic";
 
-import LanguageDropdown from "@/components/shared/LanguageDropdown"
 function Navbar({ userDetails, isAdmin, t ,lang}) {
   const router = useRouter();
+    const handleLanuageChange = (lang) => {
+      const currentURL = window.location.pathname;
+      // console.log(currentURL)
+      const newURL = currentURL.replace(/^\/[a-z]{2}/, `/${lang}`);
+      router.push(newURL);
+    };
 
   useEffect(() => {
     useUserStore.setState({ user: userDetails, authReady: true });
@@ -65,7 +82,35 @@ function Navbar({ userDetails, isAdmin, t ,lang}) {
         </div>
       )}
       <div className="flex items-center justify-center gap-x-3">
-        <LanguageDropdown />
+        {/* <LanguageDropdown /> */}
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            <Globe color="black" />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuLabel>Choose Language</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem
+              className="my-2 flex flex-row gap-1"
+              onClick={() => handleLanuageChange("en")}
+            >
+              <Image
+                src="/images/us.png"
+                width={20}
+                height={20}
+                alt="English"
+              />
+              English (EN)
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              className="my-2 flex flex-row gap-1"
+              onClick={() => handleLanuageChange("cz")}
+            >
+              <Image src="/images/cz.png" width={20} height={20} alt="Czech" />
+              Czech (CZ)
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
 
         <Menubar>
           <MenubarMenu className="border-none hover:cursor-pointer">

@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Heart } from "lucide-react";
 
-function ProductCard({ product }) {
+function ProductCard({ product, disable = false ,t}) {
   return (
     <Card className="w-[350px] border-[1px] border-slate-300 shadow-md hover:shadow-lg md:h-[500px]">
       <CardContent className="p-0">
@@ -43,19 +43,18 @@ function ProductCard({ product }) {
               <div className="flex items-center gap-x-2 "></div>
               <div className="flex items-center gap-x-2">
                 <Badge className="px-2 text-[14px] ">
-                  Price : {product.price}
+                  {t.productCard.price} : {product.price}
                 </Badge>
                 <Badge className="px-2 text-[14px] ">
-                  Weight : {product.weight}
+                  {t.productCard.weight} : {product.weight}
                 </Badge>
                 <Badge className="px-2 text-[14px] ">VAT : {product.VAT}</Badge>
               </div>
             </div>
             <CardFooter className="flex w-full  justify-between md:gap-x-5">
               <Heart size={26} className="hover:cursor-pointer" />
-              <a href={`/properties/${product._id}`}>
-                <Button>View Full Details</Button>
-              </a>
+
+              <Button disabled={disable}>{t.productCard.addToCart}</Button>
             </CardFooter>
           </div>
         </div>

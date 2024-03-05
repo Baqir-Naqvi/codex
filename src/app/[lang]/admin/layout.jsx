@@ -5,9 +5,12 @@ import dynamic from 'next/dynamic';
 
 const Navbar = dynamic(() => import("@/components/shared/Navbar"), {
   ssr: false,
+  loading: () => <Loader />,
 });
 
-const Sidebar = dynamic(() => import("@/components/shared/Sidebar"));
+const Sidebar = dynamic(() => import("@/components/shared/Sidebar"), {
+  ssr: false,
+});
 
 
 export default async function AdminLayout({ children, params: { lang } }) {

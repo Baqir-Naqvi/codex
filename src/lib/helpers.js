@@ -1,5 +1,6 @@
 import dbConnect from "@/lib/dbConnect";
 import User from "@/models/User";
+import Product from "@/models/Product";
 import EmailVerification from "@/models/EmailVerification";
 import jwt from "jsonwebtoken";
 
@@ -39,5 +40,21 @@ export async function verfiyToken(token){
     }
     catch (e) {
         return Response.json({ status: 400, message: e.message });
+    }
+}
+
+// export async function listPaginatedProducts(page, limit) {
+export async function listPaginatedProducts(page = 1, limit = 20) {
+    try {
+        await dbConnect();
+        const products = await Product.find()
+            .limit(limit * 1)
+            .skip((page - 1) * limit)
+            .exec();
+        const count = await Product.countDocuments();
+        return { status: 200, data: products , count: count};
+    }
+    catch (e) {
+        return { status: 400, message: e.message };
     }
 }
