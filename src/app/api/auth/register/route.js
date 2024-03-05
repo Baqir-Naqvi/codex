@@ -38,7 +38,7 @@ export async function POST(req) {
 }
 
 async function sendVerificationEmail(clientReq, token) {
-    const verificationLink = `${process.env.NEXT_PUBLIC_BASE_URL}cz/auth/verifyemail?token=${token}`;
+    const verificationLink = `${process.env.NEXT_PUBLIC_BASE_URL}cz/auth/verifyemail/${token}`;
 
     try {
         const url = 'https://api.postmarkapp.com/email';

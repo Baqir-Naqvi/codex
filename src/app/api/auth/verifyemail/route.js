@@ -9,6 +9,7 @@ export async function GET(req) {
     try {
         console.log("verify email route");
         const token = new URL(req.url).searchParams.get("token");
+        console.log(token);
         //verify the token and get the email
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         const email = decoded.email;
