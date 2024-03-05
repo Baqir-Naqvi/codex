@@ -7,8 +7,9 @@ const SetPassword = dynamic(() => import("@/components/auth/SetPassword"), {
   ssr: false,
 });
 
-async function page({ searchParams }) {
-  const token = searchParams.token;
+async function page({ params }) {
+  const token = params.token;
+  console.log("Token", token);
   if (!token) {
     return <div>Vaildation failed</div>;
   }
