@@ -25,20 +25,25 @@ function Sidebar({ t, lang }) {
     transition-transform duration-300 ease-in-out bg-[#f7f7f7]
      ${sidebartoggle ? "translate-x-0" : "-translate-x-[90%]"} `}
     >
-      <div className="absolute -top-4 -right-5 p-2 bg-black cursor-pointer rounded-full">
+      <div
+        className="absolute -top-4 -right-5 p-2 bg-black cursor-pointer rounded-full"
+        onClick={() => setSidebarToggle(!sidebartoggle)}
+      >
         <ChevronRight
           size={24}
           color="white"
           className={`cursor-pointer ${
             sidebartoggle ? "rotate-180" : "rotate-0"
           }`}
-          onClick={() => setSidebarToggle(!sidebartoggle)}
         />
       </div>
       <div className="py-4">
         <ul>
-          <NavItem title={t.sidebar.dashboard}
-          icon={<Home size={20} />} href={`/${lang}/admin`} />
+          <NavItem
+            title={t.sidebar.dashboard}
+            icon={<Home size={20} />}
+            href={`/${lang}/admin`}
+          />
           <NavItem
             title={t.sidebar.users}
             icon={<Users size={20} />}

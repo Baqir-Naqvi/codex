@@ -102,10 +102,18 @@ export async function middleware(request) {
         // The new URL is now /en-US/products
         //if user access home route or /locale then we will redirect to locale/dashboard
 
-        if (pathname === "/") {
+        if (pathname === "/" && session) {
             return NextResponse.redirect(
                 new URL(
                     `/${locale}/dashboard`,
+                    request.url
+                )
+            )
+        }
+        else if (pathname === "/" && !session) {
+            return NextResponse.redirect(
+                new URL(
+                    `/${locale}`,
                     request.url
                 )
             )

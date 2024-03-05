@@ -109,8 +109,8 @@ function ProductForm({t}) {
         message: "Price must be greater than 0",
         }),
 
-    VAT: z.any().refine((data) => data > 0, {
-        message: "VAT must be greater than 0",
+    VAT: z.any().refine((data) => data >= 0, {
+        message: "VAT must be greater than or equal to 0",
         }),
 
     weight: z.any().refine((data) => data > 0, {

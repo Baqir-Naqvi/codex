@@ -2,6 +2,7 @@
     "auth": {
         "loginTitle": "Login to Codex",
         "login": "Login",
+        "registerButton": "Register",
         "successTitle": "Login Successful",
         "successDescription": "You have been logged in",
         "errorTitle": "Login Failed",
@@ -64,5 +65,17 @@
             "weight": "Weight",
             "buybackPrice": "Buyback Price"
         }
+    },
+    "productCard":{
+        "addToCart": "View Full Details",
+        "price": "Price",
+        "weight": "Weight"
+    },
+    "hero": {
+        "title": "Welcome to Codex",
+        "subtitle": "The best place to buy and sell products",
+        "description": "A platform for traders and investors to learn, share and grow together in the world of finance",
+        "button": "Get Started"
     }
+
 }
