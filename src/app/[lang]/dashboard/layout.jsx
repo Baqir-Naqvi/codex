@@ -2,25 +2,25 @@ import { getUserDetails } from "@/lib";
 import dynamic from "next/dynamic";
 import { getDictionary } from "@/lang/dictionaries";
 import pageLoader from "@/components/shared/pageLoader";
-
-
+import Sidebar from "@/components/dashboard/Sidebar";
+import Loader from "@/components/shared/Loader";
 
 const Navbar = dynamic(() => import("@/components/shared/Navbar"), {
   loading: pageLoader,
   ssr: false,
-
 });
-
-
 
 export default async function DashboardLayout({ children, params: { lang } }) {
   const { data } = await getUserDetails();
   const dictionary = await getDictionary(lang);
 
   return (
-    <section>
+    <div>
       <Navbar userDetails={data[0]} t={dictionary} lang={lang || "cz"} />
-      {children}
-    </section>
+      <div className="flex flex-row w-full">
+        <Sidebar t={dictionary} lang={lang || "cz"} />
+        {children}
+      </div>
+    </div>
   );
 }

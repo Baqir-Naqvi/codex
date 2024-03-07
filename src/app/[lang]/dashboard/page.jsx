@@ -18,7 +18,7 @@ export default async function Home({ params : { lang } }) {
 
   const dictionary = await getDictionary(lang);
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24 bg-gradient-to-r from-blue-200 to-violet-100">
+    <main className="w-full py-24 bg-gradient-to-r from-blue-200 to-violet-100">
       <ProductsContainer products={data} t={dictionary} />
     </main>
   );

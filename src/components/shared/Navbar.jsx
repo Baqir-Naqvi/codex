@@ -40,7 +40,7 @@ function Navbar({ userDetails, isAdmin, t ,lang}) {
 
   useEffect(() => {
     useUserStore.setState({ user: userDetails, authReady: true });
-  }, []);
+  }, [userDetails.email]);
 
   const handleLogout = () => {
     fetch("/api/auth/login", {
@@ -52,7 +52,7 @@ function Navbar({ userDetails, isAdmin, t ,lang}) {
       .then((res) => res.json())
       .then((data) => {
         if (data.status === 200) {
-          router.push(`/${lang}/auth/login`);
+          router.push(`/${lang}`);
         }
       });
   };
@@ -61,7 +61,7 @@ function Navbar({ userDetails, isAdmin, t ,lang}) {
     <div
       className={`header h-16 flex-row py-5  text-white flex items-center justify-between px-4 z-100 
     ${
-      isAdmin ? "bg-white" : "bg-white border-b-[1px] border-gray-300 shadow-md"
+      isAdmin ? "bg-white" : "bg-white "
     }
     `}
     >
@@ -75,6 +75,7 @@ function Navbar({ userDetails, isAdmin, t ,lang}) {
             className="hover:cursor-pointer"
           />
         </a>
+           <p className="text-xl font-semibold text-black">Codex</p>
       </div>
       {isAdmin && (
         <div className="flex items-center">
