@@ -61,3 +61,10 @@ export async function getUserDetails() {
     const user=await response.json()
     return user
 }
+
+export async function getUserid() {
+    const session = cookies().get("session")?.value;
+    if (!session) return null;
+    const parsed = await decrypt(session);
+    return parsed.userExists._id;
+}

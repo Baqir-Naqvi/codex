@@ -28,7 +28,9 @@
     "sidebar": {
         "dashboard": "Přehled",
         "users": "Uživatelé",
-        "products": "Produkty"
+        "products": "Produkty",
+        "mypurchases": "Moje nákupy",
+        "wishlist": "Seznam přání"
     },
     "language": {
         "title": "Jazyky"

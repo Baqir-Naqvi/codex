@@ -11,6 +11,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Heart } from "lucide-react";
+import Link from "next/link";
 
 function ProductCard({ product, disable = false ,t}) {
   return (
@@ -53,8 +54,13 @@ function ProductCard({ product, disable = false ,t}) {
             </div>
             <CardFooter className="flex w-full  justify-between md:gap-x-5">
               <Heart size={26} className="hover:cursor-pointer" />
-
-              <Button disabled={disable}>{t.productCard.addToCart}</Button>
+              {disable ? (
+                <Button disabled={disable}>{t.productCard.addToCart}</Button>
+              ) : (
+                <a href={`/dashboard/product/${product._id}`}>
+                  <Button>{t.productCard.addToCart}</Button>
+                </a>
+              )}
             </CardFooter>
           </div>
         </div>

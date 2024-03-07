@@ -31,7 +31,9 @@
     "sidebar": {
         "dashboard": "Dashboard",
         "users": "Users",
-        "products": "Products"
+        "products": "Products",
+        "mypurchases": "My Purchases",
+        "wishlist": "Wishlist"
     },
     "dashboard": {
         "title": "Dashboard",

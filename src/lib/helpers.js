@@ -58,3 +58,43 @@ export async function listPaginatedProducts(page = 1, limit = 20) {
         return { status: 400, message: e.message };
     }
 }
+
+export async function getProductById(id) {
+    try {
+        await dbConnect();
+        const product = await Product.findById(id).exec();
+        // Convert the Mongoose document to a plain JavaScript object
+        const plainProduct = product.toObject();
+
+        // Convert the _id property to string
+        plainProduct._id = plainProduct._id.toString();
+        if (!product) {
+            return { status: 404, message: "Product not found" };
+        }
+        return { status: 200, data: plainProduct };
+    }
+    catch (e) {
+        return { status: 400, message: e.message };
+    }
+}
+
+export const getUserHistory = async (userId) => {
+    await dbConnect();
+    try {
+        const user = await User.findById(userId);
+        if (!user) {
+            return { status: 400, message: "User not found" };
+        }
+        const products = await Product.find({ _id: { $in: user.purchaseHistory } });
+        //convert to simple object  to avoid mongoose object
+        const plainProducts = products.map((product) => product.toObject()) || [];
+        plainProducts.forEach((product) => {
+            product._id = product._id.toString();
+        });
+
+        return { status: 200, data: plainProducts };
+    } catch (e) {
+        console.error(e);
+        return { status: 400, message: e.message };
+    }
+}
