@@ -120,7 +120,7 @@ function EditProductForm({ product,t}) {
       message: "Price must be greater than 0",
     }),
 
-    VAT: z.any().refine((data) => data > 0, {
+    VAT: z.any().refine((data) => data >= 0, {
       message: "VAT must be greater than 0",
     }),
 

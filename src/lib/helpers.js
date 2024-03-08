@@ -3,6 +3,8 @@ import User from "@/models/User";
 import Product from "@/models/Product";
 import EmailVerification from "@/models/EmailVerification";
 import jwt from "jsonwebtoken";
+import mongoose from "mongoose";
+
 
 export async function verfiyToken(token){
     try {
@@ -78,23 +80,66 @@ export async function getProductById(id) {
     }
 }
 
+
+
 export const getUserHistory = async (userId) => {
     await dbConnect();
     try {
-        const user = await User.findById(userId);
+        const user = await User.findById(userId).lean();
         if (!user) {
             return { status: 400, message: "User not found" };
         }
-        const products = await Product.find({ _id: { $in: user.purchaseHistory } });
-        //convert to simple object  to avoid mongoose object
-        const plainProducts = products.map((product) => product.toObject()) || [];
-        plainProducts.forEach((product) => {
-            product._id = product._id.toString();
-        });
 
-        return { status: 200, data: plainProducts };
+        // If there is no purchase history, return an empty array immediately
+        if (!user.purchaseHistory || user.purchaseHistory.length === 0) {
+            return { status: 200, data: [] };
+        }
+        // Convert the string _ids in purchaseHistory to ObjectIds
+        const purchaseHistoryObjectIds = user.purchaseHistory.map(purchase =>new  mongoose.Types.ObjectId(purchase._id));
+
+        const pipeline = [
+            { $match: { _id: { $in: purchaseHistoryObjectIds } } },
+            {
+                $addFields: {
+                    purchaseHistory: {
+                        $filter: {
+                            input: user.purchaseHistory,
+                            as: "purchase",
+                            cond: { $eq: ["$$purchase._id", { $toString: "$_id" }] }
+                        }
+                    }
+                }
+            },
+            { $unwind: "$purchaseHistory" },
+            {
+                $addFields: {
+                    purchaseDate: "$purchaseHistory.purchaseDate",
+                    purchasedAt: "$purchaseHistory.purchasedAt"
+                }
+            },
+            {
+                $project: {
+                    _id: { $toString: '$_id' },
+                    name: 1,
+                    description: 1,
+                    price: 1,
+                    purchaseDate: 1,
+                    purchasedAt: 1,
+                    VAT: 1,
+                    weight:1,
+                    buybackPrice:1,
+                    isAvailable:1,
+
+                }
+            }
+        ];
+
+        const productsWithHistory = await Product.aggregate(pipeline).exec();
+
+        return { status: 200, data: productsWithHistory };
     } catch (e) {
         console.error(e);
         return { status: 400, message: e.message };
     }
 }
+
