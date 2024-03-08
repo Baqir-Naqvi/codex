@@ -10,29 +10,16 @@ import {
 } from "@/components/ui/card";
 
 function Summary({ data }) {
+
   return (
     <div className="w-full flex flex-row justify-between ">
       <Card className="w-[300px] text-center">
         <CardHeader>
-          <CardTitle>Number of products</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <CardDescription className="text-lg">{data.length}</CardDescription>
-        </CardContent>
-        <CardFooter>
-          <p className="text-sm text-gray-500">
-            This is a summary of your purchases
-          </p>
-        </CardFooter>
-      </Card>
-
-      <Card className="w-[300px] text-center">
-        <CardHeader>
-          <CardTitle>Total amount</CardTitle>
+          <CardTitle>Purchase Price</CardTitle>
         </CardHeader>
         <CardContent>
           <CardDescription className="text-lg">
-            {data.reduce((acc, curr) => acc + curr.price, 0)}
+            {data?.reduce((acc, curr) => acc + curr.purchasedAt, 0)}
           </CardDescription>
         </CardContent>
         <CardFooter>
@@ -44,11 +31,27 @@ function Summary({ data }) {
 
       <Card className="w-[300px] text-center">
         <CardHeader>
+          <CardTitle>Actual Price</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <CardDescription className="text-lg">
+            {data?.reduce((acc, curr) => acc + curr.price, 0)}
+          </CardDescription>
+        </CardContent>
+        <CardFooter>
+          <p className="text-sm text-gray-500">
+           Current price of your purchases
+          </p>
+        </CardFooter>
+      </Card>
+
+      <Card className="w-[300px] text-center">
+        <CardHeader>
           <CardTitle>Total Weight</CardTitle>
         </CardHeader>
         <CardContent>
           <CardDescription className="text-lg">
-            {data.reduce((acc, curr) => acc + curr.weight, 0)}
+            {data?.reduce((acc, curr) => acc + curr.weight, 0)}
           </CardDescription>
         </CardContent>
         <CardFooter>

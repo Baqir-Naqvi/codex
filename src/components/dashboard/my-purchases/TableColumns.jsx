@@ -20,19 +20,30 @@ import { useState } from "react";
 export const columns = [
   {
     accessorKey: "name",
-    header: "Product Name",
-  },
-  {
-    accessorKey: "price",
-    header: "Price",
-  },
-  {
-    accessorKey: "VAT",
-    header: "VAT Amount",
+    header: "Name",
   },
   {
     accessorKey: "weight",
     header: "Weight",
+  },
+  {
+    accessorKey: "purchasedAt",
+    header: "Purchase Price",
+    cell: ({ row }) => {
+      //if purchasedAt is lower than price, then make it red
+      const account = row.original;
+      if (account.purchasedAt < account.price) {
+        return (
+          <span className="text-red-500 ">{account.purchasedAt}</span>
+        );
+      }
+      return <span>{account.purchasedAt}</span>;
+    }
+  },
+  {
+    accessorKey: "price",
+    header: "Current Price",
+   
   },
   {
     accessorKey: "buybackPrice",
@@ -57,12 +68,8 @@ export const columns = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem>
-              <a href={`/en/dashboard/product/${account._id}`}>
-                View Product
-              </a>
+              <a href={`/en/dashboard/product/${account._id}`}>View Product</a>
             </DropdownMenuItem>
-            <DropdownMenuSeparator />
-          
           </DropdownMenuContent>
         </DropdownMenu>
       );

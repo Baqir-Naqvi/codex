@@ -16,7 +16,13 @@ export async function PUT(req) {
             User.findOneAndUpdate({
                 _id: request.userId
             }, {
-                $push: { purchaseHistory: _id }
+                $push: { 
+                purchaseHistory: {
+                    _id: _id,
+                    purchaseDate: new Date(),
+                    purchasedAt: request.originalPrice
+                }
+             }
             });
         if (!userExists) {
             return Response.json({ status: 400, message: "User not found" });

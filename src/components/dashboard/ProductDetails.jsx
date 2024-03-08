@@ -37,6 +37,7 @@ const ProductDetail = ({ product }) => {
       body: JSON.stringify({
         userId: user._id,
         quantity: quantity,
+        originalPrice: product.price,
       }),
     })
       .then((res) => res.json())
