@@ -1,15 +1,16 @@
 import React from 'react'
 import dynamic from 'next/dynamic';
-import {getProductById} from '@/lib/helpers'
-const ProductDetail = dynamic(() => import('@/components/dashboard/ProductDetails'), {
+import Loader from '@/components/shared/Loader';
+const ProductDetail = dynamic(() => import('@/components/dashboard/ProductDetails/index'), {
   ssr: false,
+  loading: () => <Loader />,
 });
 
 async function page({params: {slug}}) {
-    const {data} = await getProductById(slug)
   return (
     <div className="flex flex-row w-full">
-      <ProductDetail product={data} />
+      <ProductDetail product_id={slug} />
+
     </div>
   );
 }

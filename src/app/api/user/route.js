@@ -1,5 +1,6 @@
 import dbConnect from "@/lib/dbConnect";
 import User from "@/models/User";
+import Product from "@/models/Product";
 
 export async function GET(req) {
     //get user by id
@@ -12,7 +13,10 @@ export async function GET(req) {
     if (!users) {
       return Response.json({ status: 400, message: "User not found" });
     }
-
+    // let cart= users;
+    const { cart } = users[0];
+    const cartProducts = await Product.find({ _id: { $in: cart } });
+    users[0].cart=cartProducts
     return Response.json({ status: 200, data: users });
   } catch (e) {
     console.error(e);

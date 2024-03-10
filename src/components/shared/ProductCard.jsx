@@ -57,9 +57,9 @@ function ProductCard({ product, disable = false ,t}) {
               {disable ? (
                 <Button disabled={disable}>{t.productCard.addToCart}</Button>
               ) : (
-                <a href={`/dashboard/product/${product._id}`}>
+                <Link href={`/dashboard/product/${product._id}`}>
                   <Button>{t.productCard.addToCart}</Button>
-                </a>
+                </Link>
               )}
             </CardFooter>
           </div>

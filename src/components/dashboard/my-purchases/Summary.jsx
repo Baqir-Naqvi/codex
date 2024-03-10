@@ -10,6 +10,32 @@ import {
 } from "@/components/ui/card";
 
 function Summary({ data }) {
+  //data is an array of arrays containing the purchase history
+const purchasePrice = data?.reduce((acc, curr) => {
+  const innerTotal = curr.reduce(
+    (innerAcc, innerCurr) => innerAcc + innerCurr.purchasedAt,
+    0
+  );
+  return acc + innerTotal;
+}, 0);
+
+const actualPrice = data?.reduce((acc, curr) => {
+  const innerTotal = curr.reduce(
+    (innerAcc, innerCurr) => innerAcc + innerCurr.price,
+    0
+  );
+  return acc + innerTotal;
+}
+, 0);
+
+const totalWeight = data?.reduce((acc, curr) => {
+  const innerTotal = curr.reduce(
+    (innerAcc, innerCurr) => innerAcc + innerCurr.weight,
+    0
+  );
+  return acc + innerTotal;
+}
+, 0);
 
   return (
     <div className="w-full flex flex-row justify-between ">
@@ -19,7 +45,8 @@ function Summary({ data }) {
         </CardHeader>
         <CardContent>
           <CardDescription className="text-lg">
-            {data?.reduce((acc, curr) => acc + curr.purchasedAt, 0)}
+            {purchasePrice}
+            
           </CardDescription>
         </CardContent>
         <CardFooter>
@@ -35,7 +62,7 @@ function Summary({ data }) {
         </CardHeader>
         <CardContent>
           <CardDescription className="text-lg">
-            {data?.reduce((acc, curr) => acc + curr.price, 0)}
+            {actualPrice}
           </CardDescription>
         </CardContent>
         <CardFooter>
@@ -51,7 +78,7 @@ function Summary({ data }) {
         </CardHeader>
         <CardContent>
           <CardDescription className="text-lg">
-            {data?.reduce((acc, curr) => acc + curr.weight, 0)}
+            {totalWeight}
           </CardDescription>
         </CardContent>
         <CardFooter>

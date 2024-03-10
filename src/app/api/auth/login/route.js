@@ -16,7 +16,7 @@ export async function POST(req) {
     await dbConnect();
 
     try {
-        const userExists = await User.findOne({ email: request.email , password: request.password});
+        const userExists = await User.findOne({ email: request.email , password: request.password}).lean();
         if (!userExists) {
             return Response.json({ status: 400, message: "User not found" });
         }

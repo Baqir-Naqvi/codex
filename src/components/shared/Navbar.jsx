@@ -3,7 +3,7 @@ import { useState,useEffect } from "react";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import Image from "next/image";
-import { Menu, CircleUser } from "lucide-react";
+import { Menu, CircleUser ,ShoppingCart} from "lucide-react";
 
 import {
   Menubar,
@@ -27,7 +27,7 @@ import { Globe } from "lucide-react";
 
 import {useRouter} from "next/navigation"
 import {useUserStore} from "@/store/userStore"
-import dynamic from "next/dynamic";
+import Cart from "@/components/dashboard/cart"
 
 function Navbar({ userDetails, isAdmin, t ,lang}) {
   const router = useRouter();
@@ -37,10 +37,9 @@ function Navbar({ userDetails, isAdmin, t ,lang}) {
       const newURL = currentURL.replace(/^\/[a-z]{2}/, `/${lang}`);
       router.push(newURL);
     };
-
   useEffect(() => {
     useUserStore.setState({ user: userDetails, authReady: true });
-  }, [userDetails.email]);
+  }, []);
 
   const handleLogout = () => {
     fetch("/api/auth/login", {
@@ -60,9 +59,7 @@ function Navbar({ userDetails, isAdmin, t ,lang}) {
   return (
     <div
       className={`header h-16 flex-row py-5  text-white flex items-center justify-between px-4 z-100 
-    ${
-      isAdmin ? "bg-white" : "bg-white "
-    }
+    ${isAdmin ? "bg-white" : "bg-white "}
     `}
     >
       <div className="flex items-center justify-center">
@@ -75,7 +72,7 @@ function Navbar({ userDetails, isAdmin, t ,lang}) {
             className="hover:cursor-pointer"
           />
         </a>
-           <p className="text-xl font-semibold text-black">Codex</p>
+        <p className="text-xl font-semibold text-black">Codex</p>
       </div>
       {isAdmin && (
         <div className="flex items-center">
@@ -113,7 +110,7 @@ function Navbar({ userDetails, isAdmin, t ,lang}) {
           </DropdownMenuContent>
         </DropdownMenu>
 
-        <Menubar>
+        <Menubar className="border-none">
           <MenubarMenu className="border-none hover:cursor-pointer">
             <MenubarTrigger>
               <CircleUser color="black" className="hover:cursor-pointer" />
@@ -147,6 +144,7 @@ function Navbar({ userDetails, isAdmin, t ,lang}) {
             </MenubarContent>
           </MenubarMenu>
         </Menubar>
+        <Cart />
       </div>
     </div>
   );
