@@ -1,9 +1,9 @@
-"use client"
-import { useState,useEffect } from "react";
+"use client";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import Image from "next/image";
-import { Menu, CircleUser ,ShoppingCart} from "lucide-react";
+import { Menu, CircleUser, ShoppingCart } from "lucide-react";
 
 import {
   Menubar,
@@ -25,18 +25,29 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Globe } from "lucide-react";
 
-import {useRouter} from "next/navigation"
-import {useUserStore} from "@/store/userStore"
-import Cart from "@/components/dashboard/cart"
+import { useRouter } from "next/navigation";
+import { useUserStore } from "@/store/userStore";
+import { useConversionStore } from "@/store/conversionStore";
+import Cart from "@/components/dashboard/cart";
 
-function Navbar({ userDetails, isAdmin, t ,lang}) {
+function Navbar({ userDetails, isAdmin, t, lang }) {
   const router = useRouter();
-    const handleLanuageChange = (lang) => {
-      const currentURL = window.location.pathname;
-      // console.log(currentURL)
-      const newURL = currentURL.replace(/^\/[a-z]{2}/, `/${lang}`);
-      router.push(newURL);
-    };
+  const { flag } = useConversionStore();
+
+  const Currencies = [
+    { name: "USD", flag: "/images/usd.png" },
+    { name: "CZK", flag: "/images/kz.png" },
+    { name: "PLN", flag: "/images/pol.png" },
+    { name: "EUR", flag: "/images/eu.png" },
+    { name: "GBP", flag: "/images/GBP.png" },
+  ];
+
+  const handleLanuageChange = (lang) => {
+    const currentURL = window.location.pathname;
+    // console.log(currentURL)
+    const newURL = currentURL.replace(/^\/[a-z]{2}/, `/${lang}`);
+    router.push(newURL);
+  };
   useEffect(() => {
     useUserStore.setState({ user: userDetails, authReady: true });
   }, []);
@@ -53,6 +64,18 @@ function Navbar({ userDetails, isAdmin, t ,lang}) {
         if (data.status === 200) {
           router.push(`/${lang}`);
         }
+      });
+  };
+
+  const handleCurrencyChange = (currency, flag) => {
+    fetch(`/api/exchange?currency=${currency}`)
+      .then((res) => res.json())
+      .then((data) => {
+        useConversionStore.setState({
+          currency: data.data.currency,
+          rate: parseFloat(data.data.rate),
+          flag: flag,
+        });
       });
   };
 
@@ -80,6 +103,33 @@ function Navbar({ userDetails, isAdmin, t ,lang}) {
         </div>
       )}
       <div className="flex items-center justify-center gap-x-3">
+        {/* CurrencyDropdown */}
+        <DropdownMenu>
+          <DropdownMenuTrigger className="hover:cursor-pointer text-black flex gap-x-2">
+            <Image src={flag} width={18} height={18} alt="CZK" />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuLabel> Currency</DropdownMenuLabel>
+            {Currencies.map((currency, index) => (
+              <DropdownMenuItem
+                className="my-2 flex flex-row gap-1"
+                key={index}
+                onClick={() =>
+                  handleCurrencyChange(currency.name, currency.flag)
+                }
+              >
+                <Image
+                  src={currency.flag}
+                  width={20}
+                  height={20}
+                  alt={currency.name}
+                />
+                {currency.name}
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
+
         {/* <LanguageDropdown /> */}
         <DropdownMenu>
           <DropdownMenuTrigger>

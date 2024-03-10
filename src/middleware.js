@@ -32,7 +32,6 @@ export async function middleware(request) {
     )
     //if user is logged in and tries to dashboard or admin then we will validate it using updateSession
     if (pathname.includes("/admin") || pathname.includes("/dashboard") && session) {
-        console.log("Session found, validating it")
         const valid = await updateSession(request);
         if (!valid) {
             if (pathnameIsMissingLocale) {

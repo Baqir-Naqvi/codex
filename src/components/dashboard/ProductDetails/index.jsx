@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import { useUserStore } from "@/store/userStore";
 import { useToast } from "@/components/ui/use-toast"
 import Loader from "@/components/dashboard/ProductDetails/Loader";
+import { useConversionStore } from "@/store/conversionStore";
 
 
 const ProductDetail = ({ product_id }) => {
@@ -22,6 +23,7 @@ const ProductDetail = ({ product_id }) => {
   const [disable, setDisable] = useState(false);
   const [product, setProduct] = useState({})
   const [loading, setLoading] = useState(true);
+  const { currency, rate } = useConversionStore();
   
 
   useEffect(() => {
@@ -184,11 +186,9 @@ const ProductDetail = ({ product_id }) => {
               Weight: <span className="font-normal">{product.weight}</span>
             </p>
             <p className="mt-4 text-4xl font-bold ">
-              ${product.price}{" "}
-              <span className="text-xs text-gray-400 line-through">
-                {/* ${productDetailItem.previousPrice} */}
-                Old price
-              </span>
+              {/* $ */}
+              {currency} {(product.price / rate).toFixed(2)}
+             
             </p>
             <p className="pt-5 text-sm leading-5 text-gray-500">
               {product.description}
@@ -223,13 +223,7 @@ const ProductDetail = ({ product_id }) => {
               </div>
             </div>
             <div className="mt-7 flex flex-row items-center gap-6">
-              {/* <Button
-              className="px-5 py-3 gap-2"
-              disabled={!product.isAvailable || !user.isVerified || disable}
-              onClick={handlePurchase}
-            >
-              <ShoppingBag /> Purchase
-            </Button> */}
+             
               <Button className="px-5 py-3 gap-2" onClick={handleAddtoCart}>
                 <ShoppingBag />
                 Add to Cart

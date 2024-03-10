@@ -23,13 +23,11 @@ export default function Cart() {
   const [cart, setCart] = useState([]);
   const { toast } = useToast();
   useEffect(() => {
-    // if (!authReady) return;
-    // setCart(user.cart);
+
     if (!authReady) return;
     fetch("/api/user/cart?user_id=" + user._id)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setCart(data.data);
       });
   }, [authReady, user]);

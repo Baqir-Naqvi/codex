@@ -16,12 +16,13 @@ export async function POST(req) {
     await dbConnect();
 
     try {
-        const userExists = await User.findOne({ email: request.email , password: request.password}).lean();
+        const userExists = await User.findOne({ email: request.email , password: request.password})
+        const enctyption_data={_id:userExists._id, email:userExists.email, password:userExists.password}
         if (!userExists) {
             return Response.json({ status: 400, message: "User not found" });
         }
         const expires = new Date(Date.now() + 1000 * 60 * 60 * 24 * 7); // 1 week
-        const session = await encrypt({ userExists, expires });
+        const session = await encrypt({ enctyption_data, expires });
 
         // Save the session in a cookie
         cookies().set("session", session, { expires, httpOnly: true });

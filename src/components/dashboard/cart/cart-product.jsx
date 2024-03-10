@@ -1,11 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { useUserStore } from '@/store/userStore'
 import { useToast } from '@/components/ui/use-toast'
+import { useConversionStore } from '@/store/conversionStore'
 
 function CartProduct({product, callback}) {
   const { toast } = useToast();
   const user = useUserStore((state) => state.user);
+  const { currency, rate } = useConversionStore();
+
+
 
   const handleRemove = () => {
     fetch("/api/user/cart", {
@@ -48,7 +52,9 @@ function CartProduct({product, callback}) {
         />
         <div>
           <h3 className="text-md font-semibold">{product.name}</h3>
-          <p className="text-md font-bold">${product.price}</p>
+          <p className="text-md font-bold">
+            {currency} {(product.price / rate).toFixed(2)}
+          </p>
           <p className="text-sm font-semibold">Quantity: {product.quantity}</p>
 
           </div>
