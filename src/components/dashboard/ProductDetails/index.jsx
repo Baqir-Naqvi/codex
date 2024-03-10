@@ -11,32 +11,34 @@ import {
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { useUserStore } from "@/store/userStore";
-import { useToast } from "@/components/ui/use-toast"
+import { useToast } from "@/components/ui/use-toast";
 import Loader from "@/components/dashboard/ProductDetails/Loader";
 import { useConversionStore } from "@/store/conversionStore";
-
 
 const ProductDetail = ({ product_id }) => {
   const { toast } = useToast();
   const [quantity, setQuantity] = useState(1);
   const [user, setUser] = useState({});
   const [disable, setDisable] = useState(false);
-  const [product, setProduct] = useState({})
+  const [product, setProduct] = useState({});
   const [loading, setLoading] = useState(true);
   const { currency, rate } = useConversionStore();
-  
+  const activeUser = useUserStore((state) => state.user);
 
   useEffect(() => {
-    setUser(useUserStore.getState().user);
-    fetch("/api/product?id=" + product_id).then((res) => res.json()).then((data) => {
-      setProduct(data.data)
-      setLoading(false)
-    })
+    fetch("/api/product?id=" + product_id)
+      .then((res) => res.json())
+      .then((data) => {
+        setProduct(data.data);
+        setLoading(false);
+      });
+  }, []);
 
-    if (useUserStore.getState().user.limitAccess && product.price > 1000) {
+  useEffect(() => {
+    if (activeUser.limitAccess && product.price > 10000) {
       setDisable(true);
     }
-  }, []);
+  }, [activeUser, product]);
 
   const handlePurchase = () => {
     fetch("/api/product/purchase?product_id=" + product._id, {
@@ -45,7 +47,7 @@ const ProductDetail = ({ product_id }) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userId: user._id,
+        userId: activeUser._id,
         quantity: quantity,
         originalPrice: product.price,
       }),
@@ -75,7 +77,7 @@ const ProductDetail = ({ product_id }) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        user_id: user._id,
+        user_id: activeUser._id,
         product_id: product._id,
         quantity: quantity,
       }),
@@ -188,7 +190,6 @@ const ProductDetail = ({ product_id }) => {
             <p className="mt-4 text-4xl font-bold ">
               {/* $ */}
               {currency} {(product.price / rate).toFixed(2)}
-             
             </p>
             <p className="pt-5 text-sm leading-5 text-gray-500">
               {product.description}
@@ -223,8 +224,11 @@ const ProductDetail = ({ product_id }) => {
               </div>
             </div>
             <div className="mt-7 flex flex-row items-center gap-6">
-             
-              <Button className="px-5 py-3 gap-2" onClick={handleAddtoCart}>
+              <Button
+                className="px-5 py-3 gap-2"
+                onClick={handleAddtoCart}
+                disabled={disable}
+              >
                 <ShoppingBag />
                 Add to Cart
               </Button>

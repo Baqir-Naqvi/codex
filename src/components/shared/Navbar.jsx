@@ -32,7 +32,7 @@ import Cart from "@/components/dashboard/cart";
 
 function Navbar({ userDetails, isAdmin, t, lang }) {
   const router = useRouter();
-  const { flag } = useConversionStore();
+  const { flag, setConversionRates, conversionRates } = useConversionStore();
 
   const Currencies = [
     { name: "USD", flag: "/images/usd.png" },
@@ -50,6 +50,9 @@ function Navbar({ userDetails, isAdmin, t, lang }) {
   };
   useEffect(() => {
     useUserStore.setState({ user: userDetails, authReady: true });
+    fetch(`/api/exchange?currency=all`).then((res) => res.json()).then((data) => {
+      setConversionRates(data.data);
+    });
   }, []);
 
   const handleLogout = () => {
@@ -68,15 +71,13 @@ function Navbar({ userDetails, isAdmin, t, lang }) {
   };
 
   const handleCurrencyChange = (currency, flag) => {
-    fetch(`/api/exchange?currency=${currency}`)
-      .then((res) => res.json())
-      .then((data) => {
-        useConversionStore.setState({
-          currency: data.data.currency,
-          rate: parseFloat(data.data.rate),
-          flag: flag,
-        });
-      });
+   //find the currency in the conversionRates array 
+    const currencyIndex = conversionRates.findIndex((rate) => rate.currency === currency);
+    useConversionStore.setState({
+      currency: conversionRates[currencyIndex]?.currency,
+      rate: parseFloat(conversionRates[currencyIndex]?.rate),
+      flag: flag,
+    });
   };
 
   return (
@@ -87,7 +88,7 @@ function Navbar({ userDetails, isAdmin, t, lang }) {
     >
       <div className="flex items-center justify-center">
         <a href={`/${lang}/dashboard`}>
-          <Image
+          <img
             src="/images/logo.png"
             alt="Picture of the author"
             width={50}
@@ -106,7 +107,7 @@ function Navbar({ userDetails, isAdmin, t, lang }) {
         {/* CurrencyDropdown */}
         <DropdownMenu>
           <DropdownMenuTrigger className="hover:cursor-pointer text-black flex gap-x-2">
-            <Image src={flag} width={18} height={18} alt="CZK" />
+            <img src={flag} width={18} height={18} alt="CZK" />
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuLabel> Currency</DropdownMenuLabel>
