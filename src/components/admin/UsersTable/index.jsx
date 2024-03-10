@@ -25,18 +25,22 @@ export const handleDelete = async (id,type) => {
   return data.status === 200 ? true : false;
 };
 
-function UsersTable({ columns, data }) {
+function UsersTable({ columns, data, title }) {
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
-  
 
   return (
-    <div className="rounded-md border">
+    <div className="rounded-md border mt-5">
       <Table>
         <TableHeader>
+          <TableRow>
+            <TableHead colSpan={columns.length} className="text-md font-bold text-black">
+              {title}
+            </TableHead>
+          </TableRow>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {

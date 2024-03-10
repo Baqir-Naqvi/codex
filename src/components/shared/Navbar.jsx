@@ -1,9 +1,9 @@
-"use client"
-import { useState,useEffect } from "react";
+"use client";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import Image from "next/image";
-import { Menu, CircleUser } from "lucide-react";
+import { Menu, CircleUser, ShoppingCart } from "lucide-react";
 
 import {
   Menubar,
@@ -25,22 +25,35 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Globe } from "lucide-react";
 
-import {useRouter} from "next/navigation"
-import {useUserStore} from "@/store/userStore"
-import dynamic from "next/dynamic";
+import { useRouter } from "next/navigation";
+import { useUserStore } from "@/store/userStore";
+import { useConversionStore } from "@/store/conversionStore";
+import Cart from "@/components/dashboard/cart";
 
-function Navbar({ userDetails, isAdmin, t ,lang}) {
+function Navbar({ userDetails, isAdmin, t, lang }) {
   const router = useRouter();
-    const handleLanuageChange = (lang) => {
-      const currentURL = window.location.pathname;
-      // console.log(currentURL)
-      const newURL = currentURL.replace(/^\/[a-z]{2}/, `/${lang}`);
-      router.push(newURL);
-    };
+  const { flag, setConversionRates, conversionRates } = useConversionStore();
 
+  const Currencies = [
+    { name: "USD", flag: "/images/usd.png" },
+    { name: "CZK", flag: "/images/kz.png" },
+    { name: "PLN", flag: "/images/pol.png" },
+    { name: "EUR", flag: "/images/eu.png" },
+    { name: "GBP", flag: "/images/GBP.png" },
+  ];
+
+  const handleLanuageChange = (lang) => {
+    const currentURL = window.location.pathname;
+    // console.log(currentURL)
+    const newURL = currentURL.replace(/^\/[a-z]{2}/, `/${lang}`);
+    router.push(newURL);
+  };
   useEffect(() => {
     useUserStore.setState({ user: userDetails, authReady: true });
-  }, [userDetails.email]);
+    fetch(`/api/exchange?currency=all`).then((res) => res.json()).then((data) => {
+      setConversionRates(data.data);
+    });
+  }, []);
 
   const handleLogout = () => {
     fetch("/api/auth/login", {
@@ -57,17 +70,25 @@ function Navbar({ userDetails, isAdmin, t ,lang}) {
       });
   };
 
+  const handleCurrencyChange = (currency, flag) => {
+   //find the currency in the conversionRates array 
+    const currencyIndex = conversionRates.findIndex((rate) => rate.currency === currency);
+    useConversionStore.setState({
+      currency: conversionRates[currencyIndex]?.currency,
+      rate: parseFloat(conversionRates[currencyIndex]?.rate),
+      flag: flag,
+    });
+  };
+
   return (
     <div
       className={`header h-16 flex-row py-5  text-white flex items-center justify-between px-4 z-100 
-    ${
-      isAdmin ? "bg-white" : "bg-white "
-    }
+    ${isAdmin ? "bg-white" : "bg-white "}
     `}
     >
       <div className="flex items-center justify-center">
         <a href={`/${lang}/dashboard`}>
-          <Image
+          <img
             src="/images/logo.png"
             alt="Picture of the author"
             width={50}
@@ -75,7 +96,7 @@ function Navbar({ userDetails, isAdmin, t ,lang}) {
             className="hover:cursor-pointer"
           />
         </a>
-           <p className="text-xl font-semibold text-black">Codex</p>
+        <p className="text-xl font-semibold text-black">Codex</p>
       </div>
       {isAdmin && (
         <div className="flex items-center">
@@ -83,6 +104,33 @@ function Navbar({ userDetails, isAdmin, t ,lang}) {
         </div>
       )}
       <div className="flex items-center justify-center gap-x-3">
+        {/* CurrencyDropdown */}
+        <DropdownMenu>
+          <DropdownMenuTrigger className="hover:cursor-pointer text-black flex gap-x-2">
+            <img src={flag} width={18} height={18} alt="CZK" />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuLabel> Currency</DropdownMenuLabel>
+            {Currencies.map((currency, index) => (
+              <DropdownMenuItem
+                className="my-2 flex flex-row gap-1"
+                key={index}
+                onClick={() =>
+                  handleCurrencyChange(currency.name, currency.flag)
+                }
+              >
+                <Image
+                  src={currency.flag}
+                  width={20}
+                  height={20}
+                  alt={currency.name}
+                />
+                {currency.name}
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
+
         {/* <LanguageDropdown /> */}
         <DropdownMenu>
           <DropdownMenuTrigger>
@@ -113,7 +161,7 @@ function Navbar({ userDetails, isAdmin, t ,lang}) {
           </DropdownMenuContent>
         </DropdownMenu>
 
-        <Menubar>
+        <Menubar className="border-none">
           <MenubarMenu className="border-none hover:cursor-pointer">
             <MenubarTrigger>
               <CircleUser color="black" className="hover:cursor-pointer" />
@@ -147,6 +195,7 @@ function Navbar({ userDetails, isAdmin, t ,lang}) {
             </MenubarContent>
           </MenubarMenu>
         </Menubar>
+        <Cart />
       </div>
     </div>
   );

@@ -4,6 +4,7 @@ import Product from "@/models/Product";
 import EmailVerification from "@/models/EmailVerification";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
+import { getUserid } from "@/lib"
 
 
 export async function verfiyToken(token){
@@ -81,7 +82,7 @@ export async function getProductById(id) {
 }
 
 
-
+// get user purchase history
 export const getUserHistory = async (userId) => {
     await dbConnect();
     try {
@@ -143,3 +144,52 @@ export const getUserHistory = async (userId) => {
     }
 }
 
+//get user cart
+export const getUserCart = async () => {
+
+    const userId = await getUserid();
+    await dbConnect();
+    try {
+        const user = await User.findById(userId);
+        if (!user) {
+            return Response.json({ status: 400, message: "User not found" });
+        }
+        const products = await Product.find({ _id: { $in: user.cart } });
+        return Response.json({ status: 200, data: products });
+    } catch (e) {
+        console.error(e);
+        return Response.json({ status: 400, message: e.message });
+    }
+
+
+}
+
+
+//get user orderHistory
+export const getUserOrderHistory = async () => {
+    const userId = await getUserid();
+    await dbConnect();
+    try {
+        const user = await User.findById(userId).lean();
+        if (!user) {
+            return { status: 400, message: "User not found" }; // Return a proper response object
+        }
+
+        // Assuming orderHistory is an array of order arrays, where each order array contains product objects with _id
+        let updatedOrderHistory = await Promise.all(user.orderHistory.map(async (order) => {
+            // Map over orders and replace product prices
+            let updatedOrder = await Promise.all(order.map(async (product) => {
+                let productDetails = await Product.findById(product._id).lean();
+                if (productDetails) {
+                    return { ...product, price: productDetails.price, buybackPrice: productDetails.buybackPrice }; // Spread the product details and overwrite price
+                }
+                return product; // If productDetails is null, return the original product
+            }));
+            return updatedOrder;
+        }));
+        return { status: 200, orders: updatedOrderHistory }; // Return the updated order history
+    } catch (e) {
+        console.error(e);
+        return { status: 400, message: e.message }; // Return a proper response object
+    }
+}

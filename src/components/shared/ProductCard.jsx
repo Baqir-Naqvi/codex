@@ -1,4 +1,5 @@
-import React from "react";
+"use client"
+import React, { useState ,useEffect} from "react";
 import {
   Card,
   CardContent,
@@ -12,8 +13,17 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Heart } from "lucide-react";
 import Link from "next/link";
+import { useConversionStore } from "@/store/conversionStore";
 
 function ProductCard({ product, disable = false ,t}) {
+  const { currency, rate } = useConversionStore();
+    const [selected_cur, setCur] = useState("CZK");
+    const [selected_rate, setRate] = useState(1);
+    useEffect(() => {
+      setCur(currency);
+      setRate(rate);
+    }, [currency]);
+
   return (
     <Card className="w-[350px] border-[1px] border-slate-300 shadow-md hover:shadow-lg md:h-[500px]">
       <CardContent className="p-0">
@@ -44,7 +54,7 @@ function ProductCard({ product, disable = false ,t}) {
               <div className="flex items-center gap-x-2 "></div>
               <div className="flex items-center gap-x-2">
                 <Badge className="px-2 text-[14px] ">
-                  {t.productCard.price} : {product.price}
+                  {selected_cur} : {(product.price / selected_rate).toFixed(2)}
                 </Badge>
                 <Badge className="px-2 text-[14px] ">
                   {t.productCard.weight} : {product.weight}
@@ -57,9 +67,9 @@ function ProductCard({ product, disable = false ,t}) {
               {disable ? (
                 <Button disabled={disable}>{t.productCard.addToCart}</Button>
               ) : (
-                <a href={`/dashboard/product/${product._id}`}>
+                <Link href={`/dashboard/product/${product._id}`}>
                   <Button>{t.productCard.addToCart}</Button>
-                </a>
+                </Link>
               )}
             </CardFooter>
           </div>
