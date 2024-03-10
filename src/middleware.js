@@ -37,7 +37,7 @@ export async function middleware(request) {
             if (pathnameIsMissingLocale) {
                 return NextResponse.redirect(
                     new URL(
-                        `/auth/login`,
+                        `/${locale}`,
                         request.url
                     )
                 )
@@ -45,7 +45,7 @@ export async function middleware(request) {
             else {
                 return NextResponse.redirect(
                     new URL(
-                        `/${locale}/auth/login`,
+                        `/${locale}`,
                         request.url
                     )
                 )
@@ -78,7 +78,7 @@ export async function middleware(request) {
         if(pathnameIsMissingLocale){
             return NextResponse.redirect(
                 new URL(
-                    `/auth/login`,
+                    `/${locale}`,
                     request.url
                 )
             )
@@ -86,7 +86,7 @@ export async function middleware(request) {
         else{
             return NextResponse.redirect(
                 new URL(
-                    `/${locale}/auth/login`,
+                    `/${locale}`,
                     request.url
                 )
             )
