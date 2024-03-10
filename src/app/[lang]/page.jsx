@@ -1,5 +1,4 @@
 import React from "react";
-import { listPaginatedProducts } from "@/lib/helpers";
 import { getDictionary } from "@/lang/dictionaries";
 import ProductsContainer from "@/components/shared/ProductsContainer";
 import LanguageDropdown from "@/components/auth/LanguageDropdown";
@@ -10,7 +9,17 @@ import Hero from "@/components/Home/Hero";
 
 async function page({ params, searchParams }) {
   const { lang } = params;
-  const { data, count } = await listPaginatedProducts(1, 20);
+  const { data, count } = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}api/admin/products`,
+    { cache: "no-store" },
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  ).then((res) => res.json());
+
   const dictionary = await getDictionary(lang);
   return (
     <div className="min-h-screen bg-gradient-to-r from-blue-200 to-violet-100">
