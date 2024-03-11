@@ -17,7 +17,7 @@ export async function POST(req) {
 
     try {
         const userExists = await User.findOne({ email: request.email , password: request.password})
-        const enctyption_data={_id:userExists._id, email:userExists.email, password:userExists.password}
+        const enctyption_data={_id:userExists._id, email:userExists.email, password:userExists.password,role:userExists.role}
         if (!userExists) {
             return Response.json({ status: 400, message: "User not found" });
         }
