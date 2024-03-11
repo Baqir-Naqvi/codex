@@ -67,7 +67,7 @@ export async function DELETE(req) {
         if (!product) {
             return Response.json({ status: 400, message: "Product not found" });
         }
-        user.cart = user.cart.filter((id) => id !== product_id);
+        user.cart = user.cart.filter((item) => item._id.toString() !== product_id);
         await user.save();
         return Response.json({ status: 200, message: "Product removed from cart" });
     } catch (e) {
