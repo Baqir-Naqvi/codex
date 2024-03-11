@@ -103,6 +103,11 @@ const userSchema = new Schema({
         required: false,
         default: [],
     },
+    inventory: {
+        type: Array,
+        required: false,
+        default: [],
+    },
     balance: {
         type: Number,
         required: false,

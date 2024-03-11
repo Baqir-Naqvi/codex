@@ -69,6 +69,7 @@ export async function PUT(req) {
             
         }
         user.orderHistory.push(order_);
+        user.inventory.push(order_);
         user.cart = [];        
         await user.save();
         return Response.json({ status: 200, message: "Products purchased" });

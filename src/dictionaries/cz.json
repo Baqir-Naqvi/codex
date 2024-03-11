@@ -30,7 +30,11 @@
         "users": "Uživatelé",
         "products": "Produkty",
         "mypurchases": "Moje nákupy",
-        "wishlist": "Seznam přání"
+        "wishlist": "Seznam přání",
+        "trade": "Obchod",
+        "sell": "Prodej",
+        "transfer": "Převod",
+        "marketplace": "Tržiště"
     },
     "language": {
         "title": "Jazyky"
@@ -77,5 +81,8 @@
         "subtitle": "Nejlepší místo pro nákup a prodej produktů",
         "description": "Platforma pro obchodníky a investory, kteří se společně učí, sdílejí a rostou ve světě financí",
         "button": "Začít"
+    },
+    "trade": {
+        "myinventory": "Můj inventář"
     }
 }
