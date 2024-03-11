@@ -33,7 +33,11 @@
         "users": "Users",
         "products": "Products",
         "mypurchases": "My Purchases",
-        "wishlist": "Wishlist"
+        "wishlist": "Wishlist",
+        "trade": "Trade",
+        "sell": "Sell",
+         "transfer": "Transfer",
+        "marketplace": "Marketplace"
     },
     "dashboard": {
         "title": "Dashboard",
@@ -78,6 +82,9 @@
         "subtitle": "The best place to buy and sell products",
         "description": "A platform for traders and investors to learn, share and grow together in the world of finance",
         "button": "Get Started"
+    },
+    "trade": {
+        "myinventory": "My Inventory"
     }
 
 }

@@ -1,7 +1,14 @@
 "use client";
 import React from "react";
 import { useLayoutStore } from "@/store/layoutStore";
-import { Home, History, PackageSearch } from "lucide-react";
+import {
+  Home,
+  History,
+  PackageSearch,
+  ArrowRightLeft,
+  Store,
+  MoveRight,
+} from "lucide-react";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 const NavItem = ({ title, icon, href }) => {
@@ -15,10 +22,9 @@ const NavItem = ({ title, icon, href }) => {
     </Link>
   );
 };
-function Sidebar({ t, lang }) {
+function Sidebar({ t, lang,user }) {
   const sidebartoggle = useLayoutStore((state) => state.sidebartoggle);
   const setSidebarToggle = useLayoutStore((state) => state.setSidebarToggle);
-
   return (
     <div
       className={`flex flex-col
@@ -37,11 +43,31 @@ function Sidebar({ t, lang }) {
             icon={<History size={20} />}
             href={`/${lang}/dashboard/my-purchases`}
           />
-          <NavItem
-            title={t.sidebar.wishlist}
-            icon={<PackageSearch size={20} />}
-            href={`/${lang}/dashboard/wishlist`}
-          />
+          {user.isVerified && (
+            <>
+              {" "}
+              <NavItem
+                title={t.sidebar.sell}
+                icon={<PackageSearch size={20} />}
+                href={`/${lang}/dashboard/sell`}
+              />
+              <NavItem
+                title={t.sidebar.trade}
+                icon={<ArrowRightLeft size={20} />}
+                href={`/${lang}/dashboard/trade`}
+              />
+              <NavItem
+                title={t.sidebar.transfer}
+                icon={<MoveRight size={20} />}
+                href={`/${lang}/dashboard/secure-transfer`}
+              />
+              <NavItem
+                title={t.sidebar.marketplace}
+                icon={<Store size={20} />}
+                href={`/${lang}/dashboard/marketplace`}
+              />
+            </>
+          )}
         </ul>
       </div>
     </div>

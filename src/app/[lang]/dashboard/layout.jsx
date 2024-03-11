@@ -5,10 +5,7 @@ import pageLoader from "@/components/shared/pageLoader";
 import Sidebar from "@/components/dashboard/Sidebar";
 import Loader from "@/components/shared/Loader";
 
-const Navbar = dynamic(() => import("@/components/shared/Navbar"), {
-  loading: pageLoader,
-  ssr: false,
-});
+const Navbar = dynamic(() => import("@/components/shared/Navbar"));
 
 export default async function DashboardLayout({ children, params: { lang } }) {
   const { data } = await getUserDetails();
@@ -18,7 +15,7 @@ export default async function DashboardLayout({ children, params: { lang } }) {
     <div>
       <Navbar userDetails={data[0]} t={dictionary} lang={lang || "cz"} />
       <div className="flex flex-row w-full">
-        <Sidebar t={dictionary} lang={lang || "cz"} />
+        <Sidebar t={dictionary} lang={lang || "cz"} user={data[0]}/>
         {children}
       </div>
     </div>
