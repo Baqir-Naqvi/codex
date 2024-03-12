@@ -1,6 +1,8 @@
 import React from 'react'
 import dynamic from 'next/dynamic';
-const ProductDetail = dynamic(() => import('@/components/dashboard/ProductDetails/index'));
+const ProductDetail = dynamic(() => import('@/components/dashboard/ProductDetails/index'),{
+  ssr: false
+});
 
 async function page({params: {slug}}) {
   return (

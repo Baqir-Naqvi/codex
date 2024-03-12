@@ -1,12 +1,7 @@
 import React from "react";
-import Loader from "@/components/shared/Loader";
-import dynamic from "next/dynamic";
 import { columns } from "@/components/dashboard/my-purchases/TableColumns";
-const ProductsTable = dynamic(() => import("@/components/admin/UsersTable"), {
-  ssr: false,
-  loading: () => <Loader />,
-});
-const Summary = dynamic(() => import("@/components/dashboard/my-purchases/Summary"))
+import ProductsTable from "@/components/admin/UsersTable";
+import Summary from "@/components/dashboard/my-purchases/Summary";
 
 function PurhcaseHistory({ orders }) {
   return (
