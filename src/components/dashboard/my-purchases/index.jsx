@@ -9,17 +9,11 @@ function PurhcaseHistory({ orders }) {
       <h2 className="text-2xl font-bold my-4">Summary</h2>
       <Summary data={orders} />
       <h2 className="text-2xl font-bold my-4">My Purchase History</h2>
-      {orders?.map((order, index) => {
-        return (
-          <div key={index}>
-            <ProductsTable
-              data={order}
-              columns={columns}
-              title={`Order ${index + 1}`}
-            />
-          </div>
-        );
-      })}
+
+      <ProductsTable
+        data={orders}
+        columns={columns}
+      />
     </div>
   );
 }

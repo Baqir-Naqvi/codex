@@ -85,6 +85,9 @@
     },
     "trade": {
         "myinventory": "My Inventory"
+    },
+    "securetransfer":{
+        "title": "Secure Transfer"
     }
 
 }

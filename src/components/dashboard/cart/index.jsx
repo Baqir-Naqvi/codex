@@ -97,6 +97,7 @@ export default function Cart() {
         <SheetFooter className="flex justify-end">
           <SheetClose asChild>
             <Button 
+            disabled={cart.length === 0}
             onClick={purchaseCartItems}
             >Purchase {cart.length} items</Button>
           </SheetClose>

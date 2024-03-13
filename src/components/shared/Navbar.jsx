@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import Image from "next/image";
-import { Menu, CircleUser, ShoppingCart } from "lucide-react";
+import { Menu, CircleUser, ShoppingCart,Bell } from "lucide-react";
 
 import {
   Menubar,
@@ -14,6 +14,7 @@ import {
   MenubarShortcut,
   MenubarTrigger,
 } from "@/components/ui/menubar";
+import NotificationDropDown from "@/components/dashboard/NotificationDropdown";
 
 import {
   DropdownMenu,
@@ -104,6 +105,9 @@ function Navbar({ userDetails, isAdmin, t, lang }) {
         </div>
       )}
       <div className="flex items-center justify-center gap-x-3">
+
+        {/* Notification Icon */}
+        <NotificationDropDown userID={userDetails._id} />
         {/* CurrencyDropdown */}
         <DropdownMenu>
           <DropdownMenuTrigger className="hover:cursor-pointer text-black flex gap-x-2">

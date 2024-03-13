@@ -19,11 +19,15 @@ import { useState } from "react";
 
 export const columns = [
   {
+    accessorKey: "orderID",
+    header: "Order ID",
+  },
+  {
     accessorKey: "name",
     header: "Name",
   },
   {
-    accessorKey: "weight",
+    accessorKey: "purchasedWeight",
     header: "Weight",
   },
   {
@@ -33,17 +37,14 @@ export const columns = [
       //if purchasedAt is lower than price, then make it red
       const account = row.original;
       if (account.purchasedAt < account.price) {
-        return (
-          <span className="text-red-500 ">{account.purchasedAt}</span>
-        );
+        return <span className="text-green-500 ">{account.purchasedAt}</span>;
       }
       return <span>{account.purchasedAt}</span>;
-    }
+    },
   },
   {
     accessorKey: "price",
     header: "Current Price",
-   
   },
   {
     accessorKey: "buybackPrice",

@@ -1,8 +1,13 @@
 import React from 'react'
 import dynamic from 'next/dynamic';
-const ProductDetail = dynamic(() => import('@/components/dashboard/ProductDetails/index'),{
-  ssr: false
-});
+import Loader from "@/components/shared/Loader";
+const ProductDetail = dynamic(
+  () => import("@/components/dashboard/ProductDetails/index"),
+  {
+    ssr: false,
+    loading: () => <Loader />,
+  }
+);
 
 async function page({params: {slug}}) {
   return (

@@ -48,8 +48,8 @@ function TradeModal({ data, userID }) {
         userId: userID,
         productId: productData._id,
         weight: weight_sell,
-        price: sellingPrice,
-        orderNumber: productData.orderID,
+        sellingPrice: sellingPrice,
+        orderID: productData.orderID,
       }),
     })
       .then((res) => res.json())
@@ -60,27 +60,21 @@ function TradeModal({ data, userID }) {
             title: "Product Sold",
             description: data.message,
           });
-        //update the product data
-        let newProducts = tradingProducts;
-        let order = newProducts[productData.orderID];
-        let product = order.find((p) => p._id == productData._id);
-        product.purchasedWeight -= weight_sell;
-        order = order.map((p) => {
-            if (p._id == productData._id) {
-                return product;
+          //update the trading products
+          const updatedProducts = tradingProducts.map((product) => {
+            if (product._id === productData._id) {
+              product.purchasedWeight -= weight_sell;
             }
-            return p;
-        }
-        );
-        newProducts[productData.orderID] = order;
-        setTradingProducts(newProducts);
+            return product;
+          });
+          setTradingProducts(updatedProducts);
         } else {
           toast({
             title: "Failed to Sell Product",
             description: data.message,
             variant: "destructive",
           });
-          e
+          e;
         }
       })
       .catch((e) => {
@@ -146,7 +140,7 @@ function TradeModal({ data, userID }) {
         </div>
 
         <DialogFooter>
-          <Button type="submit" onClick={sell_weight} disabled={weight_sell === 0}
+          <Button type="submit" onClick={sell_weight} disabled={weight_sell === 0} className="w-full"
           >Sell</Button>
         </DialogFooter>
       </DialogContent>
