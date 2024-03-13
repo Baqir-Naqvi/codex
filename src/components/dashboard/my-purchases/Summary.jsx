@@ -10,32 +10,19 @@ import {
 } from "@/components/ui/card";
 
 function Summary({ data }) {
-  //data is an array of arrays containing the purchase history
+  //data is an array containing objects
 const purchasePrice = data?.reduce((acc, curr) => {
-  const innerTotal = curr.reduce(
-    (innerAcc, innerCurr) => innerAcc + innerCurr.purchasedAt,
-    0
-  );
-  return acc + innerTotal;
-}, 0);
+  return acc + curr.purchasedAt;
+} , 0);
 
 const actualPrice = data?.reduce((acc, curr) => {
-  const innerTotal = curr.reduce(
-    (innerAcc, innerCurr) => innerAcc + innerCurr.price,
-    0
-  );
-  return acc + innerTotal;
-}
-, 0);
+  return acc + curr.price;
+} , 0);
+
 
 const totalWeight = data?.reduce((acc, curr) => {
-  const innerTotal = curr.reduce(
-    (innerAcc, innerCurr) => innerAcc + innerCurr.weight,
-    0
-  );
-  return acc + innerTotal;
-}
-, 0);
+  return acc + curr.purchasedWeight; 
+} , 0);
 
   return (
     <div className="w-full flex flex-row justify-between ">

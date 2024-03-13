@@ -69,7 +69,8 @@ export async function getProductById(id) {
 
 
 // get user purchase history
-export const getUserHistory = async (userId) => {
+export const getUserHistory = async () => {
+    const userId = await getUserid();
     await dbConnect();
     try {
         const user = await User.findById(userId).lean();
@@ -78,30 +79,32 @@ export const getUserHistory = async (userId) => {
         }
 
         // If there is no purchase history, return an empty array immediately
-        if (!user.purchaseHistory || user.purchaseHistory.length === 0) {
+        if (!user.orderHistory || user.orderHistory.length === 0) {
             return { status: 200, data: [] };
         }
         // Convert the string _ids in purchaseHistory to ObjectIds
-        const purchaseHistoryObjectIds = user.purchaseHistory.map(purchase =>new  mongoose.Types.ObjectId(purchase._id));
+        const purchaseHistoryObjectIds = user.orderHistory.map(purchase =>new  mongoose.Types.ObjectId(purchase._id));
 
         const pipeline = [
             { $match: { _id: { $in: purchaseHistoryObjectIds } } },
             {
                 $addFields: {
-                    purchaseHistory: {
+                    orderHistory: {
                         $filter: {
-                            input: user.purchaseHistory,
+                            input: user.orderHistory,
                             as: "purchase",
                             cond: { $eq: ["$$purchase._id", { $toString: "$_id" }] }
                         }
                     }
                 }
             },
-            { $unwind: "$purchaseHistory" },
+            { $unwind: "$orderHistory" },
             {
                 $addFields: {
-                    purchaseDate: "$purchaseHistory.purchaseDate",
-                    purchasedAt: "$purchaseHistory.purchasedAt"
+                    purchasedDate: "$orderHistory.purchasedDate",
+                    purchasedAt: "$orderHistory.purchasedAt",
+                    purchasedWeight: "$orderHistory.purchasedWeight",
+                    orderID: "$orderHistory.orderID"
                 }
             },
             {
@@ -110,12 +113,14 @@ export const getUserHistory = async (userId) => {
                     name: 1,
                     description: 1,
                     price: 1,
-                    purchaseDate: 1,
+                    purchasedDate: 1,
                     purchasedAt: 1,
                     VAT: 1,
                     weight:1,
                     buybackPrice:1,
                     isAvailable:1,
+                    purchasedWeight: 1,
+                    orderID: 1
 
                 }
             }
@@ -123,7 +128,7 @@ export const getUserHistory = async (userId) => {
 
         const productsWithHistory = await Product.aggregate(pipeline).exec();
 
-        return { status: 200, data: productsWithHistory };
+        return { status: 200, orders: productsWithHistory };
     } catch (e) {
         console.error(e);
         return { status: 400, message: e.message };

@@ -24,6 +24,7 @@ const ProductDetail = ({ product_id }) => {
   const [loading, setLoading] = useState(true);
   const { currency, rate } = useConversionStore();
   const activeUser = useUserStore((state) => state.user);
+  const authReady = useUserStore((state) => state.authReady);
 
   useEffect(() => {
     fetch("/api/product?id=" + product_id)
@@ -35,6 +36,7 @@ const ProductDetail = ({ product_id }) => {
   }, []);
 
   useEffect(() => {
+    if(!authReady) return;
     if (activeUser.limitAccess && product.price > 10000) {
       setDisable(true);
     }

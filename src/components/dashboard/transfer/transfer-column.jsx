@@ -1,8 +1,13 @@
 "use client";
-import TradeModal from "./trade-modal";
+import TransferModal from "./transfer-modal";
+import SellModal from "@/components/dashboard/sell/sell-modal";
 import { useUserStore } from "@/store/userStore";
 
 export const columns = [
+  {
+    accessorKey: "orderID",
+    header: "Order ID",
+  },
   {
     accessorKey: "name",
     header: "Name",
@@ -38,7 +43,7 @@ export const columns = [
       //disabling the sell button if the purchased weight is 0
       const account = row.original;
 
-      if (account.purchasedWeight === 0) {
+      if (account.purchasedWeight === 0 || account.purchasedWeight < 0) {
         return (
           <p disabled className="cursor-not-allowed text-red-500">
             Sold Out
@@ -47,7 +52,16 @@ export const columns = [
       }
 
       const { user } = useUserStore();
-      return <TradeModal data={account} userID={user._id} />;
+      return (
+        <div className="flex space-x-2">
+          <SellModal data={account} userID={user._id} />
+          <TransferModal
+            data={account}
+            userID={user._id}
+            userAccountID={user.uniqueCode}
+          />
+        </div>
+      );
     },
   },
 ];
