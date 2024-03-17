@@ -33,20 +33,27 @@ async function page({ params, searchParams }) {
         />
         <div className="flex items-center gap-x-3">
           <LanguageDropdown redirect={"/"} />
-          <Button label={dictionary.auth.login} href={`/${lang}/auth/login`}>
-            <Link href={`/${lang}/auth/login`}>{dictionary.auth.login}</Link>
-          </Button>
-          <Button label={dictionary.auth.register}>
-            <Link href={`/${lang}/auth/register`}>
+          <Link href={`/${lang}/auth/login`}>
+            <Button label={dictionary.auth.login}>
+              {dictionary.auth.login}
+            </Button>
+          </Link>
+          <Link href={`/${lang}/auth/register`}>
+            <Button label={dictionary.auth.register}>
               {dictionary.auth.registerButton}
-            </Link>
-          </Button>
+            </Button>
+          </Link>
         </div>
       </header>
       <div className="flex flex-col items-center items-center w-full justify-center bg-gradient-to-r from-blue-200 to-violet-100 py-10">
         <Hero t={dictionary} />
 
-        <ProductsContainer products={data} count={count} disable={true} t={dictionary}/>
+        <ProductsContainer
+          products={data}
+          count={count}
+          disable={true}
+          t={dictionary}
+        />
       </div>
     </div>
   );

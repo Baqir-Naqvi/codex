@@ -32,11 +32,12 @@ function TradeContainer({ t, lang }) {
   }, [authReady]);
   return (
     <div>
+      {/* we will use skeletal loader here  */}
       {loading ? (
         <Loader />
       ) : (
         <div className="flex flex-col w-[90%] mx-auto">
-          <h2 className="text-2xl font-bold my-4">{t.securetransfer.title}</h2>
+          <h2 className="text-xl font-bold my-4">{t.securetransfer.title}</h2>
 
           <ProductsTable
             data={tradingProducts}

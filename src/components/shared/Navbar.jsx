@@ -14,7 +14,7 @@ import {
   MenubarShortcut,
   MenubarTrigger,
 } from "@/components/ui/menubar";
-import NotificationDropDown from "@/components/dashboard/NotificationDropdown";
+// import NotificationDropDown from "@/components/dashboard/NotificationDropdown";
 
 import {
   DropdownMenu,
@@ -107,7 +107,7 @@ function Navbar({ userDetails, isAdmin, t, lang }) {
       <div className="flex items-center justify-center gap-x-3">
 
         {/* Notification Icon */}
-        <NotificationDropDown userID={userDetails._id} />
+        {/* <NotificationDropDown userID={userDetails._id} /> */}
         {/* CurrencyDropdown */}
         <DropdownMenu>
           <DropdownMenuTrigger className="hover:cursor-pointer text-black flex gap-x-2">

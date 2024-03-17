@@ -87,7 +87,8 @@
         "myinventory": "My Inventory"
     },
     "securetransfer":{
-        "title": "Secure Transfer"
+        "title": "Secure Transfer",
+        "transferRequests": "Transfer Requests"
     }
 
 }

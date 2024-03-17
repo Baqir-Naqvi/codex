@@ -1,25 +1,21 @@
 import Image from "next/image";
-import ProductsContainer from "@/components/shared/ProductsContainer";
+import dynamic from "next/dynamic";
 import { getDictionary } from "@/lang/dictionaries";
+import { Suspense } from "react";
+import Loader from "@/components/shared/Loader";
+const ProductsContainer = dynamic(() => import("@/components/shared/ProductsContainer"), {
+  loading: () => <Loader />,
+  ssr: false,
+})
 
 
 export default async function Home({ params : { lang } }) {
 
-    const { data } = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}api/admin/products`,
-      { cache: "no-store" },
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    ).then((res) => res.json());
-
+    
   const dictionary = await getDictionary(lang);
   return (
-    <main className="w-full py-24 bg-gradient-to-r from-blue-200 to-violet-100">
-      <ProductsContainer products={data} t={dictionary} />
+    <main className="w-full py-24 flex items-center">
+      <ProductsContainer t={dictionary} />
     </main>
   );
 }

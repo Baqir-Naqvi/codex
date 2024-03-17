@@ -130,7 +130,26 @@ export async function GET(req) {
     const transfers = await TransferProduct.find({
       receivedBy: receiverID,
     }).sort({ transferDate: -1 });
-    return Response.json({ status: 200, data: transfers });
+
+    //only send specific fields to the client
+    if (!transfers) {
+      return Response.json({ status: 200, data: [] });
+    }
+    const transferData = transfers.map((transfer) => {
+      return {
+        name: transfer.name,
+        orderNumber: transfer.orderNumber,
+        transferID: transfer.transferID,
+        transferStatus: transfer.transferStatus,
+        transferDate: transfer.transferDate,
+        transferWeight: transfer.transferWeight,
+        transferTo: transfer.transferTo,
+        transferFrom: transfer.transferFrom,
+        offerPrice: transfer.offerPrice,
+      };
+    });
+
+    return Response.json({ status: 200, data: transferData });
   } catch (e) {
     console.error(e);
     return Response.json({ status: 400, message: e.message });

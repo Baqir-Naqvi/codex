@@ -86,6 +86,7 @@
         "myinventory": "Můj inventář"
     },
     "securetransfer": {
-        "title": "Bezpečný převod"
+        "title": "Bezpečný převod",
+        "transferRequests": "Převodové žádosti"
     }
 }

@@ -80,7 +80,7 @@ export const getUserHistory = async () => {
 
         // If there is no purchase history, return an empty array immediately
         if (!user.orderHistory || user.orderHistory.length === 0) {
-            return { status: 200, data: [] };
+            return { status: 200, orders: [] };
         }
         // Convert the string _ids in purchaseHistory to ObjectIds
         const purchaseHistoryObjectIds = user.orderHistory.map(purchase =>new  mongoose.Types.ObjectId(purchase._id));

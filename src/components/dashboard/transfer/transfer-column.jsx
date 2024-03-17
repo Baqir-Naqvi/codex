@@ -54,11 +54,11 @@ export const columns = [
       const { user } = useUserStore();
       return (
         <div className="flex space-x-2">
-          <SellModal data={account} userID={user._id} />
+          <SellModal data={account} userID={user?._id} />
           <TransferModal
             data={account}
-            userID={user._id}
-            userAccountID={user.uniqueCode}
+            userID={user?._id}
+            userAccountID={user?.uniqueCode}
           />
         </div>
       );

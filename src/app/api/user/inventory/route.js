@@ -21,7 +21,7 @@ export async function GET(req) {
 
         // If there is no inventory
         if (!user.inventory || user.inventory.length === 0) {
-            return { status: 200, data: [] };
+            return { status: 200, orders: [] };
         }
         // Convert the string _ids in purchaseHistory to ObjectIds
         const purchaseHistoryObjectIds = user.inventory.map(purchase => new mongoose.Types.ObjectId(purchase._id));
