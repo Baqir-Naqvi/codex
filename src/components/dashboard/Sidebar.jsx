@@ -10,7 +10,20 @@ import {
   MoveRight,
 } from "lucide-react";
 import Link from "next/link";
-import { ChevronRight } from "lucide-react";
+import { ChevronDown } from "lucide-react";
+import { useConversionStore } from "@/store/conversionStore";
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { useState, useEffect } from "react";
+import { useTradeStore } from "@/store/useTrade";
+import { useUserStore } from "@/store/userStore";
+
 const NavItem = ({ title, icon, href }) => {
   return (
     <Link
@@ -22,14 +35,40 @@ const NavItem = ({ title, icon, href }) => {
     </Link>
   );
 };
-function Sidebar({ t, lang,user }) {
+function Sidebar({ t, lang, user }) {
+  const { tradingProducts, setTradingProducts } = useTradeStore();
+  const { authReady } = useUserStore();
   const sidebartoggle = useLayoutStore((state) => state.sidebartoggle);
   const setSidebarToggle = useLayoutStore((state) => state.setSidebarToggle);
+  const [loading, setLoading] = useState(true);
+
+  const { setWeight, weightLabel, setWeightLabel } = useConversionStore();
+  useEffect(() => {
+    if (!authReady) return;
+    if (tradingProducts.length > 0) return;
+    fetch(`/api/user/inventory?user_id=${user._id}&eshop=false`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status === 200) {
+          setTradingProducts(data.orders);
+        } else {
+          console.log(data.message);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, [authReady]);
+
+  useEffect(() => {
+    setLoading(false);
+  }, []);
+
   return (
     <div
       className={`flex flex-col
      transition-all duration-500 ease-in-out overflow-hidden
-     ${sidebartoggle ? "w-96" : "w-24"} `}
+     ${sidebartoggle ? "md:w-96 w-0" : "w-24"} `}
     >
       <div className="py-4">
         <ul>
@@ -38,18 +77,18 @@ function Sidebar({ t, lang,user }) {
             icon={<Home size={20} />}
             href={`/${lang}/dashboard`}
           />
-          <NavItem
+          {/* <NavItem
             title={t.sidebar.mypurchases}
             icon={<History size={20} />}
             href={`/${lang}/dashboard/my-purchases`}
-          />
+          /> */}
           {user.isVerified && (
             <>
               {" "}
               <NavItem
-                title={t.sidebar.sell}
+                title={t.sidebar.sales}
                 icon={<PackageSearch size={20} />}
-                href={`/${lang}/dashboard/sell`}
+                href={`/${lang}/dashboard/my-account/my-sales`}
               />
               <NavItem
                 title={t.sidebar.trade}
@@ -69,6 +108,51 @@ function Sidebar({ t, lang,user }) {
             </>
           )}
         </ul>
+
+        <div className="mt-4">
+          {/* Weight options to render in grams kg or ounce */}
+          {!loading && (
+            <DropdownMenu>
+              <DropdownMenuTrigger className="w-[250px]">
+                <div className="flex items-center py-4 px-6 cursor-pointer">
+                  <span className="mr-4">
+                    <ChevronDown size={20} />
+                  </span>
+                  <span>{weightLabel}</span>
+                </div>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem
+                  onClick={() => {
+                    setWeightLabel("g");
+                    setWeight(1);
+                  }}
+                  className="py-2 px-4"
+                >
+                  {t.sidebar.gram}
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => {
+                    setWeightLabel("kg");
+                    setWeight(1000);
+                  }}
+                  className="py-2 px-4"
+                >
+                  {t.sidebar.kilogram}
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => {
+                    setWeight(31.11);
+                    setWeightLabel("oz");
+                  }}
+                  className="py-2 px-4"
+                >
+                  {t.sidebar.ounce}
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
+        </div>
       </div>
     </div>
   );

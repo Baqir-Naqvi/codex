@@ -17,10 +17,13 @@ import CartProduct from "@/components/dashboard/cart/cart-product";
 import { useUserStore } from "@/store/userStore";
 import { useToast } from "@/components/ui/use-toast";
 import { useEffect, useState } from "react";
+import {useCartStore} from "@/store/useCart";
+import Link from "next/link";
 
 export default function Cart() {
   const { user, authReady } = useUserStore();
-  const [cart, setCart] = useState([]);
+  // const [cart, setCart] = useState([]);
+  const { cartProducts, setCartProducts } = useCartStore();
   const { toast } = useToast();
   useEffect(() => {
 
@@ -28,12 +31,14 @@ export default function Cart() {
     fetch("/api/user/cart?user_id=" + user._id)
       .then((res) => res.json())
       .then((data) => {
-        setCart(data.data);
+        // setCart(data.data);
+        setCartProducts(data.data);
       });
   }, [authReady, user]);
 
   const handleRemoveItem = (product_id) => {
-    setCart(cart.filter((product) => product._id !== product_id));
+    // setCart(cart.filter((product) => product._id !== product_id));
+    setCartProducts(cartProducts.filter((product) => product._id !== product_id));
   };
 
   const purchaseCartItems = () => {
@@ -44,20 +49,20 @@ export default function Cart() {
       },
       body: JSON.stringify({
         userId: user._id,
-        products: cart,
+        products: cartProducts,
       }),
     })
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
         if (data.status === 200) {
-          setCart([]);
+          // setCart([]);
+          setCartProducts([]);
           toast({
             title: "Products Purchased",
             description: "Products have been purchased",
           });
-        }
-        else{
+        } else {
           toast({
             title: "Failed to Purchase Products",
             description: data.message,
@@ -70,7 +75,8 @@ export default function Cart() {
   return (
     <Sheet>
       <span className=" text-[12px] bg-black text-white rounded-full w-5 h-5 flex items-center justify-center absolute top-8 right-2">
-        {cart.length}
+        {/* {cart.length} */}
+        {cartProducts.length}
       </span>
       <SheetTrigger asChild>
         <ShoppingCart color="black" className="hover:cursor-pointer" />
@@ -82,7 +88,7 @@ export default function Cart() {
             <SheetDescription>Manage your cart items</SheetDescription>
           </SheetHeader>
           <div className="grid gap-4 py-4">
-            {cart.map((product, index) => {
+            {cartProducts.map((product, index) => {
               return (
                 <CartProduct
                   key={index}
@@ -96,10 +102,14 @@ export default function Cart() {
 
         <SheetFooter className="flex justify-end">
           <SheetClose asChild>
-            <Button 
-            disabled={cart.length === 0}
-            onClick={purchaseCartItems}
-            >Purchase {cart.length} items</Button>
+            <Link href="/dashboard/checkout">
+            <Button
+              disabled={cartProducts.length === 0}
+              // onClick={purchaseCartItems}
+            >
+              Purchase {cartProducts.length} items
+            </Button>
+            </Link>
           </SheetClose>
         </SheetFooter>
       </SheetContent>

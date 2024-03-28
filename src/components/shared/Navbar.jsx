@@ -105,7 +105,6 @@ function Navbar({ userDetails, isAdmin, t, lang }) {
         </div>
       )}
       <div className="flex items-center justify-center gap-x-3">
-
         {/* Notification Icon */}
         {/* <NotificationDropDown userID={userDetails._id} /> */}
         {/* CurrencyDropdown */}
@@ -186,12 +185,13 @@ function Navbar({ userDetails, isAdmin, t, lang }) {
                 <Link href="/dashboard/settings">{t.dropdown.settings}</Link>
               </MenubarItem>
               {userDetails.role == "admin" && (
-                <MenubarItem>
-                  <a href={`/${lang}/admin`}>{t.dropdown.admin}</a>
-                </MenubarItem>
+                <a href={`/${lang}/admin`}>
+                  <MenubarItem>{t.dropdown.admin}</MenubarItem>
+                </a>
               )}
-
-              <MenubarItem>{t.dropdown.viewProfile}</MenubarItem>
+              <Link href={`/${lang}/dashboard/my-account`}>
+                <MenubarItem>{t.dropdown.viewProfile}</MenubarItem>
+              </Link>
               <MenubarSeparator />
               <MenubarItem onClick={handleLogout}>
                 {t.dropdown.logout}

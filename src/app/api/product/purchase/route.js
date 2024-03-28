@@ -1,7 +1,8 @@
 import dbConnect from "@/lib/dbConnect";
 import User from "@/models/User";
 import ShortUniqueId from "short-unique-id";
-
+import MarketPlace from "@/models/MarketPlace";
+import mongoose from "mongoose";
 //add product id to user's purchaseHistory
 
 export async function POST(req) {
@@ -47,9 +48,10 @@ export async function POST(req) {
 //3. purchaseWeight
 
 export async function PUT(req) {
-    const { userId, products } = await req.json();
+    const { userId, products, isEshop, shipping_details } = await req.json();
+
     const orderID = new ShortUniqueId({ length: 14 }).rnd()
-    if (!userId || !products) {
+    if (!userId || !products ) {
         return Response.json({ status: 400, message: "Invalid request" });
     }
     await dbConnect();
@@ -81,11 +83,45 @@ export async function PUT(req) {
                 purchasedAt: product.price,
                 purchasedDate: new Date(),
                 purchasedWeight: product.quantity * product.weight,
-                orderID: orderID
+                orderID: orderID,
+                status: "pending",
+                paymentDate:"",
+                paymentMode: shipping_details?.paymentMode || "Bank Transfer",
+                paymentStatus:"pending",
+                deliveryDate:"",
+                deliveryStatus:"pending",
+                isEshop: isEshop,
+                isListed: false,
+                purchase_status: "pending",
+                shipping_details: isEshop ? { 
+                    country: shipping_details.country || "",
+                    city: shipping_details.city || "",
+                    method: shipping_details.method || "",
+                    billing_address: {
+                        street: shipping_details.billing_address || "",
+                        city: shipping_details.postal_code || "",
+                        zip: shipping_details.phone || "",
+                        country: shipping_details.country || ""
+                    }
+                } : { }
             };
         });
         user.inventory.push(...order_);
         user.orderHistory.push(...order_);
+        //if a product has marketplace_id then find the product in marketplace and update the status
+        //buyer_id and buyer_accountNumber buyer_Name
+        for (let product of order_) {
+            if (product.marketplace_id) {
+                //should have marketplace_id and _id to uniquely identify the product
+                const marketPlace = await MarketPlace.findOne({ marketplace_id: product.marketplace_id, _id: product._id });
+                marketPlace.buyer_id = userId;
+                marketPlace.buyer_accountNumber = user.uniqueCode;
+                marketPlace.buyer_Name = user.firstName + " " + user.lastName;
+                marketPlace.payment_status = "pending";
+                await marketPlace.save();
+            }
+        }
+        
         user.cart = [];        
         await user.save();
         return Response.json({ status: 200, message: "Products purchased" });

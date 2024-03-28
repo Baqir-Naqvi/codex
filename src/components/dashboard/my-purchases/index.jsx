@@ -1,7 +1,9 @@
+"use client"
 import React from "react";
 import { columns } from "@/components/dashboard/my-purchases/TableColumns";
 import ProductsTable from "@/components/admin/UsersTable";
 import Summary from "@/components/dashboard/my-purchases/Summary";
+
 
 function PurhcaseHistory({ orders }) {
   return (

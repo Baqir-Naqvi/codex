@@ -14,6 +14,7 @@ function TradeContainer({ t, lang }) {
 
   useEffect(() => {
     if (!authReady) return;
+    if(tradingProducts.length > 0) return setLoading(false);
     fetch(`/api/user/inventory?user_id=${user._id}`)
       .then((res) => res.json())
       .then((data) => {

@@ -27,6 +27,7 @@
     },
     "sidebar": {
         "dashboard": "Přehled",
+        "useraccounts": "Uživatelské účty",
         "users": "Uživatelé",
         "products": "Produkty",
         "mypurchases": "Moje nákupy",
@@ -34,7 +35,24 @@
         "trade": "Obchod",
         "sell": "Prodej",
         "transfer": "Převod",
-        "marketplace": "Tržiště"
+        "marketplace": "Tržiště",
+        "gram": "Gram",
+        "kilogram": "Kilogram",
+        "ounce": "Ounce",
+        "sales": "Moje prodeje",
+        "admin": {
+            "purchase": "Nákup",
+            "epurchase": "E-Nákup",
+            "accountpurchase": "Účetní nákup",
+            "sales": "Prodeje",
+            "esales": "E-Prodeje",
+            "accountsales": "Účetní prodeje",
+            "marketplace": "Tržiště",
+            "emarketplace": "E-Tržiště",
+            "accountmarketplace": "Účetní tržiště",
+            "transfer": "Převod",
+            "withdrawals": "Výběry"
+        }
     },
     "language": {
         "title": "Jazyky"
@@ -88,5 +106,62 @@
     "securetransfer": {
         "title": "Bezpečný převod",
         "transferRequests": "Převodové žádosti"
-    }
+    },
+    "checkout": {
+        "quickcontact": "Rychlý kontakt",
+        "navigationsteps": {
+            "shoppingcart": "Nákupní košík",
+            "shippingpayment": "Doprava a platba & adresa",
+            "information": "Informace o objednávce"
+        }
+    },
+    "myaccount": {
+        "accountNumber": "Číslo účtu",
+        "ibanNumber": "IBAN číslo",
+        "currentbalance": "Aktuální zůstatek",
+        "currencyTotal": "Celková částka",
+        "tabs": {
+            "buy": "Koupit",
+            "sell": "Prodat",
+            "transfer": "Převod",
+            "withdraw": "Výběr"
+        },
+        "buy": {
+            "title": "Koupit produkty",
+            "youwillget": "Dostanete za",
+            "selectproduct": "Vyberte produkt",
+            "totalcost": "Celková cena"
+        },
+        "sell": {
+            "title": "Prodat produkty",
+            "youwillget": "Dostanete za",
+            "selectproduct": "Vyberte produkt",
+            "totalcost": "Celková cena",
+            "immediately": "Prodat okamžitě",
+            "marketplace": "Prodat na tržišti",
+            "firstName": "Jméno",
+            "lastName": "Příjmení",
+            "email": "Email",
+            "phoneNumber": "Telefonní číslo",
+            "address": "Adresa"
+        }
+        ,"success": {
+            "msg": "Platba byla úspěšná. Platba musí být provedena nejpozději do data splatnosti.",
+            "title": "Nákup byl úspěšný",
+            "currentDate": "Datum objednávky",
+            "dueDate": "Datum splatnosti"
+        }
+    },
+    "otp": {
+        "title": "Ověřovací kód",
+        "description": "Zadejte ověřovací kód, který jsme vám zaslali na váš email",
+        "otp": "Ověřovací kód",
+        "submit": "Odeslat"
+    },
+    "continue": "Pokračovat",
+    "verifying": "Ověřuji",
+        "marketplace": {
+            "transfertomyaccount": "Převod na můj účet",
+            "transfertomyaddress": "Převod na moji adresu"
+        }
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import { getUserHistory } from "@/lib/helpers";
+import { getUserPurchases } from "@/lib/helpers";
 import Loader from "@/components/shared/Loader";
 
 import dynamic from "next/dynamic";
@@ -12,7 +12,7 @@ const PurhcaseHistory = dynamic(
 );
 
 async function page() {
-  const { orders } = await getUserHistory();
+  const { orders } = await getUserPurchases(false);
   return (
     <div className="flex flex-col w-full">
       <div className="container mx-auto max-w-5xl">

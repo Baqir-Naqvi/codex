@@ -9,6 +9,7 @@ import mongoose from "mongoose";
 export async function GET(req) {
     const { searchParams } = new URL(req.url);
     const user_id = searchParams.get("user_id");
+    const eshop = searchParams.get("eshop");
     if (!user_id) {
         return Response.json({ status: 400, message: "Invalid request" });
     }
@@ -46,6 +47,14 @@ export async function GET(req) {
                     purchasedAt: "$inventory.purchasedAt",
                     purchasedWeight: "$inventory.purchasedWeight",
                     orderID: "$inventory.orderID",
+                    status: "$inventory.status",
+                    paymentDate: "$inventory.paymentDate",
+                    paymentMode: "$inventory.paymentMode",
+                    paymentStatus: "$inventory.paymentStatus",
+                    deliveryDate: "$inventory.deliveryDate",
+                    deliveryStatus: "$inventory.deliveryStatus",
+                    photos: "$inventory.photos",
+                    purchasedQuantity: "$inventory.quantity",
                 }
             },
             {
@@ -61,14 +70,25 @@ export async function GET(req) {
                     purchasedWeight: 1,
                     orderID: 1,
                     description: 1,
+                    status: 1,
+                    paymentDate: 1,
+                    paymentMode: 1,
+                    paymentStatus: 1,
+                    deliveryDate: 1,
+                    deliveryStatus: 1,
+                    photos:1,
+                    purchasedQuantity: 1
 
                 }
             }
         ];
 
         const productsWithHistory = await Product.aggregate(pipeline).exec();
+        //remove products that have status as pending
+        const productsWithHistoryFiltered = productsWithHistory.filter(product => product.status !== "pending");
 
-        return Response.json({ status: 200, orders: productsWithHistory });
+
+        return Response.json({ status: 200, orders: productsWithHistoryFiltered });
 
 
     } catch (e) {

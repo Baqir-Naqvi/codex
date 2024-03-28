@@ -2,8 +2,10 @@ import dbConnect from "@/lib/dbConnect";
 import User from "@/models/User";
 import Product from "@/models/Product";
 import EmailVerification from "@/models/EmailVerification";
+import MarketPlace from "@/models/MarketPlace";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
+import Sales from "@/models/Sales";
 import { getUserid } from "@/lib"
 
 
@@ -69,7 +71,7 @@ export async function getProductById(id) {
 
 
 // get user purchase history
-export const getUserHistory = async () => {
+export const getUserPurchases = async (isEshop) => {
     const userId = await getUserid();
     await dbConnect();
     try {
@@ -79,32 +81,39 @@ export const getUserHistory = async () => {
         }
 
         // If there is no purchase history, return an empty array immediately
-        if (!user.orderHistory || user.orderHistory.length === 0) {
+        if (!user.inventory || user.inventory.length === 0) {
             return { status: 200, orders: [] };
         }
         // Convert the string _ids in purchaseHistory to ObjectIds
-        const purchaseHistoryObjectIds = user.orderHistory.map(purchase =>new  mongoose.Types.ObjectId(purchase._id));
+        const purchaseHistoryObjectIds = user.inventory.map(purchase =>new  mongoose.Types.ObjectId(purchase._id));
 
         const pipeline = [
             { $match: { _id: { $in: purchaseHistoryObjectIds } } },
             {
                 $addFields: {
-                    orderHistory: {
+                    inventory: {
                         $filter: {
-                            input: user.orderHistory,
+                            input: user.inventory,
                             as: "purchase",
                             cond: { $eq: ["$$purchase._id", { $toString: "$_id" }] }
                         }
                     }
                 }
             },
-            { $unwind: "$orderHistory" },
+            { $unwind: "$inventory" },
             {
                 $addFields: {
-                    purchasedDate: "$orderHistory.purchasedDate",
-                    purchasedAt: "$orderHistory.purchasedAt",
-                    purchasedWeight: "$orderHistory.purchasedWeight",
-                    orderID: "$orderHistory.orderID"
+                    purchasedDate: "$inventory.purchasedDate",
+                    purchasedAt: "$inventory.purchasedAt",
+                    purchasedWeight: "$inventory.purchasedWeight",
+                    orderID: "$inventory.orderID",
+                    status: "$inventory.status",
+                    paymentDate: "$inventory.paymentDate",
+                    paymentMode: "$inventory.paymentMode",
+                    paymentStatus: "$inventory.paymentStatus",
+                    deliveryDate: "$inventory.deliveryDate",
+                    quantity: "$inventory.quantity",
+                    isEshop: "$inventory.isEshop"
                 }
             },
             {
@@ -120,15 +129,23 @@ export const getUserHistory = async () => {
                     buybackPrice:1,
                     isAvailable:1,
                     purchasedWeight: 1,
-                    orderID: 1
+                    orderID: 1,
+                    status: 1,
+                    paymentStatus: 1,
+                    paymentMode: 1,
+                    deliveryStatus: 1,
+                    deliveryDate: 1,
+                    quantity: 1,
+                    isEshop: 1
 
                 }
             }
         ];
 
         const productsWithHistory = await Product.aggregate(pipeline).exec();
-
-        return { status: 200, orders: productsWithHistory };
+        
+        const account_products = productsWithHistory.filter(product => product.isEshop==false);
+        return { status: 200, orders: account_products };
     } catch (e) {
         console.error(e);
         return { status: 400, message: e.message };
@@ -184,3 +201,103 @@ export const getUserOrderHistory = async () => {
         return { status: 400, message: e.message }; // Return a proper response object
     }
 }
+
+
+//get user itemsListed for sale from sales collection
+export const getUserSales = async () => {
+    const userId = await getUserid();
+    await dbConnect();
+    try {
+        //find price of product from product collection and then populate the product field in sales collection
+        // const sales = await Sales.find({ seller_id: userId }).populate("product").lean();
+        // return { status: 200, data: sales };
+
+        const sales = await Sales.aggregate([
+            { $match: { seller_id:new mongoose.Types.ObjectId(userId) } },
+            {
+                $lookup: {
+                    from: "products",
+                    localField: "product",
+                    foreignField: "_id",
+                    as: "product"
+                }
+            },
+            {
+                $unwind: "$product"
+            },
+            {
+                $addFields: {
+                    productName: "$product.name",
+                    productDescription: "$product.description",
+                    productPrice: "$product.price",
+                    productVAT: "$product.VAT",
+                    productBuybackPrice: "$product.buybackPrice",
+                    productUpdatedAt: "$product.updatedAt"
+                }
+            },
+            {
+                $project: {
+                    _id: 1,
+                    product: 0
+                }
+            }
+        ]).exec();
+
+        return { status: 200, sales: sales };
+    } catch (e) {
+        console.error(e);
+        return { status: 400, message: e.message };
+    }
+} 
+
+
+//method to get all products listed in marketplace collection and disable the products which are listed by the user
+export const getMarketPlaceProducts = async () => {
+    const userId = await getUserid();
+    await dbConnect();
+    try {
+        //use aggregate to get products from Product collection and then populate the product field in MarketPlace collection
+        const products = await MarketPlace.aggregate([
+            {
+                $lookup: {
+                    from: "products",
+                    localField: "product",
+                    foreignField: "_id",
+                    as: "product"
+                }
+            },
+            {
+                $unwind: "$product"
+            },
+            {
+                $addFields: {
+                    name: "$product.name",
+                    description: "$product.description",
+                    VAT: "$product.VAT",
+                    buybackPrice: "$product.buybackPrice",
+                    photos: "$product.photos",
+                }
+            },
+            {
+                $project: {
+                    _id: 1,
+                    product: 0
+                }
+            }
+        ]).exec();
+
+        // Disable the products listed by the user
+        products.forEach(product => {
+            if (product.seller_id.toString() === userId) {
+                product.isDisabled = true;
+            }
+            product.quantity_available = product.quantity;
+        });
+        //if product has a buyer then its been sold
+        return { status: 200, data: products.filter(product => !product.buyer_Name) };
+    } catch (e) {
+        console.error(e);
+        return { status: 400, message: e.message };
+    }
+}
+

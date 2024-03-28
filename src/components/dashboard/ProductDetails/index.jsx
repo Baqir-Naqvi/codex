@@ -22,7 +22,7 @@ const ProductDetail = ({ product_id }) => {
   const [disable, setDisable] = useState(false);
   const [product, setProduct] = useState({});
   const [loading, setLoading] = useState(true);
-  const { currency, rate } = useConversionStore();
+  const { currency, rate, weight, weightLabel } = useConversionStore();
   const activeUser = useUserStore((state) => state.user);
   const authReady = useUserStore((state) => state.authReady);
 
@@ -187,7 +187,7 @@ const ProductDetail = ({ product_id }) => {
               VAT: <span className="font-normal">{product.VAT}</span>
             </p>
             <p className="font-bold">
-              Weight: <span className="font-normal">{product.weight}</span>
+              Weight: <span className="font-normal">{(product.weight/weight).toFixed(2)} {weightLabel}</span>
             </p>
             <p className="mt-4 text-4xl font-bold ">
               {/* $ */}

@@ -30,6 +30,7 @@
     },
     "sidebar": {
         "dashboard": "Dashboard",
+        "useraccounts": "User Accounts",
         "users": "Users",
         "products": "Products",
         "mypurchases": "My Purchases",
@@ -37,7 +38,24 @@
         "trade": "Trade",
         "sell": "Sell",
          "transfer": "Transfer",
-        "marketplace": "Marketplace"
+        "marketplace": "Marketplace",
+        "gram": "Gram",
+        "kilogram": "Kilogram",
+        "ounce": "Ounce",
+        "sales": "My Sales",
+        "admin":{
+            "purchase": "Purchase",
+            "epurchase": "E-Purchase",
+            "accountpurchase": "Account Purchase",
+            "sales": "Sales",
+            "esales": "E-Sales",
+            "accountsales": "Account Sales",
+            "marketplace": "Marketplace",
+            "emarketplace": "E-Marketplace",
+            "accountmarketplace": "Account Marketplace",
+            "transfer": "Transfer",
+            "withdrawals": "Withdrawals"
+        }
     },
     "dashboard": {
         "title": "Dashboard",
@@ -89,6 +107,64 @@
     "securetransfer":{
         "title": "Secure Transfer",
         "transferRequests": "Transfer Requests"
+    },
+    "checkout":{
+        "quickcontact": "Quick Contact",
+        "navigationsteps":{
+            "shoppingcart": "Shopping Cart",
+            "shippingpayment": "Shipping & Payment",
+            "information": "Information about you"
+        }
+    },
+    "myaccount":{
+        "accountNumber": "Account Number",
+        "ibanNumber": "IBAN Number",
+        "currentbalance": "Current Balance",
+        "currencyTotal": "Currency Total",
+        "tabs":{
+            "buy": "Buy",
+            "sell": "Sell",
+            "transfer": "Transfer",
+            "withdraw": "Withdraw"
+        },
+        "buy":{
+            "title":"Buy Products",
+            "youwillget": "You will get",
+            "selectproduct": "Select Products",
+            "totalcost": "Total Cost"
+        },
+        "sell":{
+            "title":"Sell Products",
+            "youwillget": "You will get",
+            "selectproduct": "Select Products",
+            "totalcost": "Total Cost",
+            "immediately": "Sell Immediately",
+            "marketplace": "Sell in Marketplace",
+            "firstName": "First Name",
+            "lastName": "Last Name",
+            "email": "Email",
+            "phoneNumber": "Phone Number",
+            "address": "Address"
+
+        },
+        "otp":{
+            "title": "Enter OTP",
+            "description": "We have sent an OTP to your registered email address",
+            "otp": "OTP",
+            "submit": "Submit"
+        },
+        "success":{
+            "msg":"The payment was successful. The payment must be made no later than the due date.",
+            "title": "Purchase Successful",
+            "currentDate":"Order Date",
+            "dueDate":"Due Date"
+        }
+    },
+    "continue": "Continue",
+    "verifying": "Verifying",
+    "marketplace":{
+        "transfertomyaccount": "Transfer to My Account",
+        "transfertomyaddress": "Transfer to My Address"
     }
 
 }

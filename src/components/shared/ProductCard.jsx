@@ -1,5 +1,5 @@
-"use client"
-import React, { useState ,useEffect} from "react";
+"use client";
+import React, { useState, useEffect } from "react";
 import {
   Card,
   CardContent,
@@ -15,14 +15,8 @@ import { Heart } from "lucide-react";
 import Link from "next/link";
 import { useConversionStore } from "@/store/conversionStore";
 
-function ProductCard({ product, disable = false ,t}) {
-  const { currency, rate } = useConversionStore();
-    const [selected_cur, setCur] = useState("CZK");
-    const [selected_rate, setRate] = useState(1);
-    useEffect(() => {
-      setCur(currency);
-      setRate(rate);
-    }, [currency]);
+function ProductCard({ product, disable = false, t }) {
+  const { currency, rate, weight, weightLabel } = useConversionStore();
 
   return (
     <Card className="w-[350px] border-[1px] border-slate-300 shadow-md hover:shadow-lg md:h-[500px]">
@@ -52,14 +46,17 @@ function ProductCard({ product, disable = false ,t}) {
                 {product.description}
               </CardDescription>
               <div className="flex items-center gap-x-2 "></div>
-              <div className="flex items-center gap-x-2">
-                <Badge className="px-2 text-[14px] ">
-                  {selected_cur} : {(product.price / selected_rate).toFixed(2)}
+              <div className="flex items-center gap-x-2 wrap">
+                <Badge className="px-2 text-[14px] whitespace-nowrap">
+                  {currency} : {(product.price / rate).toFixed(2)}
                 </Badge>
-                <Badge className="px-2 text-[14px] ">
-                  {t.productCard.weight} : {product.weight}
+                <Badge className="px-2 text-[14px] whitespace-nowrap">
+                  {t.productCard.weight} :{" "}
+                  {(product.weight / weight).toFixed(2)} {weightLabel}
                 </Badge>
-                <Badge className="px-2 text-[14px] ">VAT : {product.VAT}</Badge>
+                <Badge className="px-2 text-[14px] whitespace-nowrap">
+                  VAT : {product.VAT}
+                </Badge>
               </div>
             </div>
             <CardFooter className="flex w-full  justify-between md:gap-x-5">

@@ -10,7 +10,7 @@ export default async function SettingsPage() {
 
   return (
     <div className="flex flex-col items-center justify-center items-center h-[calc(100vh-4rem)]
-     bg-[#f7f7f7]">
+     ">
       <SettingsForm />
     </div>
   );
