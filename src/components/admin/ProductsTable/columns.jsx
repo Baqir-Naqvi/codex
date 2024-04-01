@@ -16,7 +16,7 @@ import { useRouter } from "next/navigation";
 import { handleDelete } from "@/components/admin/UsersTable/index";
 import Loader from "@/components/shared/Loader";
 import { useState } from "react";
-
+import Link from "next/link";
 
 export const columns = [
   {
@@ -57,12 +57,14 @@ export const columns = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-            >
-              <a href={`/en/admin/products/edit?id=${account._id}`}>Edit product</a>
+              <Link href={`/en/admin/products/edit?id=${account._id}`}>
+            <DropdownMenuItem>
+                Edit product
             </DropdownMenuItem>
+              </Link>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="text-red-500"
+            <DropdownMenuItem
+              className="text-red-500"
               onClick={async () => {
                 handleDelete(account._id, "product").then((res) => {
                   if (res) {
@@ -80,7 +82,9 @@ export const columns = [
                   }
                 });
               }}
-            >Delete Product</DropdownMenuItem>
+            >
+              Delete Product
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

@@ -45,7 +45,7 @@ async function page({ params, searchParams }) {
           </Link>
         </div>
       </header>
-      <div className="flex flex-col items-center items-center w-full justify-center bg-gradient-to-r from-blue-200 to-violet-100 py-10">
+      <div className="flex flex-col  items-center w-full justify-center bg-gradient-to-r from-blue-200 to-violet-100 py-10">
         <Hero t={dictionary} />
 
         <ProductsContainer

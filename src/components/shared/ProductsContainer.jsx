@@ -2,39 +2,49 @@
 import React from "react";
 import ProductCard from "@/components/shared/ProductCard";
 import { useEffect, useState } from "react";
+import ProductSkeleton from "@/components/shared/ProductSkeleton";
 
 function ProductsContainer({ disable, t }) {
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
-    const fetchProducts = async () => {
-      const { data } = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}api/admin/products`,
-        { cache: "no-store" },
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      ).then((res) => res.json());
-      return data;
-    };
-
-    fetchProducts().then((data) => {
-      setProducts(data);
-    });
+    fetch(`/api/admin/products`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setProducts(data.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   return (
-    <div className="flex w-full flex-wrap gap-5 md:px-5 mx-auto">
-      {products?.map((product) => (
-        <ProductCard
-          key={product._id}
-          product={product}
-          disable={disable}
-          t={t}
-        />
-      ))}
+    <div className={`flex w-full flex-wrap gap-5 md:px-5 mx-auto ${disable && "justify-center"}`}> 
+      {loading ? (
+        <>
+          <ProductSkeleton />
+          <ProductSkeleton />
+          <ProductSkeleton />
+          <ProductSkeleton />
+        </>
+      ) : (
+        <>
+          {products?.map((product) => (
+            <ProductCard
+              key={product._id}
+              product={product}
+              disable={disable}
+              t={t}
+            />
+          ))}
+        </>
+      )}
     </div>
   );
 }

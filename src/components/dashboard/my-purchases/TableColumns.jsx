@@ -74,7 +74,7 @@ export const columns = [
     header: "Total Price",
     cell: ({ row }) => {
       const account = row.original;
-      return <span>{account.purchasedAt * account.quantity}</span>;
+      return <span>{account.purchasedAt * account.purchasedQuantity}</span>;
     },
   }
 ];

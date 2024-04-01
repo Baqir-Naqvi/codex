@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useUserStore } from "@/store/userStore";
 import ProductsTable from "@/components/admin/UsersTable";
 import { columns } from "@/components/dashboard/e-orders/eshop-column";
-import Loader from "@/components/shared/Loader";
+import Loader from "@/components/shared/TableSkeleton";
 import { useTradeStore } from "@/store/useTrade";
 function EShopPurchases({ t, lang }) {
   const { user, authReady } = useUserStore();
@@ -17,7 +17,6 @@ function EShopPurchases({ t, lang }) {
       .then((res) => res.json())
       .then((data) => {
         if (data.status === 200) {
-          // setOrders(data.orders);
           setEshopProducts(data.orders);
           setLoading(false);
         } else {
@@ -31,15 +30,13 @@ function EShopPurchases({ t, lang }) {
       });
   }, [authReady]);
   return (
-    <div>
+    <div className="flex flex-col w-[90%] mx-auto">
+      <h2 className="text-2xl font-semibold my-4">{t.eshop.title}</h2>
+
       {loading ? (
         <Loader />
       ) : (
-        <div className="flex flex-col w-[90%] mx-auto">
-          <h2 className="text-2xl font-semibold my-4">{t.eshop.title}</h2>
-
           <ProductsTable data={eshopProducts} columns={columns} />
-        </div>
       )}
     </div>
   );

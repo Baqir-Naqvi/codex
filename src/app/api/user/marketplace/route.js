@@ -34,6 +34,7 @@ export async function PUT(req) {
     //if product is not found in the inventory 
     //add the product to the inventory
     if(delistProductIndex === -1){
+        const round_price = Math.round(price - (margin/100)*price);
         user.inventory.push({
             // ...delistProduct,
             _id:product_id,
@@ -43,9 +44,9 @@ export async function PUT(req) {
             VAT: delistProduct.VAT,
             buybackPrice: delistProduct.buybackPrice,
             currency: "CZK",
-            purchasedQuantity: delistProduct.quantity,
+            purchasedQuantity: quantity,
             purchasedWeight: weight,
-            purchasedAt: (price - (margin/100)*price),
+            purchasedAt: round_price,
             purchasedDate: Date.now(),
             isListed: false,
             isEshop: false,
@@ -54,7 +55,8 @@ export async function PUT(req) {
             deliveryStatus: "",
             purchase_status: "Processed",
             price: originalProduct.price,
-            quantity: originalProduct.quantity,
+            quantity: quantity,
+            status: "processed",
             orderID: orderID,
 
         });

@@ -124,8 +124,10 @@ const ProductDetail = ({ product_id }) => {
 
   return (
     <>
-      {!loading && (
-        <div className="container b-none py-5 lg:grid lg:grid-cols-2 lg:py-10">
+      {loading ? (
+        <Loader />
+      ) : (
+        <div className="b-none py-5 lg:grid lg:grid-cols-2 lg:py-10">
           {/* image gallery */}
           <div className="container mx-auto px-4 ">
             {/* /image gallery  */}

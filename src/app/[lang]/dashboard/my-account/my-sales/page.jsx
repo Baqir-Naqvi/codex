@@ -1,25 +1,22 @@
 import React from "react";
 import { getUserSales } from "@/lib/helpers";
-import Loader from "@/components/shared/Loader";
-import dynamic from "next/dynamic";
-const SalesHistory = dynamic(
-  () => import("@/components/dashboard/my-sales"),
-  {
-    loading: () => <Loader />,
-    ssr: false,
-  }
-);
+import SalesHistory from "@/components/dashboard/my-sales";
+import { getDictionary } from "@/lang/dictionaries";
 
-async function page() {
-  const {sales } = await getUserSales().catch((e) => {
-    console.error(e);
-    return { status: 400, sales: [] };
-  });
+async function page({ params: { lang } }) {
+  const dictionary = await getDictionary(lang);
+  const { sales } = await getUserSales();
 
   return (
     <div className="flex flex-col w-full">
-      <div className="container mx-auto max-w-6xl">
-        <SalesHistory orders={JSON.parse(JSON.stringify(sales))} />
+      <h2 className="text-2xl font-semibold my-4">
+        {dictionary.sidebar.sales}
+      </h2>
+      <div className="container mx-auto ">
+        <SalesHistory
+          orders={JSON.parse(JSON.stringify(sales))}
+          t={dictionary}
+        />
       </div>
     </div>
   );

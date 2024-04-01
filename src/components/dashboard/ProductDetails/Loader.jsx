@@ -1,21 +1,24 @@
 import React from 'react'
+import { Skeleton } from "@/components/ui/skeleton";
 
 function Loader() {
   return (
-    <div class="animate-pulse">
-        <div className='flex justify-between items-center full gap-x-10'>
-      <div class="bg-gray-300 rounded-lg h-44 w-96 mb-4"></div>
-      <div class="space-y-3">
-        <div class="bg-gray-300 h-6 w-48 rounded"></div>
-        <div class="bg-gray-300 h-4 w-32 rounded"></div>
-        <div class="bg-gray-300 h-8 w-24 rounded"></div>
-        <div class="bg-gray-300 h-4 w-40 rounded mb-4"></div>
-        <div class="bg-gray-300 h-10 w-40 rounded"></div>
-        <div class="flex justify-between mt-4">
-          <div class="bg-gray-300 h-10 w-24 rounded"></div>
-          <div class="bg-gray-300 h-10 w-24 rounded"></div>
+    <div className='flex flex-row gap-5 w-full '>
+      <Skeleton className='md:w-[500px] border-[1px] border-slate-300 md:h-[550px]' />
+      <div className='flex flex-col gap-5'>
+        <Skeleton className='w-[300px] h-[30px]' />
+        <Skeleton className='w-[300px] h-[30px]' />
+        <Skeleton className='w-[300px] h-[30px]' />
+
+        <div className='flex flex-row gap-2 justify-between items-center'>
+          <Skeleton className='w-[100px] h-[20px]' />
+          <Skeleton className='w-[100px] h-[20px]' />
+          <Skeleton className='w-[40px] h-[20px]' />
         </div>
-      </div>
+
+        <div className='flex flex-row w-full justify-end items-right mt-5'>
+          <Skeleton className='w-[140px] h-[40px]' />
+        </div>
       </div>
     </div>
   );
