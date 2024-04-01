@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import Image from "next/image";
-import { Menu, CircleUser, ShoppingCart,Bell } from "lucide-react";
+import { Menu, CircleUser, ShoppingCart, Bell } from "lucide-react";
 
 import {
   Menubar,
@@ -29,11 +29,14 @@ import { Globe } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useUserStore } from "@/store/userStore";
 import { useConversionStore } from "@/store/conversionStore";
+import { useTradeStore } from "@/store/useTrade";
+
 import Cart from "@/components/dashboard/cart";
 
 function Navbar({ userDetails, isAdmin, t, lang }) {
   const router = useRouter();
   const { flag, setConversionRates, conversionRates } = useConversionStore();
+  const { setTradingProducts } = useTradeStore();
 
   const Currencies = [
     { name: "USD", flag: "/images/usd.png" },
@@ -43,17 +46,27 @@ function Navbar({ userDetails, isAdmin, t, lang }) {
     { name: "GBP", flag: "/images/GBP.png" },
   ];
 
-  const handleLanuageChange = (lang) => {
-    const currentURL = window.location.pathname;
-    // console.log(currentURL)
-    const newURL = currentURL.replace(/^\/[a-z]{2}/, `/${lang}`);
-    router.push(newURL);
-  };
+  useEffect(() => {
+    fetch(`/api/user/inventory?user_id=${userDetails._id}&eshop=false`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status === 200) {
+          setTradingProducts(data.orders);
+        } else {
+          console.log(data.message);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, []);
   useEffect(() => {
     useUserStore.setState({ user: userDetails, authReady: true });
-    fetch(`/api/exchange?currency=all`).then((res) => res.json()).then((data) => {
-      setConversionRates(data.data);
-    });
+    fetch(`/api/exchange?currency=all`)
+      .then((res) => res.json())
+      .then((data) => {
+        setConversionRates(data.data);
+      });
   }, []);
 
   const handleLogout = () => {
@@ -71,9 +84,18 @@ function Navbar({ userDetails, isAdmin, t, lang }) {
       });
   };
 
+  const handleLanuageChange = (lang) => {
+    const currentURL = window.location.pathname;
+    // console.log(currentURL)
+    const newURL = currentURL.replace(/^\/[a-z]{2}/, `/${lang}`);
+    router.push(newURL);
+  };
+
   const handleCurrencyChange = (currency, flag) => {
-   //find the currency in the conversionRates array 
-    const currencyIndex = conversionRates.findIndex((rate) => rate.currency === currency);
+    //find the currency in the conversionRates array
+    const currencyIndex = conversionRates.findIndex(
+      (rate) => rate.currency === currency
+    );
     useConversionStore.setState({
       currency: conversionRates[currencyIndex]?.currency,
       rate: parseFloat(conversionRates[currencyIndex]?.rate),
@@ -108,6 +130,12 @@ function Navbar({ userDetails, isAdmin, t, lang }) {
         {/* Notification Icon */}
         {/* <NotificationDropDown userID={userDetails._id} /> */}
         {/* CurrencyDropdown */}
+        <Link
+          href="/dashboard/my-account"
+          className="hover:cursor-pointer text-lg font-[550] text-black flex gap-x-2"
+        >
+          {t.myaccount.title}
+        </Link>
         <DropdownMenu>
           <DropdownMenuTrigger className="hover:cursor-pointer text-black flex gap-x-2">
             <img src={flag} width={18} height={18} alt="CZK" />

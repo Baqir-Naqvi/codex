@@ -17,12 +17,12 @@ export async function GET(req) {
     try {
         const user = await User.findById(user_id).lean();
         if (!user) {
-            return { status: 400, message: "User not found" };
+            return Response.json({ status: 400, message: "User not found" });
         }
 
         // If there is no inventory
         if (!user.inventory || user.inventory.length === 0) {
-            return { status: 200, orders: [] };
+            return Response.json({ status: 200, orders: [] });
         }
         // Convert the string _ids in purchaseHistory to ObjectIds
         const purchaseHistoryObjectIds = user.inventory.map(purchase => new mongoose.Types.ObjectId(purchase._id));
@@ -55,6 +55,7 @@ export async function GET(req) {
                     deliveryStatus: "$inventory.deliveryStatus",
                     photos: "$inventory.photos",
                     purchasedQuantity: "$inventory.quantity",
+                    isEshop: "$inventory.isEshop"
                 }
             },
             {
@@ -76,8 +77,9 @@ export async function GET(req) {
                     paymentStatus: 1,
                     deliveryDate: 1,
                     deliveryStatus: 1,
-                    photos:1,
-                    purchasedQuantity: 1
+                    photos: 1,
+                    purchasedQuantity: 1,
+                    isEshop: 1
 
                 }
             }
@@ -85,8 +87,12 @@ export async function GET(req) {
 
         const productsWithHistory = await Product.aggregate(pipeline).exec();
         //remove products that have status as pending
-        const productsWithHistoryFiltered = productsWithHistory.filter(product => product.status !== "pending");
-
+        let productsWithHistoryFiltered = []
+        if (eshop === "true"){
+            productsWithHistoryFiltered = productsWithHistory.filter(product => product.isEshop === true );
+        }
+        else
+            productsWithHistoryFiltered=productsWithHistory.filter(product => product.status !== "pending" && product.isEshop == false);
 
         return Response.json({ status: 200, orders: productsWithHistoryFiltered });
 

@@ -54,7 +54,15 @@ const salesSchema = new Schema({
         type: String,
         required: true,
     },
-
+    seller_accountNumber: {
+        type: String,
+        required: true,
+    },
+    seller_name: {
+        type: String,
+        required: true,
+    }
 });
+
 
 export default mongoose.models.Sales || mongoose.model("Sales", salesSchema);

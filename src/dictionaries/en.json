@@ -28,6 +28,9 @@
         "viewProfile": "View Profile",
         "logout": "Logout"
     },
+    "eshop":{
+        "title":"E-Shop Purchase History"
+    },
     "sidebar": {
         "dashboard": "Dashboard",
         "useraccounts": "User Accounts",
@@ -43,6 +46,7 @@
         "kilogram": "Kilogram",
         "ounce": "Ounce",
         "sales": "My Sales",
+        "myorders": "My Orders",
         "admin":{
             "purchase": "Purchase",
             "epurchase": "E-Purchase",
@@ -117,10 +121,17 @@
         }
     },
     "myaccount":{
+        "title": "My Account",
         "accountNumber": "Account Number",
         "ibanNumber": "IBAN Number",
         "currentbalance": "Current Balance",
         "currencyTotal": "Currency Total",
+        "mymarketplace": {
+            "title":"My Marketplace",
+            "heading1":"You are currently selling",
+            "heading2":"products in the marketplace",
+            "endoffer": "End Offer"
+        },
         "tabs":{
             "buy": "Buy",
             "sell": "Sell",

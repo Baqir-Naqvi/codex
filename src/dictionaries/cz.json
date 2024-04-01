@@ -25,6 +25,9 @@
         "viewProfile": "Zobrazit profil",
         "logout": "Odhlásit"
     },
+    "eshop": {
+        "title": "Historie nákupů E-Shopu"
+    },
     "sidebar": {
         "dashboard": "Přehled",
         "useraccounts": "Uživatelské účty",
@@ -40,6 +43,7 @@
         "kilogram": "Kilogram",
         "ounce": "Ounce",
         "sales": "Moje prodeje",
+        "myorders": "Moje objednávky",
         "admin": {
             "purchase": "Nákup",
             "epurchase": "E-Nákup",
@@ -116,10 +120,17 @@
         }
     },
     "myaccount": {
+        "title": "Můj účet",
         "accountNumber": "Číslo účtu",
         "ibanNumber": "IBAN číslo",
         "currentbalance": "Aktuální zůstatek",
         "currencyTotal": "Celková částka",
+        "mymarketplace":{
+            "title": "Moje tržiště",
+            "heading1": "Nyní prodáváte",
+            "heading2": "produkty na tržišti",
+            "endoffer": "Ukončit nabídku"
+        },
         "tabs": {
             "buy": "Koupit",
             "sell": "Prodat",

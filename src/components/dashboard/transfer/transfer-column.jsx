@@ -59,6 +59,7 @@ export const columns = [
             data={account}
             userID={user?._id}
             userAccountID={user?.uniqueCode}
+            user={user}
           />
         </div>
       );

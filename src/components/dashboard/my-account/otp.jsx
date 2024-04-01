@@ -28,10 +28,7 @@ function OTP({ t,callback}) {
 
   const handleVerify = async () => {
     setLoading(true);
-    setTimeout(async () => {
-      callback();
-      setLoading(false);
-    }, 2000);
+    callback();
   };
 
   

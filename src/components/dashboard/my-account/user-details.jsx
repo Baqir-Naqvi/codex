@@ -31,13 +31,13 @@ function UserDetails({ t }) {
   useEffect(() => {
     if (!authReady) return;
     if (tradingProducts) return setLoading(false);
+    
   }, [authReady, tradingProducts]);
-
   const total_weight = tradingProducts.reduce((acc, product) => {
-    return acc + product.purchasedWeight;
+    return acc + product.purchasedWeight * product.purchasedQuantity;
   }, 0);
   const total_price = tradingProducts.reduce((acc, product) => {
-    return acc + product.purchasedWeight * product.price;
+    return acc + product.purchasedWeight * product.price * product.purchasedQuantity;
   }, 0);
 
   return (
@@ -59,10 +59,14 @@ function UserDetails({ t }) {
               {weightLabel}
             </p>
             <p className="text-lg font-bold">
-              In {t.myaccount.currencyTotal}: {(total_price / rate).toFixed(2)} {currency}
+              In {t.myaccount.currencyTotal}: {(total_price / rate).toFixed(2)}{" "}
+              {currency}
             </p>
             <Link href="/dashboard/my-account/my-purchases" className="w-max">
               <Button className="w-max">{t.sidebar.mypurchases}</Button>
+            </Link>
+            <Link href="/dashboard/my-account/my-marketplace" className="w-max">
+              <Button className="w-max">{t.myaccount.mymarketplace.title}</Button>
             </Link>
           </div>
         </div>

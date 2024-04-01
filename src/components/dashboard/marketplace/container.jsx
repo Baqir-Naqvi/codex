@@ -12,6 +12,7 @@ function Container({ products, t }) {
   const [selectedProducts, setSelectedProducts] = useState([]);
   const [buyType, setBuyType] = useState("Eshop");
   return (
+    
     <div className="flex flex-col items-center justify-center w-full mx-auto">
       <div className="flex flex-col space-y-4 md:w-[450px] mx-auto">
         <RadioGroup
@@ -40,13 +41,16 @@ function Container({ products, t }) {
         />
       ))}
       {buyType === "account" ? (
-        <BuyTab preSelectedProducts={selectedProducts} t={t} isMarketplace={true} />
+        <BuyTab
+          preSelectedProducts={selectedProducts}
+          t={t}
+          isMarketplace={true}
+          purchase_from="marketplace"
+        />
       ) : (
         <div className="flex flex-row justify-end w-full p-4">
           <Link href="/dashboard/checkout">
-            <Button className="w-full" disabled={selectedProducts.length === 0}>
-              {t.continue}
-            </Button>
+            <Button className="w-full">{t.continue}</Button>
           </Link>
         </div>
       )}

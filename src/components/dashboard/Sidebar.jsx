@@ -36,29 +36,11 @@ const NavItem = ({ title, icon, href }) => {
   );
 };
 function Sidebar({ t, lang, user }) {
-  const { tradingProducts, setTradingProducts } = useTradeStore();
-  const { authReady } = useUserStore();
   const sidebartoggle = useLayoutStore((state) => state.sidebartoggle);
   const setSidebarToggle = useLayoutStore((state) => state.setSidebarToggle);
   const [loading, setLoading] = useState(true);
 
   const { setWeight, weightLabel, setWeightLabel } = useConversionStore();
-  useEffect(() => {
-    if (!authReady) return;
-    if (tradingProducts.length > 0) return;
-    fetch(`/api/user/inventory?user_id=${user._id}&eshop=false`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.status === 200) {
-          setTradingProducts(data.orders);
-        } else {
-          console.log(data.message);
-        }
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  }, [authReady]);
 
   useEffect(() => {
     setLoading(false);
@@ -77,11 +59,11 @@ function Sidebar({ t, lang, user }) {
             icon={<Home size={20} />}
             href={`/${lang}/dashboard`}
           />
-          {/* <NavItem
-            title={t.sidebar.mypurchases}
+          <NavItem
+            title={t.sidebar.myorders}
             icon={<History size={20} />}
-            href={`/${lang}/dashboard/my-purchases`}
-          /> */}
+            href={`/${lang}/dashboard/e-orders`}
+          />
           {user.isVerified && (
             <>
               {" "}

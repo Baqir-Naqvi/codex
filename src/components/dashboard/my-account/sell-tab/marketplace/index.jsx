@@ -17,6 +17,7 @@ function index({ user, t }) {
   const [step, setStep] = useState(0);
   const { market_products } = useMarketPlaceStore();
   const { toast } = useToast();
+  const [error, setError] = useState(null);
 
 
   useEffect(() => {
@@ -27,11 +28,12 @@ function index({ user, t }) {
           setProducts(
             result.orders.map((product) => ({
               ...product,
-              weight_to_sell: 0,
+              weight_to_sell: product.purchasedWeight,
               quantity_to_sell: 0,
               margin: 0,
             }))
           );
+          console.log(result.orders);
           setLoading(false);
         },
         (error) => {

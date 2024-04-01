@@ -44,8 +44,8 @@ function InventoryModal({ t, selectedProducts, setSelectedProducts, user }) {
     if (selectedProducts.some((p) => p._id === product._id)) {
       setSelectedProducts(
         selectedProducts.map((p) =>
-          p._id === product._id
-            ? { ...p, weight_to_sell: p.weight_to_sell + 1 }
+          p._id === product._id && p.orderID === product.orderID
+            ? { ...p, weight_to_sell: p.weight_to_sell + 1}
             : p
         )
       );
@@ -60,7 +60,7 @@ function InventoryModal({ t, selectedProducts, setSelectedProducts, user }) {
   const handleRemoveFromList = (_id) => {
     //if quantity is more than 1 then decrease the quantity
     //if quantity is 1 then remove the product from the list
-    if (selectedProducts.some((p) => p._id === _id)) {
+    if (selectedProducts.some((p) => p._id === _id && p.orderID === p.orderID)) {
       if (selectedProducts.find((p) => p._id === _id).weight_to_sell > 1) {
         setSelectedProducts(
           selectedProducts.map((p) =>
@@ -117,14 +117,14 @@ function InventoryModal({ t, selectedProducts, setSelectedProducts, user }) {
                             handleRemoveFromList(product._id);
                           }}
                           disabled={
-                            !selectedProducts.some((p) => p._id === product._id)
+                            !selectedProducts.some((p) => p._id === product._id && p.orderID === product.orderID)
                           }
                         >
                           {" "}
                           -
                         </Button>
                         <p className="text-sm font-semibold h-8 w-8 text-center items-center justify-center flex">
-                          {selectedProducts.some((p) => p._id === product._id)
+                          {selectedProducts.some((p) => p._id === product._id && p.orderID === product.orderID)
                             ? selectedProducts.find(
                                 (p) => p._id === product._id
                               ).weight_to_sell
@@ -138,10 +138,12 @@ function InventoryModal({ t, selectedProducts, setSelectedProducts, user }) {
                           disabled={
                             //purchasedQuantity < quantity
                             (selectedProducts.some(
-                              (p) => p._id === product._id
+                              (p) =>
+                                p._id === product._id &&
+                                p.orderID === product.orderID
                             ) &&
                               selectedProducts.find(
-                                (p) => p._id === product._id
+                                (p) => p._id === product._id && p.orderID === product.orderID
                               ).weight_to_sell >= product.purchasedWeight) ||
                             product.status === "pending"
                           }

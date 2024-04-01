@@ -4,10 +4,10 @@ import { useLayoutStore } from "@/store/layoutStore";
 import { Home, Users, PackageSearch } from "lucide-react";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
-const NavItem = ({ title, icon, href}) => {
+const NavItem = ({ title, icon, href }) => {
   return (
     <Link
-      className="flex items-center py-2 px-6 hover:bg-gray-100 cursor-pointer"
+      className="flex items-center py-2 px-6 hover:bg-gray-100 cursor-pointer overflow-x-hidden"
       href={href}
     >
       <span className="mr-4">{icon}</span>
@@ -18,7 +18,7 @@ const NavItem = ({ title, icon, href}) => {
 
 const NavParent = ({ title, icon, children }) => {
   return (
-    <div className="py-4 px-6">
+    <div className="py-4 px-6 overflow-x-hidden whitespace-nowrap">
       <div className="flex items-center">
         <span className="mr-4">{icon}</span>
         <span>{title}</span>
@@ -26,7 +26,7 @@ const NavParent = ({ title, icon, children }) => {
       <div className="pl-1">{children}</div>
     </div>
   );
-}
+};
 
 function Sidebar({ t, lang }) {
   const sidebartoggle = useLayoutStore((state) => state.sidebartoggle);
@@ -34,12 +34,12 @@ function Sidebar({ t, lang }) {
 
   return (
     <div
-      className={`w-64 h-screen  top-20 left-0 z-50 border-r-[1px] border-gray-300
-    transition-transform duration-300 ease-in-out bg-[#f7f7f7]
-     ${sidebartoggle ? "translate-x-0" : "-translate-x-[90%]"} `}
+      className={`h-screen  left-0  border-r-[1px] border-gray-300
+     duration-300 ease-in-out bg-[#f7f7f7] transform  
+     ${sidebartoggle ? " w-52 " : " w-14"} `}
     >
       <div
-        className="absolute -top-4 -right-5 p-2 bg-black cursor-pointer rounded-full"
+        className="p-2 bg-black cursor-pointer  w-8 h-8 flex items-center justify-center mr-auto ml-2 "
         onClick={() => setSidebarToggle(!sidebartoggle)}
       >
         <ChevronRight

@@ -23,8 +23,10 @@ export default async function AdminLayout({ children, params: { lang } }) {
         t={dictionary}
         lang={lang || "cz"}
       />
+      <section className="flex flex-row">
       <Sidebar t={dictionary} lang={lang || "cz"} />
       {children}
+      </section>
     </section>
   );
 }

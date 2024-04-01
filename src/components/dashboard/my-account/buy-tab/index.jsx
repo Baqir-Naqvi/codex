@@ -18,7 +18,8 @@ import { useUserStore } from "@/store/userStore";
 import { useState,useEffect } from "react";
 import OTP from "../otp";
 import SuccessMessage from "./success";
-function BuyTab({ t ,preSelectedProducts,isMarketplace=false}) {
+import { useToast } from "@/components/ui/use-toast";
+function BuyTab({ t ,preSelectedProducts,isMarketplace=false,purchase_from="eshop"}) {
   const [selectedProducts, setSelectedProducts] = useState([]);
   const { currency, rate, weight, weightLabel } = useConversionStore();
   const { user, authReady } = useUserStore();
@@ -28,6 +29,8 @@ function BuyTab({ t ,preSelectedProducts,isMarketplace=false}) {
   const totalCost = selectedProducts.reduce((acc, product) => {
     return acc + product.quantity * product.price;
   }, 0);
+
+  const { toast } = useToast();
 
   const [step, setStep] = useState(1);
 
@@ -47,11 +50,11 @@ function BuyTab({ t ,preSelectedProducts,isMarketplace=false}) {
         userId: user._id,
         products: selectedProducts,
         isEshop: false,
+        purchase_from: purchase_from,
       }),
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         if (data.status === 200) {
           setStep(3);
         } else {

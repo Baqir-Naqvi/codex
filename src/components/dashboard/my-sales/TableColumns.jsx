@@ -91,10 +91,17 @@ export const columns = [
       if (!authReady) return null;
       return (
         <span>
-          {(accBalance + sellingPrice).toFixed(2)} {currency}
+          {row.original.payment_to_seller === "processed"
+            ? accBalance.toFixed(2)
+            : (accBalance + sellingPrice).toFixed(2)
+            }
+          {currency}
           <br />
           <span className="text-green-500">
-            {((total_weight - account.weight_to_sell) / weight).toFixed(2)}{" "}
+            {
+            row.original.payment_to_seller === "processed"? 
+            ((total_weight) / weight).toFixed(2):
+            ((total_weight - account.weight_to_sell) / weight).toFixed(2)}{" "}
             {weightLabel}
           </span>
         </span>
