@@ -62,7 +62,7 @@ export const columns = [
       return (
         <Select
           onValueChange={async (e) => {
-            const res = await fetch(`/api/admin/purchases?isEShop=true`, {
+            const res = await fetch(`/api/admin/purchases?isEshop=true`, {
               method: "PUT",
               headers: {
                 "Content-Type": "application/json",
@@ -114,7 +114,7 @@ export const columns = [
       return (
         <Select
           onValueChange={(e) => {
-            fetch(`/api/admin/purchases?isEShop=true`, {
+            fetch(`/api/admin/purchases?isEshop=true`, {
               method: "PUT",
               headers: {
                 "Content-Type": "application/json",

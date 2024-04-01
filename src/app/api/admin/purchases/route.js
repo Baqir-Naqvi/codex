@@ -14,7 +14,7 @@ export async function GET(req) {
     const combinedAndFilteredInventory = users.flatMap((user) => {
         return user.inventory.flatMap((item) => {
             if (item.isEshop == isEshop
-                ) {
+            ) {
                 return {
                     ...item,
                     userId: user._id,
@@ -42,21 +42,19 @@ export async function PUT(req) {
     if (!user) {
         return Response.json({ status: 404, message: "User not found" });
     }
-    const updatedInventory = user.inventory.map((item) => {
-        if (item._id == _id && item.orderID === orderID && item.isEshop === isEshop) {
-            return {
-                ...item,
-                status: status,
-                paymentStatus: paymentStatus,
-                paymentMode: paymentMode,
-            };
 
-        }
-        return item;
+    const item_index = user.inventory.findIndex((item) => item._id == _id && item.orderID == orderID && item.isEshop == isEshop);
+    if (item_index === -1) {
+        return Response.json({ status: 404, message: "Item not found" });
     }
-    );
-    user.inventory = updatedInventory;
 
+    user.inventory[item_index].status = status;
+    user.inventory[item_index].paymentStatus = paymentStatus;
+    user.inventory[item_index].paymentMode = paymentMode;
+
+
+
+    user.markModified('inventory');
     await user.save();
     return Response.json({ status: 200, message: "Updated successfully" });
 }
