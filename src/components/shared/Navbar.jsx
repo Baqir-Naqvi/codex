@@ -33,18 +33,18 @@ import { useTradeStore } from "@/store/useTrade";
 
 import Cart from "@/components/dashboard/cart";
 
+const Currencies = [
+  { name: "USD", flag: "/images/usd.png" },
+  { name: "CZK", flag: "/images/kz.png" },
+  { name: "PLN", flag: "/images/pol.png" },
+  { name: "EUR", flag: "/images/eu.png" },
+  { name: "GBP", flag: "/images/GBP.png" },
+];
+
 function Navbar({ userDetails, isAdmin, t, lang }) {
   const router = useRouter();
   const { flag, setConversionRates, conversionRates } = useConversionStore();
   const { setTradingProducts } = useTradeStore();
-
-  const Currencies = [
-    { name: "USD", flag: "/images/usd.png" },
-    { name: "CZK", flag: "/images/kz.png" },
-    { name: "PLN", flag: "/images/pol.png" },
-    { name: "EUR", flag: "/images/eu.png" },
-    { name: "GBP", flag: "/images/GBP.png" },
-  ];
 
   useEffect(() => {
     fetch(`/api/user/inventory?user_id=${userDetails._id}&eshop=false`)
@@ -227,7 +227,7 @@ function Navbar({ userDetails, isAdmin, t, lang }) {
             </MenubarContent>
           </MenubarMenu>
         </Menubar>
-        <Cart />
+        <Cart userDetails={userDetails} />
       </div>
     </div>
   );

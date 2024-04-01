@@ -14,31 +14,27 @@ import {
 
 import { ShoppingCart } from "lucide-react";
 import CartProduct from "@/components/dashboard/cart/cart-product";
-import { useUserStore } from "@/store/userStore";
 import { useToast } from "@/components/ui/use-toast";
 import { useEffect, useState } from "react";
 import {useCartStore} from "@/store/useCart";
 import Link from "next/link";
 
-export default function Cart() {
-  const { user, authReady } = useUserStore();
-  // const [cart, setCart] = useState([]);
+export default function Cart({ userDetails }) {
   const { cartProducts, setCartProducts } = useCartStore();
   const { toast } = useToast();
   useEffect(() => {
-
-    if (!authReady) return;
-    fetch("/api/user/cart?user_id=" + user._id)
+    fetch("/api/user/cart?user_id=" + userDetails._id)
       .then((res) => res.json())
       .then((data) => {
-        // setCart(data.data);
         setCartProducts(data.data);
       });
-  }, [authReady, user]);
+  }, []);
 
   const handleRemoveItem = (product_id) => {
     // setCart(cart.filter((product) => product._id !== product_id));
-    setCartProducts(cartProducts.filter((product) => product._id !== product_id));
+    setCartProducts(
+      cartProducts.filter((product) => product._id !== product_id)
+    );
   };
 
   const purchaseCartItems = () => {
@@ -48,7 +44,7 @@ export default function Cart() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userId: user._id,
+        userId: userDetails._id,
         products: cartProducts,
       }),
     })
@@ -70,7 +66,7 @@ export default function Cart() {
           });
         }
       });
-  }
+  };
 
   return (
     <Sheet>
@@ -103,12 +99,12 @@ export default function Cart() {
         <SheetFooter className="flex justify-end">
           <SheetClose asChild>
             <Link href="/dashboard/checkout">
-            <Button
-              disabled={cartProducts.length === 0}
-              // onClick={purchaseCartItems}
-            >
-              Purchase {cartProducts.length} items
-            </Button>
+              <Button
+                disabled={cartProducts.length === 0}
+                // onClick={purchaseCartItems}
+              >
+                Purchase {cartProducts.length} items
+              </Button>
             </Link>
           </SheetClose>
         </SheetFooter>

@@ -8,7 +8,7 @@ export default async function Home({ params : { lang } }) {
     
   const dictionary = await getDictionary(lang);
   return (
-    <main className="w-full py-24 flex items-center">
+    <main className="w-full pb-24 pt-10 flex items-center">
       <ProductsContainer t={dictionary} />
     </main>
   );

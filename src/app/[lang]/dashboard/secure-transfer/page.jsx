@@ -16,7 +16,7 @@ async function page({ params: { lang } }) {
 
   return (
     <div className="w-full flex flex-col">
-      <TradeContainer t={dictionary} lang={lang} />
+      <TradeContainer t={dictionary} lang={lang} userId={userId} />
       <TransferRequests t={dictionary} lang={lang} userId={userId} />
     </div>
   );

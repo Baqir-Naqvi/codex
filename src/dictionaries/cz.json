@@ -174,5 +174,18 @@
         "marketplace": {
             "transfertomyaccount": "Převod na můj účet",
             "transfertomyaddress": "Převod na moji adresu"
+        },
+    "mypurchase": {
+        "mysummary": "Souhrn",
+        "title": "Moje nákupy",
+        "summary": {
+            "purchaseprice": "Cena nákupu",
+            "purchasepriceinfo": "Toto je souhrn vašich nákupů",
+            "actualprice": "Aktuální cena",
+            "actualpriceinfo": "Toto je souhrn vašich aktuálních cen",
+            "totalweight": "Celková váha",
+            "totalweightinfo": "Toto je souhrn vaší celkové váhy"
         }
+
+    }
 }

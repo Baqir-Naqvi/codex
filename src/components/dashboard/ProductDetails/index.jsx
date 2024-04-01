@@ -14,33 +14,27 @@ import { useUserStore } from "@/store/userStore";
 import { useToast } from "@/components/ui/use-toast";
 import Loader from "@/components/dashboard/ProductDetails/Loader";
 import { useConversionStore } from "@/store/conversionStore";
+import { useCartStore } from "@/store/useCart";
 
-const ProductDetail = ({ product_id }) => {
+const ProductDetail = ({ product_id, userID,t }) => {
   const { toast } = useToast();
   const [quantity, setQuantity] = useState(1);
-  const [user, setUser] = useState({});
   const [disable, setDisable] = useState(false);
   const [product, setProduct] = useState({});
   const [loading, setLoading] = useState(true);
   const { currency, rate, weight, weightLabel } = useConversionStore();
-  const activeUser = useUserStore((state) => state.user);
-  const authReady = useUserStore((state) => state.authReady);
+  const { cartProducts, setCartProducts } = useCartStore();
 
   useEffect(() => {
-    fetch("/api/product?id=" + product_id)
-      .then((res) => res.json())
-      .then((data) => {
-        setProduct(data.data);
-        setLoading(false);
-      });
+    fetch(`/api/product?id=${product_id}&user_id=${userID}`)
+    .then((res) => res.json())
+    .then((data) => {
+      setProduct(data.data);
+      setDisable(data.access)
+      setLoading(false);
+    });
   }, []);
 
-  useEffect(() => {
-    if(!authReady) return;
-    if (activeUser.limitAccess && product.price > 10000) {
-      setDisable(true);
-    }
-  }, [activeUser, product]);
 
   const handlePurchase = () => {
     fetch("/api/product/purchase?product_id=" + product._id, {
@@ -49,7 +43,7 @@ const ProductDetail = ({ product_id }) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userId: activeUser._id,
+        userId: userID,
         quantity: quantity,
         originalPrice: product.price,
       }),
@@ -79,7 +73,7 @@ const ProductDetail = ({ product_id }) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        user_id: activeUser._id,
+        user_id: userID,
         product_id: product._id,
         quantity: quantity,
       }),
@@ -87,18 +81,18 @@ const ProductDetail = ({ product_id }) => {
       .then((res) => res.json())
       .then((data) => {
         if (data.status == 200) {
-          // useUserStore.setState( (state) => ({ user: {...state.user, cart: [...state.user.cart, product] } }))
-          //if item with same id is already in cart, update the quantity
-          useUserStore.setState((state) => {
-            let cart = state.user.cart;
-            let index = cart.findIndex((item) => item._id === product._id);
-            if (index !== -1) {
-              cart[index].quantity += quantity;
-            } else {
-              cart.push({ ...product, quantity: quantity });
-            }
-            return { user: { ...state.user, cart: cart } };
-          });
+          //find if product is already in cart with same id
+          let index = cartProducts.findIndex(
+            (item) => item._id === product._id
+          );
+          if (index !== -1) {
+            cartProducts[index].quantity += quantity;
+          } else {
+            setCartProducts([
+              ...cartProducts,
+              { ...product, quantity: quantity },
+            ]);
+          }
 
           toast({
             title: "Product Added to Cart",
@@ -189,7 +183,10 @@ const ProductDetail = ({ product_id }) => {
               VAT: <span className="font-normal">{product.VAT}</span>
             </p>
             <p className="font-bold">
-              Weight: <span className="font-normal">{(product.weight/weight).toFixed(2)} {weightLabel}</span>
+              Weight:{" "}
+              <span className="font-normal">
+                {(product.weight / weight).toFixed(2)} {weightLabel}
+              </span>
             </p>
             <p className="mt-4 text-4xl font-bold ">
               {/* $ */}

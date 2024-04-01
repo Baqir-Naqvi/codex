@@ -8,6 +8,7 @@ function ProductsContainer({ disable, t }) {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
+    if(products.length > 0) return setLoading(false);
     fetch(`/api/admin/products`, {
       method: "GET",
       headers: {

@@ -22,22 +22,34 @@ const SkeletonLoader = () => {
   );
 };
 
-function UserDetails({ t }) {
-  const { user, authReady } = useUserStore();
-  const { tradingProducts } = useTradeStore();
+function UserDetails({ t, userID }) {
+  const { user } = useUserStore();
+  const { tradingProducts, setTradingProducts } = useTradeStore();
   const [loading, setLoading] = useState(true);
-  const { toast } = useToast();
   const { currency, rate, weight, weightLabel } = useConversionStore();
   useEffect(() => {
-    if (!authReady) return;
-    if (tradingProducts) return setLoading(false);
-    
-  }, [authReady, tradingProducts]);
+    if(tradingProducts.length > 0) return setLoading(false);
+    fetch(`/api/user/inventory?user_id=${userID}&eshop=false`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status === 200) {
+          setTradingProducts(data.orders);
+          setLoading(false);
+        } else {
+          console.log(data.message);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, []);
   const total_weight = tradingProducts.reduce((acc, product) => {
     return acc + product.purchasedWeight * product.purchasedQuantity;
   }, 0);
   const total_price = tradingProducts.reduce((acc, product) => {
-    return acc + product.purchasedWeight * product.price * product.purchasedQuantity;
+    return (
+      acc + product.purchasedWeight * product.price * product.purchasedQuantity
+    );
   }, 0);
 
   return (
@@ -66,7 +78,9 @@ function UserDetails({ t }) {
               <Button className="w-max">{t.sidebar.mypurchases}</Button>
             </Link>
             <Link href="/dashboard/my-account/my-marketplace" className="w-max">
-              <Button className="w-max">{t.myaccount.mymarketplace.title}</Button>
+              <Button className="w-max">
+                {t.myaccount.mymarketplace.title}
+              </Button>
             </Link>
           </div>
         </div>

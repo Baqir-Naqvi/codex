@@ -5,16 +5,17 @@ import ProductsTable from "@/components/admin/UsersTable";
 import Summary from "@/components/dashboard/my-purchases/Summary";
 
 
-function PurhcaseHistory({ orders }) {
+function PurhcaseHistory({ orders ,t}) {
   return (
     <div className="flex flex-col w-full">
-      <h2 className="text-2xl font-bold my-4">Summary</h2>
-      <Summary data={orders} />
-      <h2 className="text-2xl font-bold my-4">My Purchase History</h2>
+      <h2 className="text-2xl font-semibold my-4">{t.mypurchase.mysummary}</h2>
+      <Summary data={orders} t={t}/>
+      <h2 className="text-2xl font-semibold my-4">{t.mypurchase.title}</h2>
 
       <ProductsTable
         data={orders}
         columns={columns}
+        t={t}
       />
     </div>
   );

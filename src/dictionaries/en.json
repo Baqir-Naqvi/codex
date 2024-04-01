@@ -176,6 +176,18 @@
     "marketplace":{
         "transfertomyaccount": "Transfer to My Account",
         "transfertomyaddress": "Transfer to My Address"
+    },
+    "mypurchase":{
+        "mysummary": "Summary",
+        "title":"My Purchase History",
+        "summary":{
+            "purchaseprice": "Purchase Price",
+            "purchasepriceinfo":"This is a summary of your purchases",
+            "actualprice": "Actual Price",
+            "actualpriceinfo": "Current price of your purchases",
+            "totalweight": "Total Weight",
+            "totalweightinfo": "This is a summary of your purchases"
+        }
     }
 
 }

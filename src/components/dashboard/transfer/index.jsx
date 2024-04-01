@@ -6,14 +6,12 @@ import ProductsTable from "@/components/admin/UsersTable";
 import { columns } from "@/components/dashboard/transfer/transfer-column";
 import Loader from "@/components/shared/Loader";
 import { useTradeStore } from "@/store/useTrade";
-function TradeContainer({ t, lang }) {
-  const { user, authReady } = useUserStore();
+function TradeContainer({ t, lang, userId }) {
   const { tradingProducts, setTradingProducts } = useTradeStore();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!authReady) return;
-    fetch(`/api/user/inventory?user_id=${user._id}`)
+    fetch(`/api/user/inventory?user_id=${userId}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.status === 200) {
@@ -29,7 +27,7 @@ function TradeContainer({ t, lang }) {
         console.log(e);
         setLoading(false);
       });
-  }, [authReady]);
+  }, []);
   return (
     <div>
       {/* we will use skeletal loader here  */}
@@ -39,10 +37,7 @@ function TradeContainer({ t, lang }) {
         <div className="flex flex-col w-[90%] mx-auto">
           <h2 className="text-xl font-bold my-4">{t.securetransfer.title}</h2>
 
-          <ProductsTable
-            data={tradingProducts}
-            columns={columns}
-          />
+          <ProductsTable data={tradingProducts} columns={columns} />
         </div>
       )}
     </div>

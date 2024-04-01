@@ -17,7 +17,6 @@ import {
 } from "@/components/ui/table";
 
 export const handleDelete = async (id,type) => {
-  console.log(id,type)
   const res = await fetch(`/api/admin/${type}?id=${id}`, {
     method: "DELETE",
   });
@@ -25,7 +24,7 @@ export const handleDelete = async (id,type) => {
   return data.status === 200 ? true : false;
 };
 
-function UsersTable({ columns, data, title }) {
+function UsersTable({ columns, data, title ,t}) {
   const table = useReactTable({
     data,
     columns,
