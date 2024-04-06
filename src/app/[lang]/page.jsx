@@ -16,7 +16,7 @@ async function page({ params:{lang}, searchParams }) {
   
   return (
     <div className="min-h-screen bg-gradient-to-r from-blue-200 to-violet-100">
-      <header className="flex justify-between px-5 py-2 justify-center flex-row items-center">
+      <header className="flex px-5 py-2 justify-center flex-row items-center">
         <Image
           src="/images/logo.png"
           alt="logo"

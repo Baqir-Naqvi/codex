@@ -320,11 +320,11 @@ function ProductForm({ t }) {
                           className="flex flex-row gap-x-4 items-center text-center pt-2"
                           onValueChange={(value) => field.onChange(value)}
                         >
-                          <div className="flex items-center space-x-2 items-center text-center">
+                          <div className="flex space-x-2 items-center text-center">
                             <RadioGroupItem value="bar" id="r2" />
                             <Label htmlFor="r2">Bar</Label>
                           </div>
-                          <div className="flex items-center space-x-2 items-center text-center">
+                          <div className="flex space-x-2 items-center text-center">
                             <RadioGroupItem value="coin" id="r3" />
                             <Label htmlFor="r3">Coin</Label>
                           </div>
