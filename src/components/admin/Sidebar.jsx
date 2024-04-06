@@ -1,7 +1,7 @@
-"use server"
+"use server";
 import React from "react";
 import { useLayoutStore } from "@/store/layoutStore";
-import { Home, Users, PackageSearch } from "lucide-react";
+import { Home, Users, PackageSearch, FileText } from "lucide-react";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 const NavItem = ({ title, icon, href }) => {
@@ -34,9 +34,7 @@ function Sidebar({ t, lang }) {
 
   return (
     <div
-      className={`h-screen  left-0  border-r-[1px] border-gray-300
-     duration-300 ease-in-out bg-[#f7f7f7] transform  
-     w-54`}
+      className={`h-screen  left-0  border-r-[1px] border-gray-300 duration-300 ease-in-out bg-[#f7f7f7] transform w-54`}
     >
       <div
         className="p-2 bg-black cursor-pointer  w-8 h-8 flex items-center justify-center mr-auto ml-2 "
@@ -50,18 +48,13 @@ function Sidebar({ t, lang }) {
           // }`}
         />
       </div>
-      <div className="py-4">
+      <div className="py-4 justify-between flex flex-col gap-y-24">
         <ul>
           <NavItem
             title={t.sidebar.dashboard}
             icon={<Home size={20} />}
             href={`/${lang}/admin`}
           />
-          {/* <NavItem
-            title={t.sidebar.users}
-            icon={<Users size={20} />}
-            href={`/${lang}/admin/users`}
-          /> */}
           <NavItem
             title={t.sidebar.products}
             icon={<PackageSearch size={20} />}
@@ -83,6 +76,17 @@ function Sidebar({ t, lang }) {
             <NavItem
               title={t.sidebar.admin.withdrawals}
               href={`/${lang}/admin/withdrawals`}
+            />
+          </NavParent>
+        </ul>
+        <ul>
+          <NavParent
+            title="Documents"
+            icon={<FileText size={20} />}
+          >
+            <NavItem
+              title="Orders"
+              href={`/${lang}/admin/e-purchases`}
             />
           </NavParent>
         </ul>

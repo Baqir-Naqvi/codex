@@ -9,15 +9,11 @@ function index() {
   return (
     <div className="w-full flex flex-col px-10">
       <Tabs defaultValue="account">
-        <TabsList className="grid w-[400px] grid-cols-2 mx-auto">
+        <TabsList>
           <TabsTrigger value="account">User Purchases</TabsTrigger>
-          <TabsTrigger value="eshop">EShop Purchases</TabsTrigger>
         </TabsList>
         <TabsContent value="account" className="w-full ">
           <AccountPurchases />
-        </TabsContent>
-        <TabsContent value="eshop" className="w-full">
-          <EshopPurchases />
         </TabsContent>
       </Tabs>
     </div>
