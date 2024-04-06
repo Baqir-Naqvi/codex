@@ -295,3 +295,19 @@ export const getUserMarketPlace = async () => {
     }
 
 }
+
+export async function getUserDetails(){
+    const userId = await getUserid();
+    await dbConnect();
+    try {
+        const user = await User.findById(userId).lean();
+        const data = JSON.parse(JSON.stringify(user));
+        if (!user) {
+            return { status: 400, message: "User not found" };
+        }
+        return { status: 200, data: data };
+    }
+    catch (e) {
+        return { status: 400, message: e.message };
+    }
+}

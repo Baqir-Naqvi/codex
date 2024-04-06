@@ -1,4 +1,4 @@
-"use client";
+"use server"
 import React from "react";
 import { useLayoutStore } from "@/store/layoutStore";
 import { Home, Users, PackageSearch } from "lucide-react";
@@ -29,25 +29,25 @@ const NavParent = ({ title, icon, children }) => {
 };
 
 function Sidebar({ t, lang }) {
-  const sidebartoggle = useLayoutStore((state) => state.sidebartoggle);
-  const setSidebarToggle = useLayoutStore((state) => state.setSidebarToggle);
+  // const sidebartoggle = useLayoutStore((state) => state.sidebartoggle);
+  // const setSidebarToggle = useLayoutStore((state) => state.setSidebarToggle);
 
   return (
     <div
       className={`h-screen  left-0  border-r-[1px] border-gray-300
      duration-300 ease-in-out bg-[#f7f7f7] transform  
-     ${sidebartoggle ? " w-52 " : " w-14"} `}
+     w-54`}
     >
       <div
         className="p-2 bg-black cursor-pointer  w-8 h-8 flex items-center justify-center mr-auto ml-2 "
-        onClick={() => setSidebarToggle(!sidebartoggle)}
+        // onClick={() => setSidebarToggle(!sidebartoggle)}
       >
         <ChevronRight
           size={24}
           color="white"
-          className={`cursor-pointer ${
-            sidebartoggle ? "rotate-180" : "rotate-0"
-          }`}
+          // className={`cursor-pointer ${
+          //   sidebartoggle ? "rotate-180" : "rotate-0"
+          // }`}
         />
       </div>
       <div className="py-4">

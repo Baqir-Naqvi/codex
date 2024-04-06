@@ -1,37 +1,28 @@
 import React from "react";
 // import ProductForm from "@/components/admin/ProductForm";
 import dynamic from "next/dynamic";
-import Loader from "@/components/shared/Loader";
+import Loader from "@/components/shared/TableSkeleton";
 import { getDictionary } from "@/lang/dictionaries";
+import { getProduct } from "@/lib/admin";
+import ProductForm from "@/components/admin/ProductForm";
 
-const EditProductForm = dynamic(
-  () => import("@/components/admin/ProductForm/edit-form"),
-  {
-    ssr: false
-    }
-);
-const ProductForm = dynamic(() => import("@/components/admin/ProductForm"), {
+const EditProductForm = dynamic(() => import("@/components/admin/ProductForm/edit-form"),{
   ssr: false,
-  loading: () => <Loader message="Loading Product" />,
+  loading: () => <Loader />,
 });
 
-async function page({ params, searchParams }) {
-  const { lang } = params;
+async function page({ params:{lang}, searchParams }) {
   const dictionary = await getDictionary(lang);
   const { id } = searchParams;
   if(!id) return (
     <div className="flex flex-col items-center items-center w-full h-full justify-center py-10">
+      <h2 className="text-2xl font-semibold my-5">{dictionary.admin.product.add}</h2>
       <div className="flex justify-center flex-col max-w-4xl w-full">
          <ProductForm t={dictionary} />
       </div>
     </div>
   );
-  let { data } = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}api/admin/product?id=${id}`,
-    {
-      cache: "no-cache",
-    }
-  ).then((res) => res.json());
+  const { data } = await getProduct(id);
 
   return (
     <div className="flex flex-col items-center items-center w-full h-full justify-center py-10">

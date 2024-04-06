@@ -91,7 +91,15 @@
             "price": "Price",
             "photos": "Photos",
             "weight": "Weight",
-            "buybackPrice": "Buyback Price"
+            "buybackPrice": "Buyback Price",
+            "pricePerGram": "Price Per Gram",
+            "productCode": "Product Code",
+            "actualPrice": "Actual Price",
+            "percentageMargin": "Percentage Margin",
+            "fixedMargin": "Fixed Margin",
+            "type": "Type",
+            "purity": "Purity",
+            "metal": "Metal"
         }
     },
     "productCard":{

@@ -90,7 +90,15 @@
             "price": "Cena",
             "photos": "Fotky",
             "weight": "Váha",
-            "buybackPrice": "Odkupní cena"
+            "buybackPrice": "Odkupní cena",
+            "pricePerGram": "Cena za gram",
+            "productCode": "Kód produktu",
+            "actualPrice": "Aktuální cena",
+            "percentageMargin": "Procentuální marže",
+            "fixedMargin": "Fixní marže",
+            "type": "Typ",
+            "purity": "Čistota",
+            "metal": "Kov"
         }
     },
     "productCard": {

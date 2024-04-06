@@ -46,6 +46,31 @@ const productSchema = new Schema({
         type: Boolean,
         default: true,
     },
+    price_per_gram:{
+        type:Number,
+    },
+    product_code:{
+        type:String,
+    },
+    actual_price:{
+        type:Number,
+    },
+    percentage_margin:{
+        type:Number
+    },
+    fixed_margin:{
+        type:Number
+    },
+    type:{
+        type:String
+    },
+    purity:{
+        type:Number,
+        default:100
+    },
+    metal:{
+        type:String
+    }
 });
 
 export default mongoose.models.Product || mongoose.model("Product", productSchema);

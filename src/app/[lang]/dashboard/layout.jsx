@@ -1,9 +1,7 @@
-import { getUserDetails } from "@/lib";
+import { getUserDetails } from "@/lib/helpers";
 import dynamic from "next/dynamic";
 import { getDictionary } from "@/lang/dictionaries";
-import pageLoader from "@/components/shared/pageLoader";
 import Sidebar from "@/components/dashboard/Sidebar";
-import Loader from "@/components/shared/Loader";
 
 const Navbar = dynamic(() => import("@/components/shared/Navbar"));
 
@@ -13,9 +11,9 @@ export default async function DashboardLayout({ children, params: { lang } }) {
 
   return (
     <div>
-      <Navbar userDetails={data[0]} t={dictionary} lang={lang || "cz"} />
+      <Navbar userDetails={data} t={dictionary} lang={lang || "cz"} />
       <div className="flex flex-row w-full">
-        <Sidebar t={dictionary} lang={lang || "cz"} user={data[0]}/>
+        <Sidebar t={dictionary} lang={lang || "cz"} user={data}/>
         {children}
       </div>
     </div>

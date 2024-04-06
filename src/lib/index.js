@@ -53,15 +53,6 @@ export async function updateSession(request) {
    
 }
 
-export async function getUserDetails() {
-    const session = cookies().get("session")?.value;
-    if (!session) return null;
-    const parsed = await decrypt(session);
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}api/user?id=${parsed.enctyption_data._id}`)
-    const user=await response.json()
-    return user
-}
-
 export async function getUserid() {
     const session = cookies().get("session")?.value;
     if (!session) return null;

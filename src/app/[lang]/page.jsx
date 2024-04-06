@@ -6,21 +6,14 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
 import Hero from "@/components/Home/Hero";
+import { getProducts } from "@/lib/admin";
+import ProductCard from "@/components/shared/ProductCard";
 
-async function page({ params, searchParams }) {
-  const { lang } = params;
-  const { data, count } = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}api/admin/products`,
-    { cache: "no-store" },
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }
-  ).then((res) => res.json());
 
+async function page({ params:{lang}, searchParams }) {
+  const { data } = await getProducts();
   const dictionary = await getDictionary(lang);
+  
   return (
     <div className="min-h-screen bg-gradient-to-r from-blue-200 to-violet-100">
       <header className="flex justify-between px-5 py-2 justify-center flex-row items-center">
@@ -47,13 +40,13 @@ async function page({ params, searchParams }) {
       </header>
       <div className="flex flex-col  items-center w-full justify-center bg-gradient-to-r from-blue-200 to-violet-100 py-10">
         <Hero t={dictionary} />
-
-        <ProductsContainer
-          products={data}
-          count={count}
-          disable={true}
-          t={dictionary}
-        />
+      <div className="flex flex-wrap justify-center gap-5">
+        {data && (
+          data.map((product) => (
+            <ProductCard key={product.id} product={product} t={dictionary} />
+          ))
+        )}
+        </div>
       </div>
     </div>
   );
