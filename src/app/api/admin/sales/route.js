@@ -11,12 +11,38 @@ export async function GET(req) {
     const isEshop = searchParams.get("isEshop") === "true" ? true : false;
     await dbConnect();
     let sales;
-    if(isEshop)
-    sales= await MarketPlace.find({}).exec();
-    else
-    sales = await Sales.find({}).exec();
+    if (isEshop)
+        sales = await MarketPlace.find({}).exec();
+    else {
+        //each sales object has seller_id, find the user with that id in Users collection and get inventory
+        const sales_record= await Sales.find({}).exec();
+        //use promise.all to get all user's inventory
+        sales = await Promise.all(sales_record.map(async (sale) => {
+            const user = await User.findOne({ _id: sale.seller_id }).exec();
+            if (!user) {
+                return { ...sale._doc, inventory: [] };
+            }
+            //ignore products with status pending
+            const accountBalance = user.inventory.reduce((acc, product) => {
+                if (product.status !== "pending" && product.isEshop == false) {
+                    return acc + product.purchasedQuantity * product.price;
+                }
+                return acc;
+            }, 0);
+
+            const purchasedWeight = user.inventory.reduce((acc, product) => {
+                if (product.status !== "pending" && product.isEshop == false) {
+                    return acc + product.purchasedWeight * product.purchasedQuantity;
+                }
+                return acc;
+            }  ,0);
+            return {
+                ...sale._doc, balance: accountBalance, account_weight: purchasedWeight}
+        }));
+
+    }
     return Response.json({ status: 200, data: sales });
-    
+
 }
 
 
@@ -27,7 +53,7 @@ export async function PUT(req) {
     const { searchParams } = new URL(req.url);
     const isEshop = searchParams.get("isEshop") === "true" ? true : false;
     await dbConnect();
-    if(isEshop){
+    if (isEshop) {
         const sales = await MarketPlace.findOneAndUpdate(
             { _id },
             {
@@ -82,23 +108,23 @@ export async function PUT(req) {
         await user.save();
 
 
-    
+
         return Response.json({ status: 200, message: "Updated successfully" });
     }
-    else 
-    {   const sales = await Sales.findOneAndUpdate(
-        { _id },
-        {
-            status,
-            payment_to_seller
-        },
-        { new: true }
-    ).exec();
+    else {
+        const sales = await Sales.findOneAndUpdate(
+            { _id },
+            {
+                status,
+                payment_to_seller
+            },
+            { new: true }
+        ).exec();
 
-    if (!sales) {
-        return Response.json({ status: 400, message: "No sales found" });
+        if (!sales) {
+            return Response.json({ status: 400, message: "No sales found" });
+        }
     }
-}
-    
+
     return Response.json({ status: 200, message: "Updated successfully" });
 }

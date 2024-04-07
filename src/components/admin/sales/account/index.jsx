@@ -16,6 +16,7 @@ function index() {
             .then((data) => {
                 setData(data.data);
                 setLoading(false);
+                console.log(data.data)
             }).catch((err) => {
                 console.log(err);
                 setLoading(false);
