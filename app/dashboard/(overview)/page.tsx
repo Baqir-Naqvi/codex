@@ -8,26 +8,39 @@ import {
   LatestInvoicesSkeleton,
   CardsSkeleton,
 } from '@/app/ui/skeletons';
+import banner1 from '@/public/banners/banner1.png';
+import banner2 from '@/public/banners/banner2.png';
+import Carousel from '@/app/ui/carousel';
+import BookShelf from '@/app/ui/showcase/bookshelf';
+
+import Dinosaur from '@/public/books/Dinosaur.png'
+import Legs from '@/public/books/Legs.png'
+import OwnBackyard from '@/public/books/Own Backyard.png'
+import Sigfrid from '@/public/books/Sigfrid.png'
+import Threepig from '@/public/books/threepig.png'
 
 export default async function Page() {
+ const banners = [
+  banner1.src,banner2.src
+ ]
+
+ const popularStories = [
+  Dinosaur,Legs,OwnBackyard,Sigfrid,Threepig 
+ ]
   return (
     <main>
-      <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
-        Dashboard
-      </h1>
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        <Suspense fallback={<CardsSkeleton />}>
-          <CardWrapper />
-        </Suspense>
+        <div className='max-w-[1241px] mx-auto mt-[150px]'>
+            <h1 className='mt-4 text-5xl font-extrabold'>Hello, Zarah</h1>
+        </div>
+      <div>
+      <Carousel images={banners}/>
       </div>
-      <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-4 lg:grid-cols-8">
-        <Suspense fallback={<RevenueChartSkeleton />}>
-          <RevenueChart />
-        </Suspense>
-        <Suspense fallback={<LatestInvoicesSkeleton />}>
-          <LatestInvoices />
-        </Suspense>
+      <div className='mt-[100px]'>
+      <BookShelf title={'Popular on Sign Story'} images={popularStories}/>
+      <BookShelf title={'Classic Stories'} images={popularStories}/>
+      <BookShelf title={'Fanatasy Stories'} images={popularStories}/>
       </div>
+  
     </main>
   );
 }
