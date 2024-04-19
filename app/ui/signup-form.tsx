@@ -60,7 +60,7 @@ export default function SignUpForm() {
         />
       </div>
       <div>
-        <label htmlFor="childName">Child's Name</label>
+        <label htmlFor="childName">Child&apos;sName</label>
         <input
           type="text"
           id="childName"
