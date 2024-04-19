@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 
 export default function SignUpForm() {
   const [formData, setFormData] = useState({
@@ -11,7 +11,7 @@ export default function SignUpForm() {
     preferredLanguage: '',
   });
 
-  const handleChange = (e) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
@@ -19,7 +19,7 @@ export default function SignUpForm() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // Add your form submission logic here
     console.log(formData);
