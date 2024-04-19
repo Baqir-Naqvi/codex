@@ -18,6 +18,7 @@ import Legs from '@/public/books/Legs.png'
 import OwnBackyard from '@/public/books/Own Backyard.png'
 import Sigfrid from '@/public/books/Sigfrid.png'
 import Threepig from '@/public/books/threepig.png'
+import { title } from 'process';
 
 export default async function Page() {
  const banners = [
@@ -25,7 +26,24 @@ export default async function Page() {
  ]
 
  const popularStories = [
-  Dinosaur,Legs,OwnBackyard,Sigfrid,Threepig 
+  {
+    name: 'Dinosor',
+    image: Dinosaur.src,
+  },{
+    name: 'Legs',
+    image: Legs.src,
+  },
+  {
+    name: 'OwnBackyeard',
+    image: OwnBackyard.src,
+  },{
+    name: 'Sigfrid',
+    image: Sigfrid.src,
+  },
+  {
+    name: 'TheThreeLittlePigsandtheNewNeighbor',
+    image: Threepig.src
+  }
  ]
   return (
     <main>
@@ -36,9 +54,9 @@ export default async function Page() {
       <Carousel images={banners}/>
       </div>
       <div className='mt-[100px]'>
-      <BookShelf title={'Popular on Sign Story'} images={popularStories}/>
-      <BookShelf title={'Classic Stories'} images={popularStories}/>
-      <BookShelf title={'Fanatasy Stories'} images={popularStories}/>
+      <BookShelf title={'Popular on Sign Story'}  stories={popularStories}/>
+      <BookShelf title={'Classic Stories'} stories={popularStories}/>
+      <BookShelf title={'Fanatasy Stories'} stories={popularStories}/>
       </div>
   
     </main>
