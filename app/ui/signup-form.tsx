@@ -71,7 +71,7 @@ export default function SignUpForm() {
         />
       </div>
       <div>
-        <label htmlFor="age">Child's Age</label>
+        <label htmlFor="age">Child&apos;s Age</label>
         <input
           type="number"
           id="age"
@@ -82,7 +82,7 @@ export default function SignUpForm() {
         />
       </div>
       <div>
-        <label htmlFor="parentName">Parent's Name</label>
+        <label htmlFor="parentName">Parent&apos;s Name</label>
         <input
           type="text"
           id="parentName"
@@ -93,7 +93,7 @@ export default function SignUpForm() {
         />
       </div>
       <div>
-        <label htmlFor="parentPhoneNumber">Parent's Phone Number</label>
+        <label htmlFor="parentPhoneNumber">Parent&apos;s Phone Number</label>
         <input
           type="tel"
           id="parentPhoneNumber"
