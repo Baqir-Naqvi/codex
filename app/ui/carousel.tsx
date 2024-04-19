@@ -29,11 +29,12 @@ const Carousel: React.FC<{ images: string[] }> = ({ images }) => {
       </button>
       <div className="overflow-hidden">
         {images.map((imageUrl, index) => (
-          <img
+          <Image
             key={index}
             src={imageUrl}
             alt={`Slide ${index + 1}`}
-            className="max-w-[1241px] h-[439px] object-cover"
+            width={1241}
+            height={439}
             style={{
               display: index === currentIndex ? 'block' : 'none',
             }}
