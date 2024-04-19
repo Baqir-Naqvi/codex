@@ -11,7 +11,7 @@ export default function SignUpForm() {
     preferredLanguage: '',
   });
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
